@@ -26,9 +26,21 @@ public class JwtUtil {
     public JwtUtil(@Value("${app.jwt.secret}") String secret,
                    @Value("${app.jwt.issuer}") String issuer,
                    @Value("${app.jwt.ttl-minutes}") long ttlMinutes) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.key = Keys.hmacShaKeyFor(decodificarSecreto(secret));
         this.issuer = issuer;
         this.ttlMinutes = ttlMinutes;
+    }
+
+    private static byte[] decodificarSecreto(String secret) {
+        try {
+            byte[] decodificado = java.util.Base64.getDecoder().decode(secret);
+            if (decodificado.length >= 32) {
+                return decodificado;
+            }
+        } catch (IllegalArgumentException e) {
+            // No es Base64: se usa el texto tal cual.
+        }
+        return secret.getBytes(StandardCharsets.UTF_8);
     }
 
     public String generateToken(UUID userId, String rol) {
@@ -46,7 +58,6 @@ public class JwtUtil {
     public Claims validateToken(String token) {
         return Jwts.parser()
                 .verifyWith(key)
-                .requireIssuer(issuer)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
