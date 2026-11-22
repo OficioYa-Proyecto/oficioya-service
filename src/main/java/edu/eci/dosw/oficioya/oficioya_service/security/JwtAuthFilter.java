@@ -41,7 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String[] autoridades = roles.stream().map(r -> "ROLE_" + r).toArray(String[]::new);
                 UserDetails userDetails = User.withUsername(userId.toString()).password("").authorities(autoridades).build();
                 UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } catch (JwtException | IllegalArgumentException e) {

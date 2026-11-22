@@ -16,4 +16,16 @@ public final class CurrentUser {
     public static UUID id(Authentication authentication) {
         return UUID.fromString(authentication.getName());
     }
+
+    /**
+     * Token JWT original, guardado como credentials por JwtAuthFilter.
+     * Se reenvía al Orchestrator para que el microservicio de imágenes conozca al usuario.
+     */
+    public static String token(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        }
+        Object credentials = authentication.getCredentials();
+        return credentials instanceof String value && !value.isBlank() ? value : null;
+    }
 }

@@ -122,6 +122,11 @@ public class RequestService {
 
         List<Request> createdRequests = responseMapper.toEntities(contractorId, verifiedWorkers, req, newRootId);
 
+        // Obtener el oficio de cada trabajador desde Worker (para reportes por oficio)
+        if (workerClient != null) {
+            createdRequests.forEach(r -> r.setTrade(workerClient.getTrade(r.getWorkerId())));
+        }
+
         createdRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
 
         return responseMapper.toRespone(requestRepository.saveAll(createdRequests));
@@ -189,10 +194,24 @@ public class RequestService {
                 .sorted((a, b) -> a.etiqueta().compareTo(b.etiqueta()))
                 .toList();
 
-        // Servicios cumplidos por oficio: requiere campo "trade/oficio" en Request (pendiente de agregar)
-        List<ReportItem> completedByTrade = List.of();
-        // Solicitudes por oficio (todas): requiere campo "trade/oficio" en Request (pendiente)
-        List<ReportItem> requestsByTrade = List.of();
+        // Servicios cumplidos por oficio
+        List<ReportItem> completedByTrade = requests.stream()
+                .filter(r -> r.getState() == RequestState.COMPLETED)
+                .filter(r -> r.getTrade() != null && !r.getTrade().isBlank())
+                .collect(Collectors.groupingBy(Request::getTrade, Collectors.counting()))
+                .entrySet().stream()
+                .map(e -> new ReportItem(e.getKey(), e.getValue()))
+                .sorted((a, b) -> a.etiqueta().compareTo(b.etiqueta()))
+                .toList();
+
+        // Solicitudes por oficio (todas)
+        List<ReportItem> requestsByTrade = requests.stream()
+                .filter(r -> r.getTrade() != null && !r.getTrade().isBlank())
+                .collect(Collectors.groupingBy(Request::getTrade, Collectors.counting()))
+                .entrySet().stream()
+                .map(e -> new ReportItem(e.getKey(), e.getValue()))
+                .sorted((a, b) -> a.etiqueta().compareTo(b.etiqueta()))
+                .toList();
 
         return new ServiceReportResponse(requests.size(), byStatus, byNeighborhood, byHour,
                 completedByDay, completedByTrade, requestsByTrade);

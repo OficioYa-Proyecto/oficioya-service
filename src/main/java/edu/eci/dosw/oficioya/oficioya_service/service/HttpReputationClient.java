@@ -17,7 +17,7 @@ public class HttpReputationClient implements ReputationClient {
     private final RestTemplate restTemplate;
     private final String baseUrl;
 
-    public HttpReputationClient(@Value("${reputation.service.url:http://localhost:8080}") String baseUrl) {
+    public HttpReputationClient(@Value("${reputation.service.url:https://oficioya-orchestor-api-ghaxfaacfabxh4bv.chilecentral-01.azurewebsites.net}") String baseUrl) {
         this.restTemplate = new RestTemplate();
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
     }

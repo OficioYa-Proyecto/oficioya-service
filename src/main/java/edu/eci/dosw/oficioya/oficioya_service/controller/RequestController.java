@@ -23,7 +23,6 @@ import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestModel;
-import edu.eci.dosw.oficioya.oficioya_service.model.document.ImageDocument;
 import edu.eci.dosw.oficioya.oficioya_service.security.CurrentUser;
 import edu.eci.dosw.oficioya.oficioya_service.service.ImageService;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestCancellationService;
@@ -55,12 +54,7 @@ public class RequestController {
     @Operation(summary="Create a request", description = "Creates a request and saves it with its images")
     public RequestResponse create(@Valid @RequestBody RequestRequest req, Authentication authentication){
         RequestResponse response = requestService.create(req, CurrentUser.id(authentication));
-        List<ImageDocument> images = req.images();
-
-        if (images != null && !images.isEmpty()) {
-            images.forEach(image -> {image.setRootId(response.rootId()); });
-            imageService.addImages(images);
-        }
+        imageService.addImages(req.images(), response.rootId(), CurrentUser.token(authentication));
         return response;
     }
 

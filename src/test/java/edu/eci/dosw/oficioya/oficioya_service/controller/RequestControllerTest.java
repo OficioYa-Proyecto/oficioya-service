@@ -1,9 +1,9 @@
 package edu.eci.dosw.oficioya.oficioya_service.controller;
 
+import edu.eci.dosw.oficioya.oficioya_service.dto.ImageRequest;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestModel;
-import edu.eci.dosw.oficioya.oficioya_service.model.document.ImageDocument;
 import edu.eci.dosw.oficioya.oficioya_service.security.CurrentUser;
 import edu.eci.dosw.oficioya.oficioya_service.service.ImageService;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestCancellationService;
@@ -59,6 +59,7 @@ public class RequestControllerTest {
         requestId = UUID.randomUUID();
         currentUserMock = mockStatic(CurrentUser.class);
         lenient().when(CurrentUser.id(authentication)).thenReturn(userId);
+        lenient().when(CurrentUser.token(authentication)).thenReturn("jwt-token");
     }
 
     @AfterEach
@@ -70,9 +71,9 @@ public class RequestControllerTest {
     @DisplayName("Debe crear una solicitud y asociar el rootId a sus imágenes")
     void shouldCreateRequestAndSaveImages() {
         UUID rootId = UUID.randomUUID();
-        ImageDocument img1 = new ImageDocument();
-        ImageDocument img2 = new ImageDocument();
-        List<ImageDocument> images = List.of(img1, img2);
+        ImageRequest img1 = new ImageRequest("uno.png", "image/png", new byte[] { 1 }, null);
+        ImageRequest img2 = new ImageRequest("dos.jpg", "image/jpeg", new byte[] { 2 }, null);
+        List<ImageRequest> images = List.of(img1, img2);
 
         RequestRequest req = mock(RequestRequest.class);
         RequestResponse expectedResponse = mock(RequestResponse.class);
@@ -84,10 +85,8 @@ public class RequestControllerTest {
         RequestResponse result = requestController.create(req, authentication);
 
         assertEquals(expectedResponse, result);
-        assertEquals(rootId, img1.getRootId());
-        assertEquals(rootId, img2.getRootId());
         verify(requestService).create(req, userId);
-        verify(imageService).addImages(images);
+        verify(imageService).addImages(images, rootId, "jwt-token");
     }
 
     @Test

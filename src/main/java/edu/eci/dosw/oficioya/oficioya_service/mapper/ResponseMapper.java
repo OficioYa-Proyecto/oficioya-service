@@ -33,6 +33,7 @@ public class ResponseMapper {
             createdRequest.setDescription(req.description());
             createdRequest.setNeighborhood(req.neighborhood());
             createdRequest.setExactAddress(req.exactAddress());
+            createdRequest.setTrade(req.trade());
             createdRequest.setScheduledDateTime(req.scheduledDateTime());
             createdRequest.setState(RequestState.PENDING);
             createdRequest.setDateCreated(LocalDateTime.now());

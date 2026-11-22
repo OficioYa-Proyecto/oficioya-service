@@ -22,11 +22,11 @@
 
 ## URLs de producción
 
-- Service: https://oficioya-serviceapi-dye8exf8g6eudfbe.chilecentral-01.azurewebsites.net/
-- Notification: http://oficioya-notificationapi-apffc2eygzgcbghp.westus-01.azurewebsites.net/
-- Health: https://oficioya-serviceapi-dye8exf8g6eudfbe.chilecentral-01.azurewebsites.net/api/v1/health
-- OpenAPI: https://oficioya-serviceapi-dye8exf8g6eudfbe.chilecentral-01.azurewebsites.net/v3/api-docs
-- Swagger UI: https://oficioya-serviceapi-dye8exf8g6eudfbe.chilecentral-01.azurewebsites.net/swagger-ui/index.html
+- Service: http://ofioya-serviceapi-achydycpa3fgbsch.chilecentral-01.azurewebsites.net/
+- Notification: http://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/
+- Health: http://ofioya-serviceapi-achydycpa3fgbsch.chilecentral-01.azurewebsites.net/api/v1/service/health
+- OpenAPI: http://ofioya-serviceapi-achydycpa3fgbsch.chilecentral-01.azurewebsites.net/v3/api-docs
+- Swagger UI: http://ofioya-serviceapi-achydycpa3fgbsch.chilecentral-01.azurewebsites.net/swagger-ui/index.html
 
 ## Cómo ejecutar
 

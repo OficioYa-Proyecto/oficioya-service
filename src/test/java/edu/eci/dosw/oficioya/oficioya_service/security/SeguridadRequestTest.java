@@ -34,7 +34,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestState;
-import edu.eci.dosw.oficioya.oficioya_service.repository.ImageRepository;
 import edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -52,9 +51,6 @@ class SeguridadRequestTest {
 
     private static final String BASE = "/api/v1/requests";
     private static final String ISSUER = "oficioya";
-
-    @MockitoBean
-    ImageRepository imageRepository;
 
     @Autowired
     WebApplicationContext context;

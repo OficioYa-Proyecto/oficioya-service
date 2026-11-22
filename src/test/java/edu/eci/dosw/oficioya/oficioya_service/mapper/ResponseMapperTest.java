@@ -27,6 +27,7 @@ class ResponseMapperTest {
                 "desc",
                 "zone",
                 "addr",
+                null,
                 LocalDateTime.now().plusDays(1),
                 null
         );

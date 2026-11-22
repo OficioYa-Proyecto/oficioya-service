@@ -1,44 +1,46 @@
 package edu.eci.dosw.oficioya.oficioya_service.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import edu.eci.dosw.oficioya.oficioya_service.dto.ImageRequest;
+import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
-import edu.eci.dosw.oficioya.oficioya_service.model.document.ImageDocument;
-import edu.eci.dosw.oficioya.oficioya_service.repository.ImageRepository;
 
-@Service 
+@Service
 public class ImageService {
-    private ImageRepository imageRepository;
-    private RequestService requestService;
 
-    public ImageService(ImageRepository imageRepository, RequestService requestService){
-        this.imageRepository = imageRepository;
+    private final RequestService requestService;
+    private final ImageClient imageClient;
+
+    public ImageService(RequestService requestService, ImageClient imageClient) {
         this.requestService = requestService;
+        this.imageClient = imageClient;
     }
 
-    public void addImages(List<ImageDocument> images){
-        /*
-        Cambiar por conexión con el orquestador para guardarlas
-        */
-        imageRepository.saveAll(images);
+    public List<ImageResponse> addImages(List<ImageRequest> images, UUID rootId, String token) {
+        if (images == null || images.isEmpty()) {
+            return List.of();
+        }
+        return imageClient.uploadImages(images, rootId, token);
     }
 
-    public List<ImageDocument> findRequestImages(UUID requestId,UUID userId){
+    public List<ImageResponse> findRequestImages(UUID requestId, UUID userId, String token) {
         Optional<Request> found = requestService.getRequest(requestId);
-
-        if(found.isEmpty() || (found.orElse(null).getContractorId() != userId && found.orElse(null).getWorkerId() != userId)){
-            return new ArrayList<>();
+        if (found.isEmpty()) {
+            return List.of();
         }
 
-        /*
-        Cambiar a conexión con el orquestador para buscar imagenes
-        */
-        return imageRepository.findByRootId(found.orElse(null).getRootId());
-  
+        Request request = found.get();
+        boolean owner = (request.getContractorId() != null && request.getContractorId().equals(userId))
+                || (request.getWorkerId() != null && request.getWorkerId().equals(userId));
+        if (!owner) {
+            return List.of();
+        }
+
+        return imageClient.getRequestImages(request.getRootId(), token);
     }
 }

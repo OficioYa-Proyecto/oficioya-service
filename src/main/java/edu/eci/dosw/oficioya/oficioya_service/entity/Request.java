@@ -32,6 +32,9 @@ public class Request {
     @Column (name = "exact_address", nullable = false)
     private String exactAddress;
 
+    @Column (name = "trade", nullable = true)
+    private String trade;
+
     @Column (name = "date_scheduled", nullable = false)
     private LocalDateTime scheduledDateTime;
 
@@ -105,6 +108,14 @@ public class Request {
 
     public String getExactAddress(){
         return this.exactAddress;
+    }
+
+    public void setTrade(String trade){
+        this.trade = trade;
+    }
+
+    public String getTrade(){
+        return this.trade;
     }
 
     public void setScheduledDateTime(LocalDateTime newDate){
