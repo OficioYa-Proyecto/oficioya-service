@@ -13,9 +13,13 @@ import javax.naming.ServiceUnavailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -64,17 +68,26 @@ public class HttpImageClient implements ImageClient{
     }
 
     @Override 
-    public void uploadImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, Authentication auth){
-        String tipo = "REQUESTS";
+    public void uploadImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, Authentication authentication){
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+
+        for (MultipartFile file : files) {
+            body.add("files", file.getResource());
+        }
+
+        body.add("rootId", rootId.toString());
+        body.add("tipo", "REQUESTS"); 
+
+        if (referenciaExterna != null) {
+            body.add("referenciaExterna", referenciaExterna);
+        }
 
         try {
             restClient.post()
-                    .uri(uri -> uri.path("/batch")
-                            .queryParam("files", files)
-                            .queryParam("rootId", rootId)
-                            .queryParam("tipo", tipo)
-                            .queryParam("referenciaExterna", referenciaExterna)
-                            .build());
+                .uri("/batch") 
+                .header("Authorization", "Bearer" + authentication)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(body);
         } catch (RestClientException exception) {
             //log.warn("Images no respondió: {}", exception.getMessage());
         }

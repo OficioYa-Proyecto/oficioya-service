@@ -4,7 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import edu.eci.dosw.oficioya.oficioya_service.model.document.ImageDocument;
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ public record RequestRequest (
     @NotBlank String neighborhood,
     @NotBlank String exactAddress,
     @NotNull LocalDateTime scheduledDateTime,
-    List<ImageDocument> images
+    List<MultipartFile> images
     ){
     
 }
