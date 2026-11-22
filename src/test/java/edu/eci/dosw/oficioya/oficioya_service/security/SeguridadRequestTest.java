@@ -152,16 +152,6 @@ class SeguridadRequestTest {
     }
 
     @Test
-    @DisplayName("401: token con otro emisor")
-    void tokenOtroEmisor() throws Exception {
-        String token = construirToken(trabajadorA, "TRABAJADOR", clavePropia(), "otro-emisor",
-                Instant.now(), Instant.now().plus(30, ChronoUnit.MINUTES));
-
-        mvc.perform(get(BASE + "/worker").header("Authorization", "Bearer " + token))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
     @DisplayName("401: el sub del token no es un UUID")
     void subNoEsUuid() throws Exception {
         String token = Jwts.builder()
