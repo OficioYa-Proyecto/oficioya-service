@@ -55,12 +55,9 @@ public class RequestController {
     @Operation(summary="Create a request", description = "Creates a request and saves it with its images")
     public RequestResponse create(@Valid @RequestBody RequestRequest req, Authentication authentication){
         RequestResponse response = requestService.create(req, CurrentUser.id(authentication));
-        List<ImageDocument> images = req.images();
 
-        if (images != null && !images.isEmpty()) {
-            images.forEach(image -> {image.setRootId(response.rootId()); });
-            imageService.addImages(images);
-        }
+        imageService.addImages(req.images(), response.rootId(), null, authentication);
+        
         return response;
     }
 

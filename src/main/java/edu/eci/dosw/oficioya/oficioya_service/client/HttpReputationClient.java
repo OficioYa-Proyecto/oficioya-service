@@ -1,4 +1,4 @@
-package edu.eci.dosw.oficioya.oficioya_service.service;
+package edu.eci.dosw.oficioya.oficioya_service.client;
 
 import java.time.LocalDateTime;
 import java.util.Map;

@@ -28,7 +28,9 @@ import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.model.CancellationState;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestState;
 import edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepository;
-import edu.eci.dosw.oficioya.oficioya_service.service.NotificationService;
+import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
+import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
+import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
 
 /**
  * SNOY-20: ventana de 24 h de las cancelaciones.

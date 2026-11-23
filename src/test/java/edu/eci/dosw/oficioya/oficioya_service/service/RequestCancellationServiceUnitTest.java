@@ -20,7 +20,7 @@ import edu.eci.dosw.oficioya.oficioya_service.model.RequestModel;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestState;
 import edu.eci.dosw.oficioya.oficioya_service.model.CancellationState;
 import edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepository;
-import edu.eci.dosw.oficioya.oficioya_service.service.NotificationService;
+import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 
 @ExtendWith(MockitoExtension.class)
 class RequestCancellationServiceUnitTest {

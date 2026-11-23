@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -27,6 +28,13 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
+import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
+import edu.eci.dosw.oficioya.oficioya_service.client.WorkerClient;
+import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
+import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
+import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
+import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.exception.RecursoNoEncontradoException;
 import edu.eci.dosw.oficioya.oficioya_service.exception.TransicionInvalidaException;
@@ -50,6 +58,9 @@ class RequestServiceTest {
     @Mock
     UserClient userClient;
 
+    @Mock
+    WorkerClient workerClient;
+
     RequestService service;
 
     UUID contratante;
@@ -58,7 +69,7 @@ class RequestServiceTest {
 
     @BeforeEach
     void preparar() {
-        service = new RequestService(requestRepository, Mappers.getMapper(RequestMapper.class), new ResponseMapper(), notificationService, userClient, null, null);
+        service = new RequestService(requestRepository, Mappers.getMapper(RequestMapper.class), new ResponseMapper(), notificationService, userClient, workerClient, null);
         contratante = UUID.randomUUID();
         trabajador = UUID.randomUUID();
         rootId = UUID.randomUUID();
@@ -373,6 +384,32 @@ class RequestServiceTest {
         when(requestRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(RecursoNoEncontradoException.class, () -> service.acceptConflict(id, contratante));
+    }
+
+    @Test
+    @DisplayName("muestra usuario activo si tiene pendiente")
+    void shouldShowActiveUser(){
+        Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
+        r.setWorkerId(UUID.randomUUID());
+        r.setRootId(UUID.randomUUID());
+        
+        //when(userClient.getUser(r.getWorkerId())).thenReturn(new UserResponse(r.getWorkerId(), "name","email",List.of("301"),List.of("TRABAJADOR"),"active",LocalDateTime.now(),LocalDateTime.now()));
+        //when(userClient.getUser(r.getContractorId())).thenReturn(new UserResponse(r.getContractorId(), "name","email",List.of("301"),List.of("CONTRATANTE"),"active",LocalDateTime.now(),LocalDateTime.now()));
+        //when(workerClient.exists(r.getWorkerId())).thenReturn(true);
+        when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(requestRepository.countActiveWorker(r.getWorkerId())).thenReturn(5);
+        when(requestRepository.countActiveContractor(r.getContractorId())).thenReturn(1222);
+
+        RequestResponse response = service.create(
+            new RequestRequest(List.of(r.getWorkerId()), r.getDescription(), r.getNeighborhood(), r.getExactAddress(), r.getScheduledDateTime(), null),
+            r.getContractorId()
+        );
+
+        ActiveResponse activeWorker = service.active(r.getWorkerId(),"TRABAJADOR");
+        ActiveResponse activeContractor = service.active(r.getContractorId(), "CONTRATANTE");
+
+        assertEquals(activeWorker.active(), Long.valueOf(2));
+        assertEquals(activeContractor.active(), Long.valueOf(2));
     }
 
     // ------------------------------------------------------------ utilidades

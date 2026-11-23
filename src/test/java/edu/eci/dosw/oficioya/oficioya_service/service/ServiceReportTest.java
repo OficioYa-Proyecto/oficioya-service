@@ -30,7 +30,7 @@ class ServiceReportTest {
         RequestService service = new RequestService(requestRepository,
                 org.mapstruct.factory.Mappers.getMapper(edu.eci.dosw.oficioya.oficioya_service.mapper.RequestMapper.class),
                 new edu.eci.dosw.oficioya.oficioya_service.mapper.ResponseMapper(),
-                new edu.eci.dosw.oficioya.oficioya_service.service.LoggingNotificationService(),
+                new edu.eci.dosw.oficioya.oficioya_service.client.LoggingNotificationService(),
                 null, null, null);
 
         ServiceReportResponse report = service.getReport(LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1));
@@ -57,7 +57,7 @@ class ServiceReportTest {
         RequestService service = new RequestService(requestRepository,
                 org.mapstruct.factory.Mappers.getMapper(edu.eci.dosw.oficioya.oficioya_service.mapper.RequestMapper.class),
                 new edu.eci.dosw.oficioya.oficioya_service.mapper.ResponseMapper(),
-                new edu.eci.dosw.oficioya.oficioya_service.service.LoggingNotificationService(),
+                new edu.eci.dosw.oficioya.oficioya_service.client.LoggingNotificationService(),
                 null, null, null);
 
         ServiceReportResponse report = service.getReport(LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1));

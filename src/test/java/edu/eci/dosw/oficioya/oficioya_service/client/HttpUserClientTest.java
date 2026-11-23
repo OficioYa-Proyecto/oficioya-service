@@ -1,4 +1,4 @@
-package edu.eci.dosw.oficioya.oficioya_service.service;
+package edu.eci.dosw.oficioya.oficioya_service.client;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
