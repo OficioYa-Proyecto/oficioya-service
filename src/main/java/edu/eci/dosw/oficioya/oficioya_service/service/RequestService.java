@@ -72,17 +72,19 @@ public class RequestService {
             throw new RequestSinWorkersException();
         }
 
+        /* 
         if (userClient != null) {
             UserResponse contractor = userClient.getUser(contractorId);
             if (contractor == null || contractor.roles() == null || !contractor.roles().contains("CONTRATANTE")) {
                 throw new RecursoNoEncontradoException("Contratante no válido o inactivo");
             }
-        }
+        }*/
 
         List<UUID> verifiedWorkers = new ArrayList<>();
         UserResponse worker = null;
 
         for (UUID id : workers){
+            /* 
             if (workerClient != null && !workerClient.exists(id)) {
                 continue;
             }
@@ -90,7 +92,7 @@ public class RequestService {
 
             if (worker == null || worker.roles() == null || !worker.roles().contains("TRABAJADOR")) {
                 continue;
-            }
+            }*/
 
             Optional<Request> contractorCancelledWorker = requestRepository.findContractorHasCancelledWorker(contractorId, id);
 
