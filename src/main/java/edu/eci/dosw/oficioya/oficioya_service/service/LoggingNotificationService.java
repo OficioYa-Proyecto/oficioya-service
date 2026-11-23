@@ -12,6 +12,11 @@ public class LoggingNotificationService implements NotificationService {
     }
 
     @Override
+    public void notifyRequestCreated(UUID contractorId, UUID requestId) {
+        System.out.println("Notificacion: solicitud creada " + requestId + " para contratante " + contractorId);
+    }
+
+    @Override
     public void notifyAccepted(UUID contractorId, UUID requestId) {
         System.out.println("Notificacion: solicitud aceptada " + requestId + " para contratante " + contractorId);
     }

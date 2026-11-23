@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -27,6 +29,8 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
+import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.exception.RecursoNoEncontradoException;
 import edu.eci.dosw.oficioya.oficioya_service.exception.TransicionInvalidaException;
@@ -375,7 +379,33 @@ class RequestServiceTest {
         assertThrows(RecursoNoEncontradoException.class, () -> service.acceptConflict(id, contratante));
     }
 
+    // ------------------------------------------------------------ crear solicitud
+
+    @Test
+    @DisplayName("crear solicitud notifica al trabajador y también al contratante")
+    void crearSolicitudNotificaATrabajadorYContratante() {
+        UUID worker = UUID.randomUUID();
+        RequestRequest req = new RequestRequest(
+                List.of(worker), "Arreglo de una fuga", "Usaquén", "Calle 1 # 2-3",
+                "Fontanería", LocalDateTime.now().plusDays(2), List.of());
+
+        when(userClient.getUser(contratante)).thenReturn(usuario("CONTRATANTE"));
+        when(userClient.getUser(worker)).thenReturn(usuario("TRABAJADOR"));
+        when(requestRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        var response = service.create(req, contratante);
+
+        assertNotNull(response);
+        verify(notificationService).notifyNewRequest(eq(worker), any());
+        verify(notificationService).notifyRequestCreated(eq(contratante), eq(response.rootId()));
+    }
+
     // ------------------------------------------------------------ utilidades
+
+    private UserResponse usuario(String rol) {
+        return new UserResponse(UUID.randomUUID(), "Nombre", "correo@ejemplo.com", List.of(),
+                List.of(rol), "ACTIVE", LocalDateTime.now(), LocalDateTime.now());
+    }
 
     private Request solicitud(RequestState estado, LocalDateTime creada) {
         Request r = new Request();

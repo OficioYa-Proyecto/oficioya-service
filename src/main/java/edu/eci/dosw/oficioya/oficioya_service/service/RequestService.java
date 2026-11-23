@@ -127,9 +127,14 @@ public class RequestService {
             createdRequests.forEach(r -> r.setTrade(workerClient.getTrade(r.getWorkerId())));
         }
 
-        createdRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
+        List<Request> savedRequests = requestRepository.saveAll(createdRequests);
 
-        return responseMapper.toRespone(requestRepository.saveAll(createdRequests));
+        // Se notifica después de persistir para que el requestId ya esté asignado.
+        savedRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
+        // Una sola confirmación para el contratante, asociada al grupo de solicitudes (rootId).
+        notificationService.notifyRequestCreated(contractorId, newRootId);
+
+        return responseMapper.toRespone(savedRequests);
 
     }
 

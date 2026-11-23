@@ -33,6 +33,11 @@ public class HttpNotificationService implements NotificationService {
     }
 
     @Override
+    public void notifyRequestCreated(UUID contractorId, UUID requestId) {
+        send(contractorId, "REQUEST_CREATED", requestId, "Tu solicitud fue creada y enviada a los trabajadores");
+    }
+
+    @Override
     public void notifyAccepted(UUID contractorId, UUID requestId) {
         send(contractorId, "ACCEPTED_REQUEST", requestId, "Tu solicitud fue aceptada");
     }
