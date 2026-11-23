@@ -397,7 +397,7 @@ class RequestServiceTest {
 
         assertNotNull(response);
         verify(notificationService).notifyNewRequest(eq(worker), any());
-        verify(notificationService).notifyRequestCreated(eq(contratante), eq(response.rootId()));
+        verify(notificationService).notifyRequestCreated(eq(contratante), eq(response.rootId()), eq("correo@ejemplo.com"));
     }
 
     // ------------------------------------------------------------ utilidades

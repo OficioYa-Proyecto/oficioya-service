@@ -1,5 +1,6 @@
 package edu.eci.dosw.oficioya.oficioya_service.service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,8 +34,9 @@ public class HttpNotificationService implements NotificationService {
     }
 
     @Override
-    public void notifyRequestCreated(UUID contractorId, UUID requestId) {
-        send(contractorId, "REQUEST_CREATED", requestId, "Tu solicitud fue creada y enviada a los trabajadores");
+    public void notifyRequestCreated(UUID contractorId, UUID requestId, String receiverEmail) {
+        sendWithEmail(contractorId, "REQUEST_CREATED", requestId,
+                "Tu solicitud fue creada y enviada a los trabajadores", receiverEmail);
     }
 
     @Override
@@ -58,13 +60,19 @@ public class HttpNotificationService implements NotificationService {
     }
 
     private void send(UUID receiverId, String type, UUID requestId, String message) {
+        sendWithEmail(receiverId, type, requestId, message, null);
+    }
+
+    private void sendWithEmail(UUID receiverId, String type, UUID requestId, String message, String receiverEmail) {
         try {
-            Map<String, Object> payload = Map.of(
-                    "receiverId", receiverId,
-                    "type", type,
-                    "requestId", requestId,
-                    "message", message
-            );
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("receiverId", receiverId);
+            payload.put("type", type);
+            payload.put("requestId", requestId);
+            payload.put("message", message);
+            if (receiverEmail != null && !receiverEmail.isBlank()) {
+                payload.put("receiverEmail", receiverEmail);
+            }
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);

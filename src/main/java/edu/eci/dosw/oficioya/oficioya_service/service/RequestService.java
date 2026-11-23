@@ -68,11 +68,13 @@ public class RequestService {
             throw new RequestSinWorkersException();
         }
 
+        String contractorEmail = null;
         if (userClient != null) {
             UserResponse contractor = userClient.getUser(contractorId);
             if (contractor == null || contractor.roles() == null || !contractor.roles().contains("CONTRATANTE")) {
                 throw new RecursoNoEncontradoException("Contratante no válido o inactivo");
             }
+            contractorEmail = contractor.email();
         }
 
         List<UUID> verifiedWorkers = new ArrayList<>();
@@ -132,7 +134,7 @@ public class RequestService {
         // Se notifica después de persistir para que el requestId ya esté asignado.
         savedRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
         // Una sola confirmación para el contratante, asociada al grupo de solicitudes (rootId).
-        notificationService.notifyRequestCreated(contractorId, newRootId);
+        notificationService.notifyRequestCreated(contractorId, newRootId, contractorEmail);
 
         return responseMapper.toRespone(savedRequests);
 
