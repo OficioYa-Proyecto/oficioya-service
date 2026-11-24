@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
@@ -48,13 +49,13 @@ public class HttpWorkerClient implements WorkerClient {
     }
 
     @Override
-    public boolean exists(UUID workerId) {
+    public boolean exists(UUID workerId, String authHeader) {
         WorkerResponse response = null;
 
         try {
             ResponseEntity<WorkerResponse> body = restClient.get()
                     .uri("/workers/{id}", workerId)
-                    .headers(headers -> headers.setBearerAuth(jwtUtil.generateServiceToken()))
+                    .header(HttpHeaders.AUTHORIZATION, authHeader)
                     .retrieve()
                     .toEntity(WorkerResponse.class);
             

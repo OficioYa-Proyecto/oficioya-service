@@ -83,7 +83,7 @@ public class RequestController {
         UUID rootId = UUID.randomUUID();
         imageService.addImages(images, rootId, null, authHeader);
 
-        return requestService.create(req, CurrentUser.id(authentication), rootId);
+        return requestService.create(req, CurrentUser.id(authentication), rootId, authHeader);
     }
 
     /*

@@ -88,11 +88,10 @@ public class HttpUserClient implements UserClient {
     }
 
     private String resolveToken() {
-        /*
         if (configuredToken != null && !configuredToken.isBlank()) {
             return configuredToken;
         }
-            */
+
         return jwtUtil == null ? null : jwtUtil.generateServiceToken();
     }
 }
