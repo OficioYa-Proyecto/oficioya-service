@@ -25,25 +25,26 @@ import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
 public class HttpWorkerClient implements WorkerClient {
     private RestClient restClient;
     private static final Logger log = LoggerFactory.getLogger(HttpNotificationService.class);
+    private JwtUtil jwtUtil;
 
     @Autowired
     public HttpWorkerClient(@Value("${worker.service.url:http://localhost:8080}") String baseUrl,
-            @Value("${service.token:}") String serviceToken,
             JwtUtil jwtUtil) {
-        this(crearRestClient(baseUrl, serviceToken));
+        this(crearRestClient(baseUrl));
+        this.jwtUtil = jwtUtil;
     }
 
     public HttpWorkerClient(RestClient restClient){
         this.restClient = restClient;
     }
 
-    private static RestClient crearRestClient(String url, String serviceToken) {
+    private static RestClient crearRestClient(String url) {
         HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(15))
                 .build();
         JdkClientHttpRequestFactory factory = new JdkClientHttpRequestFactory(httpClient);
         factory.setReadTimeout(Duration.ofSeconds(30));
-        return RestClient.builder().baseUrl(url).requestFactory(factory).defaultHeaders(headers -> headers.setBearerAuth(serviceToken)).build();
+        return RestClient.builder().baseUrl(url).requestFactory(factory).build();
     }
 
     @Override
@@ -53,6 +54,7 @@ public class HttpWorkerClient implements WorkerClient {
         try {
             ResponseEntity<WorkerResponse> body = restClient.get()
                     .uri("/workers/{id}", workerId)
+                    .headers(headers -> headers.setBearerAuth(jwtUtil.generateServiceToken()))
                     .retrieve()
                     .toEntity(WorkerResponse.class);
             
