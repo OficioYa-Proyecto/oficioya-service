@@ -1,29 +1,23 @@
 package edu.eci.dosw.oficioya.oficioya_service.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.eci.dosw.oficioya.oficioya_service.client.HttpImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.ImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
-import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 
-@Service 
+@Service
 public class ImageService {
-    private RequestService requestService;
-
-    private ImageClient imageClient;
+    private final RequestService requestService;
+    private final ImageClient imageClient;
 
     public ImageService(RequestService requestService, ImageClient imageClient) {
-    this.requestService = requestService;
-    this.imageClient = imageClient;
-}
+        this.requestService = requestService;
+        this.imageClient = imageClient;
+    }
 
     public void addImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, String authHeader) {
         if (files == null || files.isEmpty()) {
