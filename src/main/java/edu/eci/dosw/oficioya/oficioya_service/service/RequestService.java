@@ -116,7 +116,10 @@ public class RequestService {
         UserResponse worker = null;
 
         for (UUID id : workers){
-            /* 
+            if(contractorId.equals(id)){
+                continue;
+            }
+
             if (workerClient != null && !workerClient.exists(id)) {
                 continue;
             }
@@ -124,7 +127,7 @@ public class RequestService {
 
             if (worker == null || worker.roles() == null || !worker.roles().contains("TRABAJADOR")) {
                 continue;
-            }*/
+            }
 
             Optional<Request> contractorCancelledWorker = requestRepository.findContractorHasCancelledWorker(contractorId, id);
 
@@ -408,7 +411,14 @@ public class RequestService {
 
     public ActiveResponse active (UUID userId, String rol){
         int count = 0;
-        // TODO: VERIFICAR USUARIO
+        if (userClient != null){
+            UserResponse user = userClient.getUser(userId);
+
+            if(user == null){
+                throw new RecursoNoEncontradoException("Usuario no encontrado o no disponible");
+            }
+        }
+
         if (rol.equals("CONTRATANTE")){
             count = requestRepository.countActiveContractor(userId);
         }

@@ -26,7 +26,7 @@ public class HttpWorkerClient implements WorkerClient {
     private static final Logger log = LoggerFactory.getLogger(HttpNotificationService.class);
 
     @Autowired
-    public HttpWorkerClient(@Value("${reputation.service.url:http://localhost:8080}") String baseUrl) {
+    public HttpWorkerClient(@Value("${worker.service.url:http://localhost:8080}") String baseUrl) {
         this(crearRestClient(baseUrl));
     }
 
@@ -45,7 +45,6 @@ public class HttpWorkerClient implements WorkerClient {
 
     @Override
     public boolean exists(UUID workerId) {
-        // TODO: llamar a GET /api/v1/workers/{workerId}
         WorkerResponse response = null;
 
         try {
