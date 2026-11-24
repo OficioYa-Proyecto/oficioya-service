@@ -21,7 +21,9 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -69,28 +71,26 @@ public class RequestControllerTest {
     void tearDown() {
         currentUserMock.close();
     }
-
-    @DisplayName("Debe crear una solicitud y asociar el rootId a sus imágenes")
+    @Test
+    @DisplayName("Debe crear una solicitud y subir sus imágenes con el rootId") 
     void shouldCreateRequestAndSaveImages() {
         UUID rootId = UUID.randomUUID();
-        ImageDocument img1 = new ImageDocument();
-        ImageDocument img2 = new ImageDocument();
-        List<ImageDocument> images = List.of(img1, img2);
+        String authHeader = "Bearer token-de-prueba";
+        List<MultipartFile> images = List.of(
+            new MockMultipartFile("images", "a.png", "image/png", new byte[]{1}),
+            new MockMultipartFile("images", "b.png", "image/png", new byte[]{2}));
 
         RequestRequest req = mock(RequestRequest.class);
         RequestResponse expectedResponse = mock(RequestResponse.class);
 
-        //when(req.images()).thenReturn(images);
         when(expectedResponse.rootId()).thenReturn(rootId);
         when(requestService.create(req, userId)).thenReturn(expectedResponse);
 
-        RequestResponse result = requestController.create(req, authentication);
+        RequestResponse result = requestController.create(req, images, authHeader, authentication);
 
         assertEquals(expectedResponse, result);
-        assertEquals(rootId, img1.getRootId());
-        assertEquals(rootId, img2.getRootId());
         verify(requestService).create(req, userId);
-        //verify(imageService).addImages(images);
+        verify(imageService).addImages(images, rootId, null, authHeader);
     }
 
     @Test
