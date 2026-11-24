@@ -20,25 +20,22 @@ public class ImageService {
 
     private ImageClient imageClient;
 
-    public ImageService(RequestService requestService, HttpImageClient imageClient){
-        this.requestService = requestService;
-        this.imageClient = imageClient;
+    public ImageService(RequestService requestService, ImageClient imageClient) {
+    this.requestService = requestService;
+    this.imageClient = imageClient;
+}
+
+    public void addImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, String authHeader) {
+        if (files == null || files.isEmpty()) {
+            return;
+        }
+        imageClient.uploadImages(files, rootId, referenciaExterna, authHeader);
     }
 
-    public void addImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, Authentication authentication){
-        if(files.size() > 0){
-            imageClient.uploadImages(files, rootId, referenciaExterna, authentication);
-        }
-    }
-
-    public List<ImageResponse> findRequestImages(UUID requestId,UUID userId){
-        Optional<Request> found = requestService.getRequest(requestId);
-
-        if(found.isEmpty() || (found.orElse(null).getContractorId() != userId && found.orElse(null).getWorkerId() != userId)){
-            return new ArrayList<>();
-        }
-
-        return imageClient.getImages(found.orElse(null).getRootId());
-  
+    public List<ImageResponse> findRequestImages(UUID requestId, UUID userId) {
+        return requestService.getRequest(requestId)
+                .filter(r -> userId.equals(r.getContractorId()) || userId.equals(r.getWorkerId()))
+                .map(r -> imageClient.getImages(r.getRootId()))
+                .orElseGet(List::of);
     }
 }

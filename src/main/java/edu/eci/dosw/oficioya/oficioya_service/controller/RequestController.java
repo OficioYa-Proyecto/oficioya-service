@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
@@ -50,15 +54,17 @@ public class RequestController {
         this.requestCompletionService = requestCompletionService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('CONTRATANTE')")
-    @Operation(summary="Create a request", description = "Creates a request and saves it with its images")
-    public RequestResponse create(@Valid @RequestBody RequestRequest req, Authentication authentication){
-        RequestResponse response = requestService.create(req, CurrentUser.id(authentication));
+    public RequestResponse create(
+        @Valid @RequestPart("data") RequestRequest req,
+        @RequestPart(value = "images", required = false) List<MultipartFile> images,
+        @RequestHeader("Authorization") String authHeader,
+        Authentication authentication) {
 
-        imageService.addImages(req.images(), response.rootId(), null, authentication);
-        
-        return response;
+    RequestResponse response = requestService.create(req, CurrentUser.id(authentication));
+    imageService.addImages(images, response.rootId(), null, authHeader);
+    return response;
     }
 
     /*
