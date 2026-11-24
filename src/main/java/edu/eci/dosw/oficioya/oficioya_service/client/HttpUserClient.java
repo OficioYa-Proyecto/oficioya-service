@@ -26,6 +26,8 @@ import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
 @Service
 public class HttpUserClient implements UserClient {
 
+    private static final String ACCOUNT_USERS_PATH = "/api/v1/users/";
+    private static final String ACCOUNT_SUFFIX = "/account";
     private static final String ADMIN_USERS_PATH = "/api/v1/admin/users/";
 
     private final RestTemplate restTemplate;
@@ -58,18 +60,30 @@ public class HttpUserClient implements UserClient {
         if (token == null) {
             return null;
         }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setBearerAuth(token);
-            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            // Users permite este endpoint con el rol SERVICE, que es el que usa el orquestador.
             ResponseEntity<UserResponse> response = restTemplate.exchange(
-                    baseUrl + ADMIN_USERS_PATH + userId,
+                    baseUrl + ACCOUNT_USERS_PATH + userId + ACCOUNT_SUFFIX,
                     HttpMethod.GET,
-                    new HttpEntity<>(headers),
+                    entity,
                     UserResponse.class);
             return response.getBody();
-        } catch (HttpClientErrorException.NotFound e) {
-            return null;
+        } catch (HttpClientErrorException e) {
+            // Versiones anteriores sólo exponían el perfil completo bajo /admin.
+            try {
+                ResponseEntity<UserResponse> response = restTemplate.exchange(
+                        baseUrl + ADMIN_USERS_PATH + userId,
+                        HttpMethod.GET,
+                        entity,
+                        UserResponse.class);
+                return response.getBody();
+            } catch (HttpClientErrorException adminError) {
+                return null;
+            }
         }
     }
 
