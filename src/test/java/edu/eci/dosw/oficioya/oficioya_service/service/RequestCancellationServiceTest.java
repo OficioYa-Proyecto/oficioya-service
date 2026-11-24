@@ -25,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
+import edu.eci.dosw.oficioya.oficioya_service.exception.RecursosAjenosException;
 import edu.eci.dosw.oficioya.oficioya_service.model.CancellationState;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestState;
 import edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepository;
@@ -120,10 +121,10 @@ class RequestCancellationServiceTest {
         Request r = solicitud(UUID.randomUUID(), UUID.randomUUID(), RequestState.ACCEPTED, LocalDateTime.now().plusDays(3));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
 
-        RuntimeException ex = assertThrows(RuntimeException.class,
+        RecursosAjenosException ex = assertThrows(RecursosAjenosException.class,
                 () -> service.cancelByClient(r.getId(), UUID.randomUUID()));
 
-        assertEquals("Solo el contratante puede cancelar esta solicitud", ex.getMessage());
+        assertEquals("Recursos no pertenecientes al usuario", ex.getMessage());
         verify(requestRepository, never()).save(any());
     }
 
@@ -211,10 +212,10 @@ class RequestCancellationServiceTest {
         Request r = solicitud(UUID.randomUUID(), UUID.randomUUID(), RequestState.ACCEPTED, LocalDateTime.now().plusDays(3));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
 
-        RuntimeException ex = assertThrows(RuntimeException.class,
+        RecursosAjenosException ex = assertThrows(RecursosAjenosException.class,
                 () -> service.cancelByWorker(r.getId(), UUID.randomUUID()));
 
-        assertEquals("Solo el trabajador asignado puede cancelar esta solicitud", ex.getMessage());
+        assertEquals("Recursos no pertenecientes al usuario", ex.getMessage());
         verify(requestRepository, never()).save(any());
     }
 

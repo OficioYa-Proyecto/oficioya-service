@@ -74,12 +74,14 @@ public class RequestCancellationService {
     public void cancelByClient(UUID requestId, UUID contractorId) {
         Request request = requestRepository.findById(requestId).orElseThrow();
         if (!request.getContractorId().equals(contractorId)) {
-            throw new RuntimeException("Solo el contratante puede cancelar esta solicitud");
+            throw new RecursosAjenosException();
         }
         if (request.getState() == RequestState.COMPLETED) {
+            //TODO: CAmbiar tipo de exception
             throw new RuntimeException("No se puede cancelar a solicitud ya completada");
         }
         if (request.getState() == RequestState.CANCELED || request.getState() == RequestState.DELETED) {
+            //TODO: CAmbiar tipo de exception
             throw new RuntimeException("Esta solicitud ya se encuentra cancelada");
         }
         if (request.getState() == RequestState.ACCEPTED && request.getScheduledDateTime() != null) {
@@ -108,12 +110,15 @@ public class RequestCancellationService {
     public void cancelByWorker(UUID requestId, UUID workerId) {
         Request request = requestRepository.findById(requestId).orElseThrow();
         if (!request.getWorkerId().equals(workerId)) {
-            throw new RuntimeException("Solo el trabajador asignado puede cancelar esta solicitud");
+            throw new RecursosAjenosException();
         }
+
         if (request.getState() == RequestState.COMPLETED) {
+            //TODO: CAmbiar tipo de exception
             throw new RuntimeException("No se puede cancelar a solicitud ya completada");
         }
         if (request.getState() == RequestState.CANCELED || request.getState() == RequestState.DELETED) {
+            //TODO: CAmbiar tipo de exception
             throw new RuntimeException("Esta solicitud ya se encuentra cancelada");
         }
         if (request.getState() == RequestState.ACCEPTED && request.getScheduledDateTime() != null) {
