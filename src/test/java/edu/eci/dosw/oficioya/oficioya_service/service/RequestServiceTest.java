@@ -401,9 +401,9 @@ class RequestServiceTest {
         r.setWorkerId(UUID.randomUUID());
         r.setRootId(UUID.randomUUID());
         
-        //when(userClient.getUser(r.getWorkerId())).thenReturn(new UserResponse(r.getWorkerId(), "name","email",List.of("301"),List.of("TRABAJADOR"),"active",LocalDateTime.now(),LocalDateTime.now()));
-        //when(userClient.getUser(r.getContractorId())).thenReturn(new UserResponse(r.getContractorId(), "name","email",List.of("301"),List.of("CONTRATANTE"),"active",LocalDateTime.now(),LocalDateTime.now()));
-        //when(workerClient.exists(r.getWorkerId())).thenReturn(true);
+        when(userClient.getUser(r.getWorkerId())).thenReturn(new UserResponse(r.getWorkerId(), "name","email",List.of("301"),List.of("TRABAJADOR"),"active",LocalDateTime.now(),LocalDateTime.now()));
+        when(userClient.getUser(r.getContractorId())).thenReturn(new UserResponse(r.getContractorId(), "name","email",List.of("301"),List.of("CONTRATANTE"),"active",LocalDateTime.now(),LocalDateTime.now()));
+        when(workerClient.exists(r.getWorkerId())).thenReturn(true);
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
         when(requestRepository.countActiveWorker(r.getWorkerId())).thenReturn(5);
         when(requestRepository.countActiveContractor(r.getContractorId())).thenReturn(1222);
