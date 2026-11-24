@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
@@ -66,14 +70,18 @@ public class RequestController {
         this.frontUrl = base.endsWith("/") ? base.substring(0, base.length() - 1) : base;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('CONTRATANTE')")
     @Operation(summary="Create a request", description = "Creates a request and saves it with its images")
-    public RequestResponse create(@Valid @RequestBody RequestRequest req, Authentication authentication){
+    public RequestResponse create(
+        @Valid @RequestPart("data") RequestRequest req,
+        @RequestPart(value = "images", required = false) List<MultipartFile> images,
+        @RequestHeader("Authorization") String authHeader,
+        Authentication authentication) {
         // El rootId se reserva antes de persistir para poder subir las imágenes
         // primero: así el correo del trabajador ya puede mostrar la foto real.
         UUID rootId = UUID.randomUUID();
-        imageService.addImages(req.images(), rootId, null, authentication);
+        imageService.addImages(images, rootId, null, authHeader);
 
         return requestService.create(req, CurrentUser.id(authentication), rootId);
     }

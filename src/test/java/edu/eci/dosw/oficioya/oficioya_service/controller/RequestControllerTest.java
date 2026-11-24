@@ -76,22 +76,21 @@ public class RequestControllerTest {
     void tearDown() {
         currentUserMock.close();
     }
-
     @Test
-    @DisplayName("Debe subir las imágenes con el mismo rootId de la solicitud creada")
+    @DisplayName("Debe crear la solicitud y subir las imágenes con el mismo rootId")
     void shouldCreateRequestAndSaveImages() {
+        String authHeader = "Bearer token-de-prueba";
         List<MultipartFile> images = List.of(
-                new MockMultipartFile("files", "fuga.jpg", "image/jpeg", new byte[]{1, 2, 3}));
+                new MockMultipartFile("images", "a.png", "image/png", new byte[]{1}),
+                new MockMultipartFile("images", "b.png", "image/png", new byte[]{2}));
         RequestRequest req = mock(RequestRequest.class);
-
-        when(req.images()).thenReturn(images);
         when(requestService.create(eq(req), eq(userId), any(UUID.class))).thenAnswer(invocation ->
                 new RequestResponse(invocation.getArgument(2), List.of(), "Fuga", null, 0));
 
-        RequestResponse result = requestController.create(req, authentication);
+        RequestResponse result = requestController.create(req, images, authHeader, authentication);
 
         ArgumentCaptor<UUID> rootIdCaptor = ArgumentCaptor.forClass(UUID.class);
-        verify(imageService).addImages(eq(images), rootIdCaptor.capture(), isNull(), eq(authentication));
+        verify(imageService).addImages(eq(images), rootIdCaptor.capture(), isNull(), eq(authHeader));
         verify(requestService).create(eq(req), eq(userId), eq(rootIdCaptor.getValue()));
         assertEquals(rootIdCaptor.getValue(), result.rootId());
     }

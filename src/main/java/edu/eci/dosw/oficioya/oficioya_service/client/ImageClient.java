@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 
 public interface ImageClient {
-    List<ImageResponse> getImages (UUID rootId);
+    List<ImageResponse> getImages(UUID rootId);
 
-    void uploadImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, Authentication auth);
+    void uploadImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, String authHeader);
 }

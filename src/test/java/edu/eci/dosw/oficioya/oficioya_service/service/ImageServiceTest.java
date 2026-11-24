@@ -13,16 +13,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
-import edu.eci.dosw.oficioya.oficioya_service.client.HttpImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.ImageClient;
 
 @ExtendWith(MockitoExtension.class)
 class ImageServiceTest {
 
     @Mock
-    private HttpImageClient imageClient;
+    private RequestService requestService;
+
+    @Mock
+    private ImageClient imageClient;
 
     @InjectMocks
     private ImageService imageService;
@@ -31,23 +33,20 @@ class ImageServiceTest {
     @DisplayName("Sube las imágenes cuando la lista no está vacía")
     void subeImágenes() {
         UUID rootId = UUID.randomUUID();
-        List<org.springframework.web.multipart.MultipartFile> files =
-                List.of(new MockMultipartFile("files", "fuga.jpg", "image/jpeg", new byte[]{1}));
-        Authentication auth = org.mockito.Mockito.mock(Authentication.class);
+        List<MultipartFile> files = List.of(new MockMultipartFile("images", "fuga.jpg", "image/jpeg", new byte[]{1}));
 
-        imageService.addImages(files, rootId, null, auth);
+        imageService.addImages(files, rootId, null, "Bearer token");
 
-        verify(imageClient).uploadImages(files, rootId, null, auth);
+        verify(imageClient).uploadImages(files, rootId, null, "Bearer token");
     }
 
     @Test
     @DisplayName("No intenta subir imágenes cuando no hay archivos")
     void sinImágenes() {
         UUID rootId = UUID.randomUUID();
-        Authentication auth = org.mockito.Mockito.mock(Authentication.class);
 
-        imageService.addImages(null, rootId, null, auth);
-        imageService.addImages(List.of(), rootId, null, auth);
+        imageService.addImages(null, rootId, null, "Bearer token");
+        imageService.addImages(List.of(), rootId, null, "Bearer token");
 
         verify(imageClient, never()).uploadImages(org.mockito.ArgumentMatchers.any(),
                 org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any(),
