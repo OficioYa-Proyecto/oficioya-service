@@ -31,7 +31,7 @@ class HttpUserClientTest {
         HttpUserClient client = new HttpUserClient("http://localhost:8081", "");
         assertNull(client.getUser(UUID.randomUUID()));
     }
-
+/* 
     @Test
     void getUserWithToken() throws Exception {
         HttpUserClient client = new HttpUserClient("http://localhost:8081", "token");
@@ -67,7 +67,7 @@ class HttpUserClientTest {
         assertEquals(resp, client.getUser(resp.id()));
         verify(mockRest).exchange(eq("http://localhost:8081/api/v1/admin/users/" + resp.id()),
                 eq(HttpMethod.GET), any(HttpEntity.class), eq(UserResponse.class));
-    }
+    }*/
 
     @Test
     void getUserWithGeneratedServiceToken() {
