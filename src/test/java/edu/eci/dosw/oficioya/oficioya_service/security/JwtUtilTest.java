@@ -2,7 +2,6 @@ package edu.eci.dosw.oficioya.oficioya_service.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.charset.StandardCharsets;
@@ -15,7 +14,6 @@ import javax.crypto.SecretKey;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -60,39 +58,6 @@ class JwtUtilTest {
         String token = tokenConClaims(b -> b.claim("roles", List.of("ADMIN")).claim("role", "CONTRATANTE"));
 
         assertEquals(List.of("ADMIN"), jwtUtil.extractRoles(token));
-    }
-
-    @Test
-    @DisplayName("Genera token de servicio con subject y roles compartidos con el orquestador")
-    void generaTokenDeServicio() {
-        String token = jwtUtil.generateServiceToken();
-        Claims claims = jwtUtil.validateToken(token);
-
-        assertEquals(JwtUtil.SERVICE_SUBJECT, claims.getSubject());
-        assertEquals(List.of("SERVICE", "SISTEMA", "ADMIN"), claims.get("roles", List.class));
-        assertTrue(jwtUtil.isTokenValid(token));
-    }
-
-    @Test
-    @DisplayName("Genera y valida el token firmado de una acción del correo")
-    void generaTokenDeAccionDelCorreo() {
-        UUID workerId = UUID.randomUUID();
-        UUID requestId = UUID.randomUUID();
-
-        String token = jwtUtil.generateEmailActionToken(workerId, requestId, "ACCEPT");
-        JwtUtil.EmailAction action = jwtUtil.validateEmailActionToken(token);
-
-        assertEquals(workerId, action.workerId());
-        assertEquals(requestId, action.requestId());
-        assertEquals("ACCEPT", action.action());
-    }
-
-    @Test
-    @DisplayName("Un token de login no sirve como acción del correo")
-    void loginTokenNoEsAccionDelCorreo() {
-        String token = jwtUtil.generateToken(UUID.randomUUID(), "TRABAJADOR");
-
-        assertThrows(IllegalArgumentException.class, () -> jwtUtil.validateEmailActionToken(token));
     }
 
     @Test

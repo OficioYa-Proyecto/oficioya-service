@@ -19,16 +19,6 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    /** Subject del token interno compartido con el orquestador y Users. */
-    public static final String SERVICE_SUBJECT = "00000000-0000-0000-0000-000000000001";
-    /** Emisor exclusivo de los enlaces de acción enviados por correo. */
-    public static final String EMAIL_ACTION_ISSUER = "oficioya-email-action";
-    private static final long SERVICE_TOKEN_MILLIS = 5 * 60 * 1000L;
-    private static final long EMAIL_ACTION_TTL_DAYS = 7;
-
-    /** Acción firmada que viene en el enlace del correo del trabajador. */
-    public record EmailAction(UUID workerId, UUID requestId, String action) { }
-
     private final SecretKey key;
     private final String issuer;
     private final long ttlMinutes;
@@ -63,51 +53,6 @@ public class JwtUtil {
                 .expiration(Date.from(ahora.plus(ttlMinutes, java.time.temporal.ChronoUnit.MINUTES)))
                 .signWith(key, Jwts.SIG.HS256)
                 .compact();
-    }
-
-    /**
-     * Token interno de vida corta para llamar a Users y obtener el correo del
-     * contratante. Usa el mismo secreto y los mismos roles que el orquestador.
-     */
-    public String generateServiceToken() {
-        java.time.Instant ahora = java.time.Instant.now();
-        return Jwts.builder()
-                .subject(SERVICE_SUBJECT)
-                .claim("roles", List.of("SERVICE", "SISTEMA", "ADMIN"))
-                .issuedAt(Date.from(ahora))
-                .expiration(Date.from(ahora.plusMillis(SERVICE_TOKEN_MILLIS)))
-                .signWith(key, Jwts.SIG.HS256)
-                .compact();
-    }
-
-    /**
-     * Token de un solo uso lógico para los botones Aceptar/Rechazar del correo.
-     * Usa un emisor propio para que un token de login no pueda activar la acción.
-     */
-    public String generateEmailActionToken(UUID workerId, UUID requestId, String action) {
-        java.time.Instant ahora = java.time.Instant.now();
-        return Jwts.builder()
-                .subject(workerId.toString())
-                .issuer(EMAIL_ACTION_ISSUER)
-                .claim("purpose", "request-action")
-                .claim("requestId", requestId.toString())
-                .claim("action", action)
-                .issuedAt(Date.from(ahora))
-                .expiration(Date.from(ahora.plus(EMAIL_ACTION_TTL_DAYS, java.time.temporal.ChronoUnit.DAYS)))
-                .signWith(key, Jwts.SIG.HS256)
-                .compact();
-    }
-
-    public EmailAction validateEmailActionToken(String token) {
-        Claims claims = validateToken(token);
-        if (!EMAIL_ACTION_ISSUER.equals(claims.getIssuer())
-                || !"request-action".equals(claims.get("purpose", String.class))) {
-            throw new IllegalArgumentException("El token no corresponde a una acción de correo");
-        }
-        return new EmailAction(
-                UUID.fromString(claims.getSubject()),
-                UUID.fromString(claims.get("requestId", String.class)),
-                claims.get("action", String.class));
     }
 
     public Claims validateToken(String token) {

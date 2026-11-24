@@ -1,9 +1,7 @@
 package edu.eci.dosw.oficioya.oficioya_service.client;
 
-import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,55 +13,33 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
-import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
 
-/**
- * Cliente HTTP hacia Users. Si no hay un token estático configurado, genera un
- * token de servicio de corta duración con el mismo secreto JWT que el
- * orquestador, para poder resolver el correo del contratante al crear una
- * solicitud y pasárselo a Notification.
- */
 @Service
 public class HttpUserClient implements UserClient {
 
-    private static final String ADMIN_USERS_PATH = "/api/v1/admin/users/";
-
     private final RestTemplate restTemplate;
     private final String baseUrl;
-    private final String configuredToken;
-    private final JwtUtil jwtUtil;
+    private final String serviceToken;
 
-    @Autowired
     public HttpUserClient(
             @Value("${user.service.url:http://localhost:8081}") String baseUrl,
-            @Value("${service.token:}") String serviceToken,
-            JwtUtil jwtUtil) {
-        this(baseUrl, serviceToken, jwtUtil, new RestTemplate());
-    }
-
-    HttpUserClient(String baseUrl, String serviceToken, JwtUtil jwtUtil, RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+            @Value("${service.token:}") String serviceToken) {
+        this.restTemplate = new RestTemplate();
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
-        this.configuredToken = serviceToken;
-        this.jwtUtil = jwtUtil;
-    }
-
-    HttpUserClient(String baseUrl, String serviceToken) {
-        this(baseUrl, serviceToken, null, new RestTemplate());
+        this.serviceToken = serviceToken;
     }
 
     @Override
     public UserResponse getUser(UUID userId) {
-        String token = resolveToken();
-        if (token == null) {
-            return null;
+        if (serviceToken == null || serviceToken.isBlank()) {
+            return null; // sin token de servicio, se omite la verificación
         }
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.setBearerAuth(token);
-            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            headers.setBearerAuth(serviceToken);
+            headers.setAccept(java.util.List.of(MediaType.APPLICATION_JSON));
             ResponseEntity<UserResponse> response = restTemplate.exchange(
-                    baseUrl + ADMIN_USERS_PATH + userId,
+                    baseUrl + "/api/v1/admin/users/" + userId,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
                     UserResponse.class);
@@ -71,12 +47,5 @@ public class HttpUserClient implements UserClient {
         } catch (HttpClientErrorException.NotFound e) {
             return null;
         }
-    }
-
-    private String resolveToken() {
-        if (configuredToken != null && !configuredToken.isBlank()) {
-            return configuredToken;
-        }
-        return jwtUtil == null ? null : jwtUtil.generateServiceToken();
     }
 }

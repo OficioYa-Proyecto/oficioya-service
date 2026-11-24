@@ -10,18 +10,14 @@ import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.eci.dosw.oficioya.oficioya_service.client.ImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
-import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationDetails;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.WorkerClient;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
-import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ReportItem;
@@ -56,20 +52,9 @@ public class RequestService {
     private final UserClient userClient;
     private final WorkerClient workerClient;
     private final ReputationClient reputationClient;
-    private final ImageClient imageClient;
     private static final Logger log = LoggerFactory.getLogger(RequestService.class);
 
-    public RequestService(RequestRepository requestRepository, RequestMapper requestMapper, ResponseMapper responseMapper,
-                          NotificationService notificationService, UserClient userClient, WorkerClient workerClient,
-                          ReputationClient reputationClient) {
-        this(requestRepository, requestMapper, responseMapper, notificationService, userClient, workerClient,
-                reputationClient, null);
-    }
-
-    @Autowired
-    public RequestService(RequestRepository requestRepository, RequestMapper requestMapper, ResponseMapper responseMapper,
-                          NotificationService notificationService, UserClient userClient, WorkerClient workerClient,
-                          ReputationClient reputationClient, ImageClient imageClient) {
+    public RequestService(RequestRepository requestRepository, RequestMapper requestMapper, ResponseMapper responseMapper, NotificationService notificationService, UserClient userClient, WorkerClient workerClient, ReputationClient reputationClient) {
         this.requestRepository = requestRepository;
         this.requestMapper = requestMapper;
         this.responseMapper = responseMapper;
@@ -77,31 +62,14 @@ public class RequestService {
         this.userClient = userClient;
         this.workerClient = workerClient;
         this.reputationClient = reputationClient;
-        this.imageClient = imageClient;
     }
 
     public RequestResponse create(RequestRequest req, UUID contractorId){
-        return create(req, contractorId, UUID.randomUUID());
-    }
-
-    public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId){
         log.info("Creando una nueva request");
         List<UUID> workers = req.workersId();
 
         if(workers.size() <= 0){
             throw new RequestSinWorkersException();
-        }
-
-        String contractorEmail = null;
-        if (userClient != null) {
-            try {
-                UserResponse contractor = userClient.getUser(contractorId);
-                if (contractor != null) {
-                    contractorEmail = contractor.email();
-                }
-            } catch (Exception e) {
-                log.warn("No se pudo obtener el correo del contratante {}: {}", contractorId, e.getMessage());
-            }
         }
 
         /* 
@@ -152,59 +120,17 @@ public class RequestService {
             throw new RecursoNoEncontradoException(RecursoNoEncontradoException.TRABAJADOR_NO_ENCONTRADO);
         }
         
-        UUID newRootId = rootId != null ? rootId : UUID.randomUUID();
+        UUID newRootId = UUID.randomUUID();
 
-        if (rootId == null) {
-            while (requestRepository.findByRootId(newRootId).size() >= 1){
-                newRootId = UUID.randomUUID();
-            }
+        while (requestRepository.findByRootId(newRootId).size() >= 1){
+            newRootId = UUID.randomUUID();
         }
 
         List<Request> createdRequests = responseMapper.toEntities(contractorId, verifiedWorkers, req, newRootId);
-        List<Request> savedRequests = requestRepository.saveAll(createdRequests);
+        
+        createdRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
+        return responseMapper.toRespone(requestRepository.saveAll(createdRequests));
 
-        // Las imágenes se suben antes de crear las solicitudes, usando el mismo rootId.
-        RequestNotificationDetails details = new RequestNotificationDetails(
-                req.scheduledDateTime(), req.neighborhood(), req.exactAddress(), req.description(),
-                firstImageUrl(newRootId));
-
-        // Se notifica después de persistir para que los requestId ya estén asignados.
-        savedRequests.forEach(w -> notificationService.notifyNewRequest(
-                w.getWorkerId(), w.getId(), emailOf(w.getWorkerId()), details));
-        // Una sola confirmación para el contratante, asociada al grupo de solicitudes (rootId).
-        notificationService.notifyRequestCreated(contractorId, newRootId, contractorEmail, details);
-
-        return responseMapper.toRespone(savedRequests);
-
-    }
-
-    private String firstImageUrl(UUID rootId) {
-        if (imageClient == null) {
-            return null;
-        }
-        try {
-            List<ImageResponse> images = imageClient.getImages(rootId);
-            if (images == null || images.isEmpty()) {
-                return null;
-            }
-            return images.get(0).url();
-        } catch (Exception e) {
-            log.warn("No se pudo obtener la imagen de la solicitud {}: {}", rootId, e.getMessage());
-            return null;
-        }
-    }
-
-    private String emailOf(UUID userId) {
-        if (userClient == null) {
-            return null;
-        }
-        try {
-            UserResponse user = userClient.getUser(userId);
-            return user != null ? user.email() : null;
-        } catch (Exception e) {
-            log.warn("No se pudo obtener el correo del trabajador {}: {}", userId, e.getMessage());
-            return null;
-        }
     }
 
 
