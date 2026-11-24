@@ -1,0 +1,26 @@
+name: Debug Service settings
+on: workflow_dispatch
+jobs:
+  settings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read selected App Settings
+        env:
+          AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, urllib.request, xml.etree.ElementTree as ET
+          root = ET.fromstring(os.environ["AZURE_WEBAPP_PUBLISH_PROFILE"])
+          profile = root.find(".//publishProfile")
+          host = profile.get("publishUrl").split(":")[0]
+          auth = base64.b64encode((profile.get("userName") + ":" + profile.get("userPWD")).encode()).decode()
+          url = "https://" + host + "/api/settings"
+          req = urllib.request.Request(url, headers={"Authorization": "Basic " + auth})
+          data = json.loads(urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace"))
+          print("HOST", host)
+          for item in data.get("properties", []):
+              name = item["name"]
+              if any(k in name.lower() for k in ("service", "token", "notification", "url", "profile", "jwt")):
+                  value = item.get("value") or ""
+                  print(name, "SET" if value.strip() else "(empty)")
+          PY
