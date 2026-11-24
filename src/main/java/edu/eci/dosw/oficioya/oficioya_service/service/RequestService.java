@@ -80,11 +80,11 @@ public class RequestService {
         this.imageClient = imageClient;
     }
 
-    public RequestResponse create(RequestRequest req, UUID contractorId){
-        return create(req, contractorId, UUID.randomUUID());
+    public RequestResponse create(RequestRequest req, UUID contractorId, String authHeader){
+        return create(req, contractorId, UUID.randomUUID(), authHeader);
     }
 
-    public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId){
+    public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId, String authHeader){
         log.info("Creando una nueva request");
         List<UUID> workers = req.workersId();
 
@@ -117,7 +117,7 @@ public class RequestService {
                 continue;
             }
 
-            if (workerClient != null && !workerClient.exists(id)) {
+            if (workerClient != null && !workerClient.exists(id, authHeader)) {
                 continue;
             }
             worker = userClient.getUser(id);

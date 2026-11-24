@@ -400,17 +400,19 @@ class RequestServiceTest {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
         r.setWorkerId(UUID.randomUUID());
         r.setRootId(UUID.randomUUID());
+        String authHeader = "prueba";
         
         when(userClient.getUser(r.getWorkerId())).thenReturn(new UserResponse(r.getWorkerId(), "name","email",List.of("301"),List.of("TRABAJADOR"),"active",LocalDateTime.now(),LocalDateTime.now()));
         when(userClient.getUser(r.getContractorId())).thenReturn(new UserResponse(r.getContractorId(), "name","email",List.of("301"),List.of("CONTRATANTE"),"active",LocalDateTime.now(),LocalDateTime.now()));
-        when(workerClient.exists(r.getWorkerId())).thenReturn(true);
+        when(workerClient.exists(r.getWorkerId(), authHeader)).thenReturn(true);
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
         when(requestRepository.countActiveWorker(r.getWorkerId())).thenReturn(5);
         when(requestRepository.countActiveContractor(r.getContractorId())).thenReturn(1222);
 
         RequestResponse response = service.create(
             new RequestRequest(List.of(r.getWorkerId()), r.getDescription(), r.getNeighborhood(), r.getExactAddress(), r.getScheduledDateTime(), null),
-            r.getContractorId()
+            r.getContractorId(),
+            authHeader
         );
 
         ActiveResponse activeWorker = service.active(r.getWorkerId(),"TRABAJADOR");
@@ -426,7 +428,8 @@ class RequestServiceTest {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
         r.setWorkerId(trabajador);
         String correo = "contratante@example.com";
-        when(workerClient.exists(trabajador)).thenReturn(true);
+        String authHeader = "token-prueba";
+        when(workerClient.exists(trabajador,authHeader)).thenReturn(true);
         when(userClient.getUser(contratante)).thenReturn(new UserResponse(
                 contratante, "Contratante", correo, List.of("300"), List.of("CONTRATANTE"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
@@ -441,7 +444,7 @@ class RequestServiceTest {
         RequestResponse response = service.create(
                 new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
                         r.getExactAddress(), r.getScheduledDateTime(), null),
-                contratante);
+                contratante,authHeader);
 
         verify(notificationService).notifyRequestCreated(
                 contratante, response.rootId(), correo, esperados);
@@ -454,6 +457,7 @@ class RequestServiceTest {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
         r.setWorkerId(trabajador);
         String url = "https://images.test/fuga.jpg";
+        String authHeader = "token-prueba";
         when(imageClient.getImages(rootId)).thenReturn(List.of(
                 new ImageResponse(null, rootId, "fuga.jpg", "image/jpeg", 1L,
                         LocalDateTime.now(), null, url, contratante)));
@@ -469,12 +473,12 @@ class RequestServiceTest {
                 List.of("300"), List.of("TRABAJADOR"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
 
-        when(workerClient.exists(trabajador)).thenReturn(true);
+        when(workerClient.exists(trabajador,authHeader)).thenReturn(true);
 
         service.create(
                 new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
                         r.getExactAddress(), r.getScheduledDateTime(), null),
-                contratante, rootId);
+                contratante, rootId,authHeader);
 
         verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq("trabajador@example.com"),
                 argThat(details -> url.equals(details.imageUrl())));
