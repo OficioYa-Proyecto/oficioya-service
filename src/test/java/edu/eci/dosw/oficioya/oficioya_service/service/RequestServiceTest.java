@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -410,6 +411,26 @@ class RequestServiceTest {
 
         assertEquals(activeWorker.active(), Long.valueOf(2));
         assertEquals(activeContractor.active(), Long.valueOf(2));
+    }
+
+    @Test
+    @DisplayName("crear notifica al contratante con su correo y el rootId de la solicitud")
+    void crearNotificaAlContratanteConCorreo() {
+        Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
+        r.setWorkerId(trabajador);
+        String correo = "contratante@example.com";
+        when(userClient.getUser(contratante)).thenReturn(new UserResponse(
+                contratante, "Contratante", correo, List.of("300"), List.of("CONTRATANTE"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+        when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        RequestResponse response = service.create(
+                new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
+                        r.getExactAddress(), r.getScheduledDateTime(), null),
+                contratante);
+
+        verify(notificationService).notifyRequestCreated(contratante, response.rootId(), correo);
+        verify(notificationService).notifyNewRequest(eq(trabajador), any());
     }
 
     // ------------------------------------------------------------ utilidades

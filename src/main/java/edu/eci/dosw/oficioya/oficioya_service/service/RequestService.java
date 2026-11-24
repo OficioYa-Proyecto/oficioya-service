@@ -72,6 +72,18 @@ public class RequestService {
             throw new RequestSinWorkersException();
         }
 
+        String contractorEmail = null;
+        if (userClient != null) {
+            try {
+                UserResponse contractor = userClient.getUser(contractorId);
+                if (contractor != null) {
+                    contractorEmail = contractor.email();
+                }
+            } catch (Exception e) {
+                log.warn("No se pudo obtener el correo del contratante {}: {}", contractorId, e.getMessage());
+            }
+        }
+
         /* 
         if (userClient != null) {
             UserResponse contractor = userClient.getUser(contractorId);
@@ -127,9 +139,14 @@ public class RequestService {
         }
 
         List<Request> createdRequests = responseMapper.toEntities(contractorId, verifiedWorkers, req, newRootId);
-        
-        createdRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
-        return responseMapper.toRespone(requestRepository.saveAll(createdRequests));
+        List<Request> savedRequests = requestRepository.saveAll(createdRequests);
+
+        // Se notifica después de persistir para que los requestId ya estén asignados.
+        savedRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
+        // Una sola confirmación para el contratante, asociada al grupo de solicitudes (rootId).
+        notificationService.notifyRequestCreated(contractorId, newRootId, contractorEmail);
+
+        return responseMapper.toRespone(savedRequests);
 
     }
 

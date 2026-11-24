@@ -1,5 +1,6 @@
 package edu.eci.dosw.oficioya.oficioya_service.client;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,6 +14,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Implementación real del envío de notificaciones. Service sólo construye el
+ * payload; el correo y el push los resuelve el microservicio de Notification.
+ */
 @Service
 @Primary
 public class HttpNotificationService implements NotificationService {
@@ -29,43 +34,52 @@ public class HttpNotificationService implements NotificationService {
 
     @Override
     public void notifyNewRequest(UUID workerId, UUID requestId) {
-        send(workerId, "INCOMING_REQUEST", requestId, "Nueva solicitud de servicio cerca de ti");
+        send(workerId, "INCOMING_REQUEST", requestId, "Nueva solicitud de servicio cerca de ti", null);
+    }
+
+    @Override
+    public void notifyRequestCreated(UUID contractorId, UUID requestId, String receiverEmail) {
+        send(contractorId, "REQUEST_CREATED", requestId,
+                "Tu solicitud fue creada y enviada a los trabajadores", receiverEmail);
     }
 
     @Override
     public void notifyAccepted(UUID contractorId, UUID requestId) {
-        send(contractorId, "ACCEPTED_REQUEST", requestId, "Tu solicitud fue aceptada");
+        send(contractorId, "ACCEPTED_REQUEST", requestId, "Tu solicitud fue aceptada", null);
     }
 
     @Override
     public void notifyCancelled(UUID receiverId, UUID requestId) {
-        send(receiverId, "CANCELLED_BY_CONTRACTOR", requestId, "Una solicitud fue cancelada");
+        send(receiverId, "CANCELLED_BY_CONTRACTOR", requestId, "Una solicitud fue cancelada", null);
     }
 
     @Override
     public void notifyCompleted(UUID contractorId, UUID requestId) {
-        send(contractorId, "COMPLETED_WORK", requestId, "El trabajo fue reportado como terminado");
+        send(contractorId, "COMPLETED_WORK", requestId, "El trabajo fue reportado como terminado", null);
     }
 
     @Override
     public void notifyRejected(UUID contractorId, UUID requestId) {
-        send(contractorId, "REJECTED_REQUEST", requestId, "El trabajo fue rechazado por el trabajador");
+        send(contractorId, "REJECTED_REQUEST", requestId, "El trabajo fue rechazado por el trabajador", null);
     }
 
-    private void send(UUID receiverId, String type, UUID requestId, String message) {
+    private void send(UUID receiverId, String type, UUID requestId, String message, String receiverEmail) {
         try {
-            Map<String, Object> payload = Map.of(
-                    "receiverId", receiverId,
-                    "type", type,
-                    "requestId", requestId,
-                    "message", message
-            );
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("receiverId", receiverId);
+            payload.put("type", type);
+            payload.put("requestId", requestId);
+            payload.put("message", message);
+            if (receiverEmail != null && !receiverEmail.isBlank()) {
+                payload.put("receiverEmail", receiverEmail.trim());
+            }
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
             restTemplate.postForEntity(baseUrl + "/api/v1/notification", entity, String.class);
         } catch (Exception e) {
-            log.warn("No se pudo enviar notificación a {} ({}): {}", baseUrl, type, e.getMessage());
+            log.warn("No se pudo enviar notificación {} a {} vía {}: {}", type, receiverId, baseUrl, e.getMessage());
         }
     }
 }
