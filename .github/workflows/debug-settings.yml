@@ -4,7 +4,7 @@ jobs:
   settings:
     runs-on: ubuntu-latest
     steps:
-      - name: Read selected App Settings
+      - name: Read App Settings names
         env:
           AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         run: |
@@ -18,9 +18,8 @@ jobs:
           req = urllib.request.Request(url, headers={"Authorization": "Basic " + auth})
           data = json.loads(urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace"))
           print("HOST", host)
+          print("COUNT", len(data.get("properties", [])), "KEYS", list(data.keys()))
           for item in data.get("properties", []):
-              name = item["name"]
-              if any(k in name.lower() for k in ("service", "token", "notification", "url", "profile", "jwt")):
-                  value = item.get("value") or ""
-                  print(name, "SET" if value.strip() else "(empty)")
+              value = item.get("value") or ""
+              print(item["name"], "SET" if value.strip() else "(empty)")
           PY
