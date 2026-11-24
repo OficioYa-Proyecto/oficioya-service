@@ -19,6 +19,10 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
+    /** Subject del token interno compartido con el orquestador y Users. */
+    public static final String SERVICE_SUBJECT = "00000000-0000-0000-0000-000000000001";
+    private static final long SERVICE_TOKEN_MILLIS = 5 * 60 * 1000L;
+
     private final SecretKey key;
     private final String issuer;
     private final long ttlMinutes;
@@ -51,6 +55,21 @@ public class JwtUtil {
                 .issuer(issuer)
                 .issuedAt(Date.from(ahora))
                 .expiration(Date.from(ahora.plus(ttlMinutes, java.time.temporal.ChronoUnit.MINUTES)))
+                .signWith(key, Jwts.SIG.HS256)
+                .compact();
+    }
+
+    /**
+     * Token interno de vida corta para llamar a Users y obtener el correo del
+     * contratante. Usa el mismo secreto y los mismos roles que el orquestador.
+     */
+    public String generateServiceToken() {
+        java.time.Instant ahora = java.time.Instant.now();
+        return Jwts.builder()
+                .subject(SERVICE_SUBJECT)
+                .claim("roles", List.of("SERVICE", "SISTEMA", "ADMIN"))
+                .issuedAt(Date.from(ahora))
+                .expiration(Date.from(ahora.plusMillis(SERVICE_TOKEN_MILLIS)))
                 .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }
