@@ -4,8 +4,9 @@ import edu.eci.dosw.oficioya.oficioya_service.client.ImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestModel;
-import edu.eci.dosw.oficioya.oficioya_service.model.document.ImageDocument;
 import edu.eci.dosw.oficioya.oficioya_service.security.CurrentUser;
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil.EmailAction;
 import edu.eci.dosw.oficioya.oficioya_service.service.ImageService;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestCancellationService;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestCompletionService;
@@ -15,13 +16,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +54,9 @@ public class RequestControllerTest {
     @Mock
     private ImageClient imageClient;
 
+    @Mock
+    private JwtUtil jwtUtil;
+
     @InjectMocks
     private RequestController requestController;
 
@@ -70,27 +77,23 @@ public class RequestControllerTest {
         currentUserMock.close();
     }
 
-    @DisplayName("Debe crear una solicitud y asociar el rootId a sus imágenes")
+    @Test
+    @DisplayName("Debe subir las imágenes con el mismo rootId de la solicitud creada")
     void shouldCreateRequestAndSaveImages() {
-        UUID rootId = UUID.randomUUID();
-        ImageDocument img1 = new ImageDocument();
-        ImageDocument img2 = new ImageDocument();
-        List<ImageDocument> images = List.of(img1, img2);
-
+        List<MultipartFile> images = List.of(
+                new MockMultipartFile("files", "fuga.jpg", "image/jpeg", new byte[]{1, 2, 3}));
         RequestRequest req = mock(RequestRequest.class);
-        RequestResponse expectedResponse = mock(RequestResponse.class);
 
-        //when(req.images()).thenReturn(images);
-        when(expectedResponse.rootId()).thenReturn(rootId);
-        when(requestService.create(req, userId)).thenReturn(expectedResponse);
+        when(req.images()).thenReturn(images);
+        when(requestService.create(eq(req), eq(userId), any(UUID.class))).thenAnswer(invocation ->
+                new RequestResponse(invocation.getArgument(2), List.of(), "Fuga", null, 0));
 
         RequestResponse result = requestController.create(req, authentication);
 
-        assertEquals(expectedResponse, result);
-        assertEquals(rootId, img1.getRootId());
-        assertEquals(rootId, img2.getRootId());
-        verify(requestService).create(req, userId);
-        //verify(imageService).addImages(images);
+        ArgumentCaptor<UUID> rootIdCaptor = ArgumentCaptor.forClass(UUID.class);
+        verify(imageService).addImages(eq(images), rootIdCaptor.capture(), isNull(), eq(authentication));
+        verify(requestService).create(eq(req), eq(userId), eq(rootIdCaptor.getValue()));
+        assertEquals(rootIdCaptor.getValue(), result.rootId());
     }
 
     @Test
@@ -201,5 +204,45 @@ public class RequestControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Request not deleted", response.getBody());
         verify(requestService).deleteRequest(requestId);
+    }
+
+    @Test
+    @DisplayName("El enlace del correo acepta la solicitud y redirige al front")
+    void shouldAcceptRequestFromEmailLink() {
+        EmailAction action = new EmailAction(userId, requestId, "ACCEPT");
+        when(jwtUtil.validateEmailActionToken("token")).thenReturn(action);
+
+        ResponseEntity<Void> response = requestController.acceptFromEmail(requestId, "token");
+
+        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertTrue(response.getHeaders().getLocation().toString().contains("result=accepted"));
+        verify(requestService).acceptRequest(requestId, userId);
+    }
+
+    @Test
+    @DisplayName("El enlace del correo rechaza la solicitud y redirige al front")
+    void shouldRejectRequestFromEmailLink() {
+        EmailAction action = new EmailAction(userId, requestId, "REJECT");
+        when(jwtUtil.validateEmailActionToken("token")).thenReturn(action);
+
+        ResponseEntity<Void> response = requestController.rejectFromEmail(requestId, "token");
+
+        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertTrue(response.getHeaders().getLocation().toString().contains("result=rejected"));
+        verify(requestService).rejectRequest(requestId, userId);
+    }
+
+    @Test
+    @DisplayName("Un enlace manipulado no ejecuta la acción")
+    void shouldRejectTamperedEmailLink() {
+        EmailAction action = new EmailAction(userId, requestId, "ACCEPT");
+        when(jwtUtil.validateEmailActionToken("token")).thenReturn(action);
+        UUID otroRequestId = UUID.randomUUID();
+
+        ResponseEntity<Void> response = requestController.acceptFromEmail(otroRequestId, "token");
+
+        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertTrue(response.getHeaders().getLocation().toString().contains("result=invalid"));
+        verify(requestService, never()).acceptRequest(any(), any());
     }
 }

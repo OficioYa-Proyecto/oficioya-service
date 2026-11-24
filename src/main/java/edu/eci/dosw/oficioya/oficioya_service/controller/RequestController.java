@@ -1,9 +1,12 @@
 package edu.eci.dosw.oficioya.oficioya_service.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.catalina.connector.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +28,8 @@ import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestModel;
 import edu.eci.dosw.oficioya.oficioya_service.model.document.ImageDocument;
 import edu.eci.dosw.oficioya.oficioya_service.security.CurrentUser;
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil.EmailAction;
 import edu.eci.dosw.oficioya.oficioya_service.service.ImageService;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestCancellationService;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestCompletionService;
@@ -38,27 +43,39 @@ import jakarta.validation.Valid;
 @Tag(name="Requests", description = "API to control the life of the requests")
 public class RequestController {
 
+    private static final Logger log = LoggerFactory.getLogger(RequestController.class);
+
     private final RequestService requestService;
     private final ImageService imageService;
     private final RequestCancellationService requestCancellationService;
     private final RequestCompletionService requestCompletionService;
+    private final JwtUtil jwtUtil;
+    private final String frontUrl;
 
-    public RequestController(RequestService requestService,ImageService imageService, RequestCancellationService requestCancellationService, RequestCompletionService requestCompletionService) {
+    public RequestController(RequestService requestService, ImageService imageService,
+                             RequestCancellationService requestCancellationService,
+                             RequestCompletionService requestCompletionService,
+                             JwtUtil jwtUtil,
+                             @Value("${app.front-url:http://localhost:5173}") String frontUrl) {
         this.requestService = requestService;
         this.imageService = imageService;
         this.requestCancellationService = requestCancellationService;
         this.requestCompletionService = requestCompletionService;
+        this.jwtUtil = jwtUtil;
+        String base = frontUrl == null || frontUrl.isBlank() ? "http://localhost:5173" : frontUrl;
+        this.frontUrl = base.endsWith("/") ? base.substring(0, base.length() - 1) : base;
     }
 
     @PostMapping
     @PreAuthorize("hasRole('CONTRATANTE')")
     @Operation(summary="Create a request", description = "Creates a request and saves it with its images")
     public RequestResponse create(@Valid @RequestBody RequestRequest req, Authentication authentication){
-        RequestResponse response = requestService.create(req, CurrentUser.id(authentication));
+        // El rootId se reserva antes de persistir para poder subir las imágenes
+        // primero: así el correo del trabajador ya puede mostrar la foto real.
+        UUID rootId = UUID.randomUUID();
+        imageService.addImages(req.images(), rootId, null, authentication);
 
-        imageService.addImages(req.images(), response.rootId(), null, authentication);
-        
-        return response;
+        return requestService.create(req, CurrentUser.id(authentication), rootId);
     }
 
     /*
@@ -128,6 +145,45 @@ public class RequestController {
         else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request not deleted");
         }
+    }
+
+    @GetMapping("/email/accept")
+    @Operation(summary = "Accept a request from the email button",
+            description = "Valida el enlace firmado, acepta la solicitud y redirige al front")
+    public ResponseEntity<Void> acceptFromEmail(@RequestParam UUID requestId, @RequestParam String token) {
+        return applyEmailAction(requestId, token, "ACCEPT", "accepted");
+    }
+
+    @GetMapping("/email/reject")
+    @Operation(summary = "Reject a request from the email button",
+            description = "Valida el enlace firmado, rechaza la solicitud y redirige al front")
+    public ResponseEntity<Void> rejectFromEmail(@RequestParam UUID requestId, @RequestParam String token) {
+        return applyEmailAction(requestId, token, "REJECT", "rejected");
+    }
+
+    private ResponseEntity<Void> applyEmailAction(UUID requestId, String token,
+                                                   String expectedAction, String result) {
+        try {
+            EmailAction action = jwtUtil.validateEmailActionToken(token);
+            if (!expectedAction.equals(action.action()) || !requestId.equals(action.requestId())) {
+                return redirectAfterAction(requestId, "invalid");
+            }
+            if ("ACCEPT".equals(expectedAction)) {
+                requestService.acceptRequest(requestId, action.workerId());
+            } else {
+                requestService.rejectRequest(requestId, action.workerId());
+            }
+            return redirectAfterAction(requestId, result);
+        } catch (Exception e) {
+            log.warn("No se pudo ejecutar la acción {} del correo para {}: {}",
+                    expectedAction, requestId, e.getMessage());
+            return redirectAfterAction(requestId, "invalid");
+        }
+    }
+
+    private ResponseEntity<Void> redirectAfterAction(UUID requestId, String result) {
+        String location = frontUrl + "/mis-servicios?request=" + requestId + "&result=" + result;
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(location)).build();
     }
 
     @GetMapping("/active")

@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
@@ -29,11 +30,13 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import edu.eci.dosw.oficioya.oficioya_service.client.ImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationDetails;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.WorkerClient;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
+import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
@@ -63,6 +66,9 @@ class RequestServiceTest {
     @Mock
     WorkerClient workerClient;
 
+    @Mock
+    ImageClient imageClient;
+
     RequestService service;
 
     UUID contratante;
@@ -71,7 +77,7 @@ class RequestServiceTest {
 
     @BeforeEach
     void preparar() {
-        service = new RequestService(requestRepository, Mappers.getMapper(RequestMapper.class), new ResponseMapper(), notificationService, userClient, workerClient, null);
+        service = new RequestService(requestRepository, Mappers.getMapper(RequestMapper.class), new ResponseMapper(), notificationService, userClient, workerClient, null, imageClient);
         contratante = UUID.randomUUID();
         trabajador = UUID.randomUUID();
         rootId = UUID.randomUUID();
@@ -439,6 +445,28 @@ class RequestServiceTest {
         verify(notificationService).notifyRequestCreated(
                 contratante, response.rootId(), correo, esperados);
         verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq(correoTrabajador), eq(esperados));
+    }
+
+    @Test
+    @DisplayName("crear envía la URL de la primera imagen en el contexto de la notificación")
+    void crearIncluyeImagenEnLaNotificacion() {
+        Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
+        r.setWorkerId(trabajador);
+        String url = "https://images.test/fuga.jpg";
+        when(imageClient.getImages(rootId)).thenReturn(List.of(
+                new ImageResponse(null, rootId, "fuga.jpg", "image/jpeg", 1L,
+                        LocalDateTime.now(), null, url, contratante)));
+        when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        service.create(
+                new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
+                        r.getExactAddress(), r.getScheduledDateTime(), null),
+                contratante, rootId);
+
+        verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq((String) null),
+                argThat(details -> url.equals(details.imageUrl())));
+        verify(notificationService).notifyRequestCreated(eq(contratante), eq(rootId), eq((String) null),
+                argThat(details -> url.equals(details.imageUrl())));
     }
 
     // ------------------------------------------------------------ utilidades

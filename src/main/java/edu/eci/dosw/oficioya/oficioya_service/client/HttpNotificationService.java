@@ -26,10 +26,13 @@ public class HttpNotificationService implements NotificationService {
 
     private final RestTemplate restTemplate;
     private final String baseUrl;
+    private final EmailActionLinkService emailActionLinkService;
 
-    public HttpNotificationService(@Value("${notification.service.url:http://localhost:8082}") String baseUrl) {
+    public HttpNotificationService(@Value("${notification.service.url:http://localhost:8082}") String baseUrl,
+                                   EmailActionLinkService emailActionLinkService) {
         this.restTemplate = new RestTemplate();
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        this.emailActionLinkService = emailActionLinkService;
     }
 
     @Override
@@ -40,8 +43,26 @@ public class HttpNotificationService implements NotificationService {
     @Override
     public void notifyNewRequest(UUID workerId, UUID requestId, String receiverEmail,
                                  RequestNotificationDetails details) {
-        send(workerId, "INCOMING_REQUEST", requestId, "Nueva solicitud de servicio cerca de ti",
-                receiverEmail, details);
+        Map<String, Object> context = new HashMap<>();
+        if (details != null) {
+            if (details.scheduledDateTime() != null) {
+                context.put("scheduledDateTime", details.scheduledDateTime().toString());
+            }
+            if (details.neighborhood() != null) {
+                context.put("neighborhood", details.neighborhood());
+            }
+            if (details.exactAddress() != null) {
+                context.put("exactAddress", details.exactAddress());
+            }
+            if (details.description() != null) {
+                context.put("description", details.description());
+            }
+            if (details.imageUrl() != null) {
+                context.put("imageUrl", details.imageUrl());
+            }
+        }
+        sendWithActions(workerId, "INCOMING_REQUEST", requestId,
+                "Nueva solicitud de servicio cerca de ti", receiverEmail, context);
     }
 
     @Override
@@ -94,7 +115,35 @@ public class HttpNotificationService implements NotificationService {
                 payload.put("neighborhood", details.neighborhood());
                 payload.put("exactAddress", details.exactAddress());
                 payload.put("description", details.description());
+                if (details.imageUrl() != null) {
+                    payload.put("imageUrl", details.imageUrl());
+                }
             }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+            restTemplate.postForEntity(baseUrl + "/api/v1/notification", entity, String.class);
+        } catch (Exception e) {
+            log.warn("No se pudo enviar notificación {} a {} vía {}: {}", type, receiverId, baseUrl, e.getMessage());
+        }
+    }
+
+    /** Igual que {@link #send} pero agrega los enlaces firmados de Aceptar y Rechazar. */
+    private void sendWithActions(UUID receiverId, String type, UUID requestId, String message,
+                                 String receiverEmail, Map<String, Object> context) {
+        try {
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("receiverId", receiverId);
+            payload.put("type", type);
+            payload.put("requestId", requestId);
+            payload.put("message", message);
+            if (receiverEmail != null && !receiverEmail.isBlank()) {
+                payload.put("receiverEmail", receiverEmail.trim());
+            }
+            payload.putAll(context);
+            payload.put("acceptUrl", emailActionLinkService.acceptUrl(receiverId, requestId));
+            payload.put("rejectUrl", emailActionLinkService.rejectUrl(receiverId, requestId));
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

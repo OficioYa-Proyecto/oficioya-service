@@ -26,7 +26,7 @@ public class ImageService {
     }
 
     public void addImages(List<MultipartFile> files, UUID rootId, String referenciaExterna, Authentication authentication){
-        if(files.size() > 0){
+        if(files != null && !files.isEmpty()){
             imageClient.uploadImages(files, rootId, referenciaExterna, authentication);
         }
     }
