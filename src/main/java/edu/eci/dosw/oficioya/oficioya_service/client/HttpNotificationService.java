@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
 
 /**
  * Implementación real del envío de notificaciones. Service sólo construye el
@@ -27,12 +30,28 @@ public class HttpNotificationService implements NotificationService {
     private final RestTemplate restTemplate;
     private final String baseUrl;
     private final EmailActionLinkService emailActionLinkService;
+    private final String configuredToken;
+    private final JwtUtil jwtUtil;
 
+    @Autowired
     public HttpNotificationService(@Value("${notification.service.url:http://localhost:8082}") String baseUrl,
-                                   EmailActionLinkService emailActionLinkService) {
-        this.restTemplate = new RestTemplate();
+                                   EmailActionLinkService emailActionLinkService,
+                                   @Value("${service.token:}") String serviceToken,
+                                   JwtUtil jwtUtil) {
+        this(baseUrl, emailActionLinkService, serviceToken, jwtUtil, new RestTemplate());
+    }
+
+    HttpNotificationService(String baseUrl, EmailActionLinkService emailActionLinkService) {
+        this(baseUrl, emailActionLinkService, "", null, new RestTemplate());
+    }
+
+    HttpNotificationService(String baseUrl, EmailActionLinkService emailActionLinkService,
+                            String serviceToken, JwtUtil jwtUtil, RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
         this.emailActionLinkService = emailActionLinkService;
+        this.configuredToken = serviceToken;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -120,13 +139,28 @@ public class HttpNotificationService implements NotificationService {
                 }
             }
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, buildHeaders());
             restTemplate.postForEntity(baseUrl + "/api/v1/notification", entity, String.class);
         } catch (Exception e) {
             log.warn("No se pudo enviar notificación {} a {} vía {}: {}", type, receiverId, baseUrl, e.getMessage());
         }
+    }
+
+    /**
+     * Notification exige JWT (rol SERVICE) desde el cambio de seguridad. Se reutiliza
+     * el mismo token de servicio que Users: configurable por SERVICE_TOKEN o generado
+     * con el secreto compartido.
+     */
+    private HttpHeaders buildHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String token = (configuredToken != null && !configuredToken.isBlank())
+                ? configuredToken
+                : (jwtUtil == null ? null : jwtUtil.generateServiceToken());
+        if (token != null && !token.isBlank()) {
+            headers.setBearerAuth(token.trim());
+        }
+        return headers;
     }
 
     /** Igual que {@link #send} pero agrega los enlaces firmados de Aceptar y Rechazar. */
@@ -145,9 +179,7 @@ public class HttpNotificationService implements NotificationService {
             payload.put("acceptUrl", emailActionLinkService.acceptUrl(receiverId, requestId));
             payload.put("rejectUrl", emailActionLinkService.rejectUrl(receiverId, requestId));
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, buildHeaders());
             restTemplate.postForEntity(baseUrl + "/api/v1/notification", entity, String.class);
         } catch (Exception e) {
             log.warn("No se pudo enviar notificación {} a {} vía {}: {}", type, receiverId, baseUrl, e.getMessage());
