@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.WorkerResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.WorkerStatus;
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
 
 @Service
 public class HttpWorkerClient implements WorkerClient {
@@ -26,21 +27,23 @@ public class HttpWorkerClient implements WorkerClient {
     private static final Logger log = LoggerFactory.getLogger(HttpNotificationService.class);
 
     @Autowired
-    public HttpWorkerClient(@Value("${worker.service.url:http://localhost:8080}") String baseUrl) {
-        this(crearRestClient(baseUrl));
+    public HttpWorkerClient(@Value("${worker.service.url:http://localhost:8080}") String baseUrl,
+            @Value("${service.token:}") String serviceToken,
+            JwtUtil jwtUtil) {
+        this(crearRestClient(baseUrl, serviceToken));
     }
 
     public HttpWorkerClient(RestClient restClient){
         this.restClient = restClient;
     }
 
-    private static RestClient crearRestClient(String url) {
+    private static RestClient crearRestClient(String url, String serviceToken) {
         HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(15))
                 .build();
         JdkClientHttpRequestFactory factory = new JdkClientHttpRequestFactory(httpClient);
         factory.setReadTimeout(Duration.ofSeconds(30));
-        return RestClient.builder().baseUrl(url).requestFactory(factory).build();
+        return RestClient.builder().baseUrl(url).requestFactory(factory).defaultHeaders(headers -> headers.setBearerAuth(serviceToken)).build();
     }
 
     @Override
