@@ -94,23 +94,20 @@ public class RequestService {
 
         String contractorEmail = null;
         if (userClient != null) {
-            try {
-                UserResponse contractor = userClient.getUser(contractorId);
-                if (contractor != null) {
-                    contractorEmail = contractor.email();
-                }
-            } catch (Exception e) {
-                log.warn("No se pudo obtener el correo del contratante {}: {}", contractorId, e.getMessage());
+            UserResponse contractor = userClient.getUser(contractorId);
+            if (contractor != null) {
+                contractorEmail = contractor.email();
+            }
+            else{
+                log.warn("No se pudo encontrar el contratante {}", contractorId);
+                throw new RecursoNoEncontradoException("Contratante no válido o inactivo");
             }
         }
 
-        /* 
-        if (userClient != null) {
-            UserResponse contractor = userClient.getUser(contractorId);
-            if (contractor == null || contractor.roles() == null || !contractor.roles().contains("CONTRATANTE")) {
-                throw new RecursoNoEncontradoException("Contratante no válido o inactivo");
-            }
-        }*/
+        if(contractorEmail == null){
+            log.warn("No se pudo obtener el correo del contratante {}", contractorId);
+            throw new RecursoNoEncontradoException("Contratante no válido o inactivo");
+        }
 
         List<UUID> verifiedWorkers = new ArrayList<>();
         UserResponse worker = null;

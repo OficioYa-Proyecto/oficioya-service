@@ -426,6 +426,7 @@ class RequestServiceTest {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
         r.setWorkerId(trabajador);
         String correo = "contratante@example.com";
+        when(workerClient.exists(trabajador)).thenReturn(true);
         when(userClient.getUser(contratante)).thenReturn(new UserResponse(
                 contratante, "Contratante", correo, List.of("300"), List.of("CONTRATANTE"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
@@ -457,15 +458,27 @@ class RequestServiceTest {
                 new ImageResponse(null, rootId, "fuga.jpg", "image/jpeg", 1L,
                         LocalDateTime.now(), null, url, contratante)));
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
+        
+        when(userClient.getUser(contratante)).thenReturn(new UserResponse(
+                contratante, "Contratante", "contratante@example.com",
+                List.of("300"), List.of("CONTRATANTE"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+
+        when(userClient.getUser(trabajador)).thenReturn(new UserResponse(
+                trabajador, "Trabajador", "trabajador@example.com",
+                List.of("300"), List.of("TRABAJADOR"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+
+        when(workerClient.exists(trabajador)).thenReturn(true);
 
         service.create(
                 new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
                         r.getExactAddress(), r.getScheduledDateTime(), null),
                 contratante, rootId);
 
-        verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq((String) null),
+        verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq("trabajador@example.com"),
                 argThat(details -> url.equals(details.imageUrl())));
-        verify(notificationService).notifyRequestCreated(eq(contratante), eq(rootId), eq((String) null),
+        verify(notificationService).notifyRequestCreated(eq(contratante), eq(rootId), eq("contratante@example.com"),
                 argThat(details -> url.equals(details.imageUrl())));
     }
 
