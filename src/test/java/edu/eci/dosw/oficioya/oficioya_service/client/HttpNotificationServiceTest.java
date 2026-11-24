@@ -1,6 +1,7 @@
 package edu.eci.dosw.oficioya.oficioya_service.client;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -15,17 +16,23 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
+
 @ExtendWith(MockitoExtension.class)
 class HttpNotificationServiceTest {
 
     @Mock
     private EmailActionLinkService emailActionLinkService;
+
+    @Mock
+    private JwtUtil jwtUtil;
 
     private HttpNotificationService service;
     private MockRestServiceServer server;
@@ -91,5 +98,34 @@ class HttpNotificationServiceTest {
         service.notifyCompleted(workerId, requestId);
         service.notifyRejected(workerId, requestId);
         server.verify();
+    }
+
+    @Test
+    @DisplayName("Cada llamada a Notification lleva el token de servicio")
+    void notificacionesConTokenDeServicio() {
+        when(jwtUtil.generateServiceToken()).thenReturn("service-token");
+        RestTemplate rest = new RestTemplate();
+        HttpNotificationService autenticada = new HttpNotificationService(
+                "https://notification.test/", emailActionLinkService, "", jwtUtil, rest);
+        MockRestServiceServer servidorAutenticado = MockRestServiceServer.bindTo(rest).build();
+
+        servidorAutenticado.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer service-token"))
+                .andExpect(jsonPath("$.type").value("REQUEST_CREATED"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+        servidorAutenticado.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer service-token"))
+                .andExpect(jsonPath("$.type").value("INCOMING_REQUEST"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        when(emailActionLinkService.acceptUrl(workerId, requestId)).thenReturn("https://service.test/accept");
+        when(emailActionLinkService.rejectUrl(workerId, requestId)).thenReturn("https://service.test/reject");
+        autenticada.notifyRequestCreated(contractorId(), requestId, "contractor@test.com");
+        autenticada.notifyNewRequest(workerId, requestId, "worker@test.com", null);
+        servidorAutenticado.verify();
+    }
+
+    private UUID contractorId() {
+        return UUID.fromString("00000000-0000-0000-0000-000000000099");
     }
 }
