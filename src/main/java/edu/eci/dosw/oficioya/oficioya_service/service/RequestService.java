@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
+import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationDetails;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.WorkerClient;
@@ -141,13 +142,30 @@ public class RequestService {
         List<Request> createdRequests = responseMapper.toEntities(contractorId, verifiedWorkers, req, newRootId);
         List<Request> savedRequests = requestRepository.saveAll(createdRequests);
 
+        RequestNotificationDetails details = new RequestNotificationDetails(
+                req.scheduledDateTime(), req.neighborhood(), req.exactAddress(), req.description());
+
         // Se notifica después de persistir para que los requestId ya estén asignados.
-        savedRequests.forEach(w -> notificationService.notifyNewRequest(w.getWorkerId(), w.getId()));
+        savedRequests.forEach(w -> notificationService.notifyNewRequest(
+                w.getWorkerId(), w.getId(), emailOf(w.getWorkerId()), details));
         // Una sola confirmación para el contratante, asociada al grupo de solicitudes (rootId).
-        notificationService.notifyRequestCreated(contractorId, newRootId, contractorEmail);
+        notificationService.notifyRequestCreated(contractorId, newRootId, contractorEmail, details);
 
         return responseMapper.toRespone(savedRequests);
 
+    }
+
+    private String emailOf(UUID userId) {
+        if (userClient == null) {
+            return null;
+        }
+        try {
+            UserResponse user = userClient.getUser(userId);
+            return user != null ? user.email() : null;
+        } catch (Exception e) {
+            log.warn("No se pudo obtener el correo del trabajador {}: {}", userId, e.getMessage());
+            return null;
+        }
     }
 
 

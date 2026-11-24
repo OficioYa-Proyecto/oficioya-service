@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
+import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationDetails;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.WorkerClient;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
@@ -422,15 +423,22 @@ class RequestServiceTest {
         when(userClient.getUser(contratante)).thenReturn(new UserResponse(
                 contratante, "Contratante", correo, List.of("300"), List.of("CONTRATANTE"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+        String correoTrabajador = "trabajador@example.com";
+        when(userClient.getUser(trabajador)).thenReturn(new UserResponse(
+                trabajador, "Trabajador", correoTrabajador, List.of("300"), List.of("TRABAJADOR"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
 
+        RequestNotificationDetails esperados = new RequestNotificationDetails(
+                r.getScheduledDateTime(), r.getNeighborhood(), r.getExactAddress(), r.getDescription());
         RequestResponse response = service.create(
                 new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
                         r.getExactAddress(), r.getScheduledDateTime(), null),
                 contratante);
 
-        verify(notificationService).notifyRequestCreated(contratante, response.rootId(), correo);
-        verify(notificationService).notifyNewRequest(eq(trabajador), any());
+        verify(notificationService).notifyRequestCreated(
+                contratante, response.rootId(), correo, esperados);
+        verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq(correoTrabajador), eq(esperados));
     }
 
     // ------------------------------------------------------------ utilidades

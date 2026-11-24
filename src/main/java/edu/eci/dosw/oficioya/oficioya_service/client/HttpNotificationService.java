@@ -34,36 +34,50 @@ public class HttpNotificationService implements NotificationService {
 
     @Override
     public void notifyNewRequest(UUID workerId, UUID requestId) {
-        send(workerId, "INCOMING_REQUEST", requestId, "Nueva solicitud de servicio cerca de ti", null);
+        notifyNewRequest(workerId, requestId, null, null);
+    }
+
+    @Override
+    public void notifyNewRequest(UUID workerId, UUID requestId, String receiverEmail,
+                                 RequestNotificationDetails details) {
+        send(workerId, "INCOMING_REQUEST", requestId, "Nueva solicitud de servicio cerca de ti",
+                receiverEmail, details);
     }
 
     @Override
     public void notifyRequestCreated(UUID contractorId, UUID requestId, String receiverEmail) {
+        notifyRequestCreated(contractorId, requestId, receiverEmail, null);
+    }
+
+    @Override
+    public void notifyRequestCreated(UUID contractorId, UUID requestId, String receiverEmail,
+                                     RequestNotificationDetails details) {
         send(contractorId, "REQUEST_CREATED", requestId,
-                "Tu solicitud fue creada y enviada a los trabajadores", receiverEmail);
+                "Tu solicitud fue creada y enviada a los trabajadores", receiverEmail, details);
     }
 
     @Override
     public void notifyAccepted(UUID contractorId, UUID requestId) {
-        send(contractorId, "ACCEPTED_REQUEST", requestId, "Tu solicitud fue aceptada", null);
+        send(contractorId, "ACCEPTED_REQUEST", requestId, "Tu solicitud fue aceptada", null, null);
     }
 
     @Override
     public void notifyCancelled(UUID receiverId, UUID requestId) {
-        send(receiverId, "CANCELLED_BY_CONTRACTOR", requestId, "Una solicitud fue cancelada", null);
+        send(receiverId, "CANCELLED_BY_CONTRACTOR", requestId, "Una solicitud fue cancelada", null, null);
     }
 
     @Override
     public void notifyCompleted(UUID contractorId, UUID requestId) {
-        send(contractorId, "COMPLETED_WORK", requestId, "El trabajo fue reportado como terminado", null);
+        send(contractorId, "COMPLETED_WORK", requestId, "El trabajo fue reportado como terminado", null, null);
     }
 
     @Override
     public void notifyRejected(UUID contractorId, UUID requestId) {
-        send(contractorId, "REJECTED_REQUEST", requestId, "El trabajo fue rechazado por el trabajador", null);
+        send(contractorId, "REJECTED_REQUEST", requestId, "El trabajo fue rechazado por el trabajador", null, null);
     }
 
-    private void send(UUID receiverId, String type, UUID requestId, String message, String receiverEmail) {
+    private void send(UUID receiverId, String type, UUID requestId, String message, String receiverEmail,
+                      RequestNotificationDetails details) {
         try {
             Map<String, Object> payload = new HashMap<>();
             payload.put("receiverId", receiverId);
@@ -72,6 +86,14 @@ public class HttpNotificationService implements NotificationService {
             payload.put("message", message);
             if (receiverEmail != null && !receiverEmail.isBlank()) {
                 payload.put("receiverEmail", receiverEmail.trim());
+            }
+            if (details != null) {
+                if (details.scheduledDateTime() != null) {
+                    payload.put("scheduledDateTime", details.scheduledDateTime().toString());
+                }
+                payload.put("neighborhood", details.neighborhood());
+                payload.put("exactAddress", details.exactAddress());
+                payload.put("description", details.description());
             }
 
             HttpHeaders headers = new HttpHeaders();
