@@ -43,10 +43,14 @@ public class RequestCompletionService {
             //TODO: Debería de cambiarse la exception para hacer handling
             throw new RuntimeException("Solo se pueden completar solicitudes en estado ACCEPTED");
         }
+
+        if(request.getScheduledDateTime().isAfter(LocalDateTime.now())){
+            //TODO: tirar una nueva exception
+        }
+
         request.setState(RequestState.COMPLETED);
         // Notificar al contratante que el trabajo fue completado (microservicio de notificaciones)
         notificationService.notifyCompleted(request.getContractorId(), requestId);
-        // Notificar a Reputation: servicio cumplido
         if (reputationClient != null) {
             reputationClient.notifyServiceCompleted(requestId, request.getWorkerId(), request.getContractorId(), LocalDateTime.now());
         }
