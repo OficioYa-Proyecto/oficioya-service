@@ -5649,3 +5649,323 @@ This generated password is for development use only. Your security configuration
 2026-11-24T21:28:14.455-05:00  INFO 3220 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-11-24T21:28:14.458-05:00  INFO 3220 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
 2026-11-24T21:28:14.461-05:00  INFO 3220 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:16:45.351-05:00  INFO 32676 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Starting OficioyaServiceApplicationTests using Java 26 with PID 32676 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-24T22:16:45.355-05:00  INFO 32676 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : The following 1 profile is active: "test"
+2026-11-24T22:16:48.319-05:00  INFO 32676 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-24T22:16:48.328-05:00  INFO 32676 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-24T22:16:48.531-05:00  INFO 32676 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 173 ms. Found 1 JPA repository interface.
+2026-11-24T22:16:50.660-05:00  INFO 32676 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-24T22:16:51.495-05:00  INFO 32676 --- [oficioya-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-24T22:16:51.502-05:00  INFO 32676 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-24T22:16:51.544-05:00  INFO 32676 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:testdb (H2 2.4)
+2026-11-24T22:16:51.716-05:00  WARN 32676 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-24T22:16:51.789-05:00  INFO 32676 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-24T22:16:51.795-05:00  INFO 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.024s)
+2026-11-24T22:16:51.795-05:00  WARN 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-24T22:16:51.815-05:00  INFO 32676 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-24T22:16:51.909-05:00  INFO 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-24T22:16:51.919-05:00  INFO 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-24T22:16:52.276-05:00  INFO 32676 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-24T22:16:52.542-05:00  INFO 32676 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-24T22:16:53.738-05:00  INFO 32676 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-24T22:16:53.889-05:00  WARN 32676 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-24T22:16:53.928-05:00  INFO 32676 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-24T22:16:55.963-05:00  INFO 32676 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-24T22:16:56.044-05:00  INFO 32676 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:16:56.833-05:00  INFO 32676 --- [oficioya-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-24T22:16:59.747-05:00  WARN 32676 --- [oficioya-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-24T22:16:59.986-05:00  WARN 32676 --- [oficioya-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 3969df9a-b0fc-451f-906f-1bea70591c89
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-11-24T22:17:00.030-05:00  INFO 32676 --- [oficioya-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-11-24T22:17:02.128-05:00  INFO 32676 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Started OficioyaServiceApplicationTests in 17.755 seconds (process running for 31.466)
+2026-11-24T22:17:02.137-05:00  WARN 32676 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-24T22:17:02.138-05:00  WARN 32676 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-24T22:17:02.203-05:00  INFO 32676 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:17:02.324-05:00  INFO 32676 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-24T22:17:02.327-05:00  INFO 32676 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:17:02.386-05:00  INFO 32676 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-24T22:17:02.512-05:00  INFO 32676 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Starting RequestRepositoryTest using Java 26 with PID 32676 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-24T22:17:02.512-05:00  INFO 32676 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : The following 1 profile is active: "test"
+2026-11-24T22:17:03.026-05:00  INFO 32676 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-24T22:17:03.027-05:00  INFO 32676 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-24T22:17:03.181-05:00  INFO 32676 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 150 ms. Found 1 JPA repository interface.
+2026-11-24T22:17:03.234-05:00  INFO 32676 --- [oficioya-service] [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-24T22:17:03.308-05:00  INFO 32676 --- [oficioya-service] [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:c779bada-c34c-4a24-872a-29fbee321d31;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-24T22:17:03.397-05:00  INFO 32676 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:c779bada-c34c-4a24-872a-29fbee321d31 (H2 2.4)
+2026-11-24T22:17:03.410-05:00  WARN 32676 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-24T22:17:03.417-05:00  INFO 32676 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-24T22:17:03.419-05:00  INFO 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.002s)
+2026-11-24T22:17:03.421-05:00  WARN 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-24T22:17:03.427-05:00  INFO 32676 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-24T22:17:03.442-05:00  INFO 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-24T22:17:03.443-05:00  INFO 32676 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-24T22:17:03.492-05:00  INFO 32676 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-24T22:17:03.543-05:00  INFO 32676 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-24T22:17:03.547-05:00  WARN 32676 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-24T22:17:03.548-05:00  INFO 32676 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:c779bada-c34c-4a24-872a-29fbee321d31]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: C779BADA-C34C-4A24-872A-29FBEE321D31/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-24T22:17:03.633-05:00  INFO 32676 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-24T22:17:03.643-05:00  INFO 32676 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:17:03.744-05:00  INFO 32676 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Started RequestRepositoryTest in 1.346 seconds (process running for 33.082)
+2026-11-24T22:17:04.723-05:00  INFO 32676 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:17:04.765-05:00  INFO 32676 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-24T22:17:04.767-05:00  INFO 32676 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:17:04.777-05:00  INFO 32676 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-24T22:17:04.804-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:04.805-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:04.807-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:05.108-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.108-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.111-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:05.139-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.141-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.144-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-24T22:17:05.250-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.252-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.254-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:05.282-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.284-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.288-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:17:05.312-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.312-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.315-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:05.379-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.379-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.383-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-24T22:17:05.413-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.414-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.417-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-24T22:17:05.475-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.476-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.480-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-11-24T22:17:05.517-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:05.517-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:05.520-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-24T22:17:07.479-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.479-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.481-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:17:07.511-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.511-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.514-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-24T22:17:07.538-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.538-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.540-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:07.553-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.554-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.555-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:17:07.569-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.571-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.572-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:17:07.588-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.589-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.591-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:07.618-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.618-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.620-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:07.644-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.645-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.645-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-24T22:17:07.658-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.658-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.659-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:17:07.688-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.688-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.691-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:17:07.730-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:07.731-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:07.733-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:08.757-05:00  INFO 32676 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:17:08.758-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:17:08.760-05:00  INFO 32676 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:17:09.992-05:00  INFO 32676 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request
+2026-11-24T22:17:10.005-05:00  INFO 32676 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request
+2026-11-24T22:17:10.170-05:00  INFO 32676 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request
+2026-11-24T22:17:10.301-05:00  INFO 32676 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:17:10.838-05:00  INFO 32676 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-24T22:17:10.842-05:00  INFO 32676 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-11-24T22:17:10.844-05:00  INFO 32676 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:17:53.003-05:00  INFO 30880 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Starting OficioyaServiceApplicationTests using Java 26 with PID 30880 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-24T22:17:53.006-05:00  INFO 30880 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : The following 1 profile is active: "test"
+2026-11-24T22:17:55.143-05:00  INFO 30880 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-24T22:17:55.147-05:00  INFO 30880 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-24T22:17:55.288-05:00  INFO 30880 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 122 ms. Found 1 JPA repository interface.
+2026-11-24T22:17:56.711-05:00  INFO 30880 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-24T22:17:57.236-05:00  INFO 30880 --- [oficioya-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-24T22:17:57.240-05:00  INFO 30880 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-24T22:17:57.276-05:00  INFO 30880 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:testdb (H2 2.4)
+2026-11-24T22:17:57.394-05:00  WARN 30880 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-24T22:17:57.453-05:00  INFO 30880 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-24T22:17:57.457-05:00  INFO 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.016s)
+2026-11-24T22:17:57.457-05:00  WARN 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-24T22:17:57.470-05:00  INFO 30880 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-24T22:17:57.538-05:00  INFO 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-24T22:17:57.544-05:00  INFO 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-24T22:17:57.788-05:00  INFO 30880 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-24T22:17:57.938-05:00  INFO 30880 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-24T22:17:58.645-05:00  INFO 30880 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-24T22:17:58.795-05:00  WARN 30880 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-24T22:17:58.839-05:00  INFO 30880 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-24T22:18:00.696-05:00  INFO 30880 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-24T22:18:00.806-05:00  INFO 30880 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:18:01.441-05:00  INFO 30880 --- [oficioya-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-24T22:18:03.848-05:00  WARN 30880 --- [oficioya-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-24T22:18:03.959-05:00  WARN 30880 --- [oficioya-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 302387da-0eed-42a2-9d37-7bca1f0a414d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-11-24T22:18:03.978-05:00  INFO 30880 --- [oficioya-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-11-24T22:18:05.367-05:00  INFO 30880 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Started OficioyaServiceApplicationTests in 13.238 seconds (process running for 22.474)
+2026-11-24T22:18:05.374-05:00  WARN 30880 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-24T22:18:05.374-05:00  WARN 30880 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-24T22:18:05.421-05:00  INFO 30880 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:18:05.504-05:00  INFO 30880 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-24T22:18:05.507-05:00  INFO 30880 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:18:05.550-05:00  INFO 30880 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-24T22:18:05.621-05:00  INFO 30880 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Starting RequestRepositoryTest using Java 26 with PID 30880 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-24T22:18:05.623-05:00  INFO 30880 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : The following 1 profile is active: "test"
+2026-11-24T22:18:05.858-05:00  INFO 30880 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-24T22:18:05.858-05:00  INFO 30880 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-24T22:18:05.911-05:00  INFO 30880 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 1 JPA repository interface.
+2026-11-24T22:18:05.939-05:00  INFO 30880 --- [oficioya-service] [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-24T22:18:05.981-05:00  INFO 30880 --- [oficioya-service] [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:190aec14-1924-4b24-8f53-4b86c95de9dd;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-24T22:18:06.007-05:00  INFO 30880 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:190aec14-1924-4b24-8f53-4b86c95de9dd (H2 2.4)
+2026-11-24T22:18:06.016-05:00  WARN 30880 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-24T22:18:06.020-05:00  INFO 30880 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-24T22:18:06.021-05:00  INFO 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.001s)
+2026-11-24T22:18:06.021-05:00  WARN 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-24T22:18:06.025-05:00  INFO 30880 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-24T22:18:06.034-05:00  INFO 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-24T22:18:06.034-05:00  INFO 30880 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-24T22:18:06.060-05:00  INFO 30880 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-24T22:18:06.100-05:00  INFO 30880 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-24T22:18:06.103-05:00  WARN 30880 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-24T22:18:06.104-05:00  INFO 30880 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:190aec14-1924-4b24-8f53-4b86c95de9dd]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: 190AEC14-1924-4B24-8F53-4B86C95DE9DD/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-24T22:18:06.184-05:00  INFO 30880 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-24T22:18:06.193-05:00  INFO 30880 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:18:06.285-05:00  INFO 30880 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Started RequestRepositoryTest in 0.726 seconds (process running for 23.391)
+2026-11-24T22:18:06.994-05:00  INFO 30880 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:18:07.025-05:00  INFO 30880 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-24T22:18:07.026-05:00  INFO 30880 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-24T22:18:07.034-05:00  INFO 30880 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-24T22:18:07.054-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.054-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.056-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:07.297-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.298-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.299-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:07.323-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.324-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.326-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:18:07.401-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.401-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.404-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:07.419-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.420-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.423-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-24T22:18:07.444-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.445-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.447-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:18:07.486-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.486-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.488-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:07.505-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.505-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.507-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:07.539-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.540-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.543-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-24T22:18:07.558-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:07.558-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:07.559-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.667-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.667-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.669-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:18:09.695-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.696-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.697-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.719-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.720-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.722-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-24T22:18:09.736-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.736-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.737-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.753-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.754-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.755-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.770-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.770-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.771-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.794-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.795-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.795-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-24T22:18:09.818-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.818-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.819-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.833-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.834-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.835-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.853-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.854-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.855-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:09.887-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:09.887-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:09.888-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:10.794-05:00  INFO 30880 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-24T22:18:10.794-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-24T22:18:10.795-05:00  INFO 30880 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-24T22:18:11.857-05:00  INFO 30880 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request
+2026-11-24T22:18:11.871-05:00  INFO 30880 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request
+2026-11-24T22:18:12.037-05:00  INFO 30880 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request
+2026-11-24T22:18:12.183-05:00  INFO 30880 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-24T22:18:12.757-05:00  INFO 30880 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-24T22:18:12.761-05:00  INFO 30880 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-11-24T22:18:12.764-05:00  INFO 30880 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
