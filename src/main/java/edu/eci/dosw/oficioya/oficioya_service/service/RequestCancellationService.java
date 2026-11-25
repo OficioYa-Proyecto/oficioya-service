@@ -46,13 +46,13 @@ public class RequestCancellationService {
             throw new RecursoNoEncontradoException("NO_ENCONTRADO");
         }
 
-        /*
+        
         if (userClient != null) {
             UserResponse user = userClient.getUser(userId);
             if (user == null || user.roles() == null) {
                 throw new RecursoNoEncontradoException("Usuario no válido o inactivo");
             }
-        }*/
+        }
 
         Request found = requestRepository.findById(requestId).orElse(null);
 
