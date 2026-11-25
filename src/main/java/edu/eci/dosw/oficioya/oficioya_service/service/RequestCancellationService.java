@@ -56,14 +56,14 @@ public class RequestCancellationService {
 
         Request found = requestRepository.findById(requestId).orElse(null);
 
-        if(userId != found.getContractorId() && userId != found.getWorkerId()){
+        if(!userId.equals(found.getContractorId()) && !userId.equals(found.getWorkerId())){
             throw new RecursosAjenosException();
         }
 
-        if(userId == found.getContractorId()){
+        if(userId.equals(found.getContractorId())){
             cancelByClient(requestId, userId);
         }
-        else if(userId == found.getWorkerId()){
+        else if(userId.equals(found.getWorkerId())){
             cancelByWorker(requestId, userId);
         }
 
