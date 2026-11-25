@@ -61,4 +61,10 @@ public class ApiExceptionHandler {
         return ResponseEntity.badRequest().body(
                 ApiError.of(422, "Lista de worker vacía", "Cuerpo de la petición no cumple", req.getRequestURI()));
     }
+
+    @ExceptionHandler(RecursosAjenosException.class)
+    public ResponseEntity<ApiError> recursosDeOtro(RecursosAjenosException ex, HttpServletRequest req) {
+        return ResponseEntity.badRequest().body(
+                ApiError.of(403, "Recurso no es propio", ex.getMessage(), req.getRequestURI()));
+    }
 }
