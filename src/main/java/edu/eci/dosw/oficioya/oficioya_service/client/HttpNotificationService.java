@@ -116,6 +116,30 @@ public class HttpNotificationService implements NotificationService {
         send(contractorId, "REJECTED_REQUEST", requestId, "El trabajo fue rechazado por el trabajador", null, null);
     }
 
+    @Override
+    public void notifyRoleRemovalEmail(String type, UUID receiverId, String receiverEmail,
+                                       UUID requestId, String subject, String body) {
+        if (receiverEmail == null || receiverEmail.isBlank()) {
+            log.warn("No se envió correo {} de quita de rol: destinatario vacío", type);
+            return;
+        }
+        try {
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("to", receiverEmail.trim());
+            payload.put("subject", subject);
+            payload.put("body", body);
+            payload.put("type", type);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+            restTemplate.postForEntity(baseUrl + "/api/v1/notification/email", entity, String.class);
+            log.info("Correo {} de quita de rol enviado a {}", type, receiverEmail.trim());
+        } catch (Exception e) {
+            log.warn("No se pudo enviar correo {} de quita de rol a {}: {}", type, receiverEmail, e.getMessage());
+        }
+    }
+
     private void send(UUID receiverId, String type, UUID requestId, String message, String receiverEmail,
                       RequestNotificationDetails details) {
         try {
