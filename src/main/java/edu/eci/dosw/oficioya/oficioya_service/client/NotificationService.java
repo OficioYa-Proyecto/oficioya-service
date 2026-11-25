@@ -22,10 +22,38 @@ public interface NotificationService {
         notifyRequestCreated(contractorId, requestId, receiverEmail);
     }
 
-    void notifyAccepted(UUID contractorId, UUID requestId);
+    void notifyAccepted(UUID receiverId, UUID requestId);
     void notifyCancelled(UUID receiverId, UUID requestId);
-    void notifyCompleted(UUID contractorId, UUID requestId);
-    void notifyRejected(UUID contractorId, UUID requestId);
+    void notifyCompleted(UUID receiverId, UUID requestId);
+    void notifyRejected(UUID receiverId, UUID requestId);
+
+    /**
+     * Variantes con correo del destinatario. Las implementaciones que no envían
+     * correo siguen recibiendo la notificación básica.
+     */
+    default void notifyAccepted(UUID receiverId, UUID requestId, String receiverEmail) {
+        notifyAccepted(receiverId, requestId);
+    }
+
+    default void notifyRejected(UUID receiverId, UUID requestId, String receiverEmail) {
+        notifyRejected(receiverId, requestId);
+    }
+
+    default void notifyCompleted(UUID receiverId, UUID requestId, String receiverEmail) {
+        notifyCompleted(receiverId, requestId);
+    }
+
+    default void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail) {
+        notifyCancelled(receiverId, requestId);
+    }
+
+    /**
+     * Permite distinguir quién canceló: Notification tiene un tipo por lado.
+     * Por defecto se mantiene el tipo histórico de cancelación por contratante.
+     */
+    default void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail, String type) {
+        notifyCancelled(receiverId, requestId, receiverEmail);
+    }
 
     /**
      * RF-13. Correos de quita de rol. El cuerpo ya viene armado desde Service;

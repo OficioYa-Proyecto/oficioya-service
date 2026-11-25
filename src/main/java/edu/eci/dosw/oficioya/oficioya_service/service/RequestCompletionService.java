@@ -4,10 +4,13 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
+import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
+import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.exception.RecursoNoEncontradoException;
 import edu.eci.dosw.oficioya.oficioya_service.exception.RecursosAjenosException;
@@ -23,12 +26,20 @@ public class RequestCompletionService {
     private final RequestMapper requestMapper;
     private final NotificationService notificationService;
     private final ReputationClient reputationClient;
+    private final UserClient userClient;
 
     public RequestCompletionService(RequestRepository requestRepository, RequestMapper requestMapper, NotificationService notificationService, ReputationClient reputationClient) {
+        this(requestRepository, requestMapper, notificationService, reputationClient, null);
+    }
+
+    @Autowired
+    public RequestCompletionService(RequestRepository requestRepository, RequestMapper requestMapper, NotificationService notificationService,
+                                    ReputationClient reputationClient, UserClient userClient) {
         this.requestRepository = requestRepository;
         this.requestMapper = requestMapper;
         this.notificationService = notificationService;
         this.reputationClient = reputationClient;
+        this.userClient = userClient;
     }
 
     public RequestModel completeRequest(UUID requestId, UUID workerId) {
@@ -50,11 +61,24 @@ public class RequestCompletionService {
 
         request.setState(RequestState.COMPLETED);
         // Notificar al contratante que el trabajo fue completado (microservicio de notificaciones)
-        notificationService.notifyCompleted(request.getContractorId(), requestId);
+        notificationService.notifyCompleted(request.getContractorId(), requestId,
+                emailOf(request.getContractorId()));
         if (reputationClient != null) {
             reputationClient.notifyServiceCompleted(requestId, request.getWorkerId(), request.getContractorId(), LocalDateTime.now());
         }
 
         return requestMapper.toModel(requestRepository.save(request));
+    }
+
+    private String emailOf(UUID userId) {
+        if (userClient == null || userId == null) {
+            return null;
+        }
+        try {
+            UserResponse user = userClient.getUser(userId);
+            return user != null ? user.email() : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
