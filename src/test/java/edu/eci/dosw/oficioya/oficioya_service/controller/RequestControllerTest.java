@@ -84,14 +84,16 @@ public class RequestControllerTest {
                 new MockMultipartFile("images", "a.png", "image/png", new byte[]{1}),
                 new MockMultipartFile("images", "b.png", "image/png", new byte[]{2}));
         RequestRequest req = mock(RequestRequest.class);
-        when(requestService.create(eq(req), eq(userId), any(UUID.class),eq(authHeader))).thenAnswer(invocation ->
+        when(requestService.create(eq(req), eq(userId), any(UUID.class), eq(authHeader),
+                eq("AQ=="), eq("image/png"))).thenAnswer(invocation ->
                 new RequestResponse(invocation.getArgument(2), List.of(), "Fuga", null, 0));
 
         RequestResponse result = requestController.create(req, images, authHeader, authentication);
 
         ArgumentCaptor<UUID> rootIdCaptor = ArgumentCaptor.forClass(UUID.class);
         verify(imageService).addImages(eq(images), rootIdCaptor.capture(), isNull(), eq(authHeader));
-        verify(requestService).create(eq(req), eq(userId), eq(rootIdCaptor.getValue()),eq(authHeader));
+        verify(requestService).create(eq(req), eq(userId), eq(rootIdCaptor.getValue()), eq(authHeader),
+                eq("AQ=="), eq("image/png"));
         assertEquals(rootIdCaptor.getValue(), result.rootId());
     }
 

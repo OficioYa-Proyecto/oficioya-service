@@ -85,6 +85,10 @@ public class HttpNotificationService implements NotificationService {
             if (details.imageUrl() != null) {
                 context.put("imageUrl", details.imageUrl());
             }
+            if (details.imageBase64() != null && !details.imageBase64().isBlank()) {
+                context.put("imageBase64", details.imageBase64());
+                context.put("imageContentType", details.imageContentType());
+            }
         }
         sendWithActions(workerId, "INCOMING_REQUEST", requestId,
                 "Nueva solicitud de servicio cerca de ti", receiverEmail, context);
@@ -195,6 +199,10 @@ public class HttpNotificationService implements NotificationService {
                 payload.put("description", details.description());
                 if (details.imageUrl() != null) {
                     payload.put("imageUrl", details.imageUrl());
+                }
+                if (details.imageBase64() != null && !details.imageBase64().isBlank()) {
+                    payload.put("imageBase64", details.imageBase64());
+                    payload.put("imageContentType", details.imageContentType());
                 }
             }
 
