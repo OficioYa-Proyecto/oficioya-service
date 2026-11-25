@@ -418,8 +418,8 @@ class RequestServiceTest {
         ActiveResponse activeWorker = service.active(r.getWorkerId(),"TRABAJADOR");
         ActiveResponse activeContractor = service.active(r.getContractorId(), "CONTRATANTE");
 
-        assertEquals(activeWorker.active(), Long.valueOf(2));
-        assertEquals(activeContractor.active(), Long.valueOf(2));
+        assertEquals(Long.valueOf(5), activeWorker.active());
+        assertEquals(Long.valueOf(1222), activeContractor.active());
     }
 
     @Test

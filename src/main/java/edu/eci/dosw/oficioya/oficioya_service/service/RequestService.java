@@ -416,22 +416,18 @@ public class RequestService {
             }
         }
 
-        if (rol.equals("CONTRATANTE")){
+        if ("CONTRATANTE".equals(rol)){
             count = requestRepository.countActiveContractor(userId);
         }
-        else if (rol.equals("TRABAJADOR")){
+        else if ("TRABAJADOR".equals(rol)){
             count = requestRepository.countActiveWorker(userId);
         }
         else{
             throw new RolNoPermitidoException("Rol no permitido");
         }
 
-        if (count > 0){
-            return new ActiveResponse(Long.valueOf(2));
-        }
-        else{
-            return new ActiveResponse(Long.valueOf(1));
-        }
-
+        // Users usa este valor para impedir quitar un rol con solicitudes activas;
+        // debe ser el conteo real, no un indicador 1/2.
+        return new ActiveResponse(Long.valueOf(count));
     }
 }
