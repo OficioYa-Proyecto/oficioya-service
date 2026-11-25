@@ -48,7 +48,13 @@ public class HttpNotificationService implements NotificationService {
     HttpNotificationService(String baseUrl, EmailActionLinkService emailActionLinkService,
                             String serviceToken, JwtUtil jwtUtil, RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        String normalizedUrl = baseUrl == null ? "" : baseUrl.trim();
+        if (!normalizedUrl.matches("(?i)^https?://.*")) {
+            normalizedUrl = "https://" + normalizedUrl;
+        }
+        this.baseUrl = normalizedUrl.endsWith("/")
+                ? normalizedUrl.substring(0, normalizedUrl.length() - 1)
+                : normalizedUrl;
         this.emailActionLinkService = emailActionLinkService;
         this.configuredToken = serviceToken;
         this.jwtUtil = jwtUtil;

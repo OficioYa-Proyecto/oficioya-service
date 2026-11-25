@@ -117,6 +117,22 @@ class HttpNotificationServiceTest {
     }
 
     @Test
+    @DisplayName("Normaliza la URL de Notification cuando llega sin esquema")
+    void notificationUrlSinEsquema() {
+        RestTemplate rest = new RestTemplate();
+        HttpNotificationService sinEsquema = new HttpNotificationService(
+                "notification.test/", emailActionLinkService, "", null, rest);
+        MockRestServiceServer servidor = MockRestServiceServer.bindTo(rest).build();
+
+        servidor.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(jsonPath("$.type").value("REQUEST_CREATED"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        sinEsquema.notifyRequestCreated(contractorId(), requestId, "contractor@test.com");
+        servidor.verify();
+    }
+
+    @Test
     @DisplayName("Cada llamada a Notification lleva el token de servicio")
     void notificacionesConTokenDeServicio() {
         when(jwtUtil.generateServiceToken()).thenReturn("service-token");
