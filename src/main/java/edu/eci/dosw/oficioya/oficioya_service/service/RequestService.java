@@ -81,10 +81,15 @@ public class RequestService {
     }
 
     public RequestResponse create(RequestRequest req, UUID contractorId, String authHeader){
-        return create(req, contractorId, UUID.randomUUID(), authHeader);
+        return create(req, contractorId, UUID.randomUUID(), authHeader, null, null);
     }
 
     public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId, String authHeader){
+        return create(req, contractorId, rootId, authHeader, null, null);
+    }
+
+    public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId, String authHeader,
+                                  String imageBase64, String imageContentType){
         log.info("Creando una nueva request como usuario: {}", contractorId);
         List<UUID> workers = req.workersId();
 
@@ -172,7 +177,7 @@ public class RequestService {
         // Las imágenes se suben antes de crear las solicitudes, usando el mismo rootId.
         RequestNotificationDetails details = new RequestNotificationDetails(
                 req.scheduledDateTime(), req.neighborhood(), req.exactAddress(), req.description(),
-                firstImageUrl(newRootId, authHeader));
+                firstImageUrl(newRootId, authHeader), imageBase64, imageContentType);
 
         // Se notifica después de persistir para que los requestId ya estén asignados.
         savedRequests.forEach(w -> notificationService.notifyNewRequest(

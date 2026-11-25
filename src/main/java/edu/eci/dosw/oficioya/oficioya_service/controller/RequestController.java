@@ -1,6 +1,7 @@
 package edu.eci.dosw.oficioya.oficioya_service.controller;
 
 import java.net.URI;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -83,7 +84,22 @@ public class RequestController {
         UUID rootId = UUID.randomUUID();
         imageService.addImages(images, rootId, null, authHeader);
 
-        return requestService.create(req, CurrentUser.id(authentication), rootId, authHeader);
+        String imageBase64 = null;
+        String imageContentType = null;
+        if (images != null && !images.isEmpty()) {
+            MultipartFile first = images.get(0);
+            if (first != null && !first.isEmpty()) {
+                try {
+                    imageBase64 = Base64.getEncoder().encodeToString(first.getBytes());
+                    imageContentType = first.getContentType();
+                } catch (Exception e) {
+                    log.warn("No se pudo adjuntar la primera foto al correo: {}", e.getMessage());
+                }
+            }
+        }
+
+        return requestService.create(req, CurrentUser.id(authentication), rootId, authHeader,
+                imageBase64, imageContentType);
     }
 
     /*
