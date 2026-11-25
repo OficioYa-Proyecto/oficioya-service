@@ -18,9 +18,12 @@ import jakarta.validation.Valid;
  * RF-13. Users resuelve la petición de quita de rol y Service construye los
  * correos: uno al administrador cuando se solicita y uno al contratante o
  * trabajador cuando se aprueba o se rechaza.
+ *
+ * Se publica dentro de /api/v1/requests/** porque es el prefijo que el
+ * Orquestador ya reenvía a Service; así no hace falta tocar el gateway.
  */
 @RestController
-@RequestMapping("/api/v1/role-removals")
+@RequestMapping("/api/v1/requests/role-removals")
 @Tag(name = "Role removals", description = "Correos de peticiones para dejar de ser contratante o trabajador")
 public class RoleRemovalNotificationController {
 
