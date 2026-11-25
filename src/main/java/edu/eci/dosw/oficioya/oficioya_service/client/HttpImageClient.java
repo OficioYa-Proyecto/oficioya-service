@@ -51,7 +51,7 @@ public class HttpImageClient implements ImageClient{
         
         try {
             body = restClient.get()
-                    .uri(uri -> uri.path("/by-root/{rootId}")
+                    .uri(uri -> uri.path("/api/v1/by-root/{rootId}")
                         .queryParam("tipo", "REQUESTS")
                         .build(rootId))
                     
@@ -77,7 +77,7 @@ public class HttpImageClient implements ImageClient{
             body.add("referenciaExterna", referenciaExterna);
         }
         restClient.post()
-            .uri("/batch")
+            .uri("/api/v1/batch")
             .header(HttpHeaders.AUTHORIZATION, authHeader)
             .contentType(MediaType.MULTIPART_FORM_DATA)
             .body(body)

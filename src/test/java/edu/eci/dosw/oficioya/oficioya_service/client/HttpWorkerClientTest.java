@@ -39,7 +39,7 @@ class HttpWorkerClientTest {
     @Test
     @DisplayName("Un trabajador activo se considera existente y recibe el token de la petición")
     void trabajadorActivoExiste() {
-        server.expect(requestTo("https://worker.test/workers/" + workerId))
+        server.expect(requestTo("https://worker.test/api/v1/workers/" + workerId))
                 .andExpect(method(HttpMethod.GET))
                 .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer token-de-usuario"))
                 .andRespond(withSuccess(respuesta("ACTIVE"), MediaType.APPLICATION_JSON));
@@ -51,7 +51,7 @@ class HttpWorkerClientTest {
     @Test
     @DisplayName("Un trabajador pausado no es destinatario de nuevas solicitudes")
     void trabajadorPausadoNoExiste() {
-        server.expect(requestTo("https://worker.test/workers/" + workerId))
+        server.expect(requestTo("https://worker.test/api/v1/workers/" + workerId))
                 .andRespond(withSuccess(respuesta("PAUSED"), MediaType.APPLICATION_JSON));
 
         assertFalse(client.exists(workerId, "Bearer token"));
@@ -61,7 +61,7 @@ class HttpWorkerClientTest {
     @Test
     @DisplayName("Si Workers falla, el trabajador se descarta sin romper la creación")
     void errorDeWorkersDescartaTrabajador() {
-        server.expect(requestTo("https://worker.test/workers/" + workerId))
+        server.expect(requestTo("https://worker.test/api/v1/workers/" + workerId))
                 .andRespond(withServerError());
 
         assertFalse(client.exists(workerId, "Bearer token"));

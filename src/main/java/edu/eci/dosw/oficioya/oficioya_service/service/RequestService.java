@@ -85,7 +85,7 @@ public class RequestService {
     }
 
     public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId, String authHeader){
-        log.info("Creando una nueva request");
+        log.info("Creando una nueva request como usuario: {}", contractorId);
         List<UUID> workers = req.workersId();
 
         if(workers.size() <= 0){

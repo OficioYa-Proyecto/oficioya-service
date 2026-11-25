@@ -55,7 +55,7 @@ public class HttpWorkerClient implements WorkerClient {
 
         try {
             ResponseEntity<WorkerResponse> body = restClient.get()
-                    .uri("/workers/{id}", workerId)
+                    .uri("/api/v1/workers/{id}", workerId)
                     .header(HttpHeaders.AUTHORIZATION, authHeader)
                     .retrieve()
                     .toEntity(WorkerResponse.class);
