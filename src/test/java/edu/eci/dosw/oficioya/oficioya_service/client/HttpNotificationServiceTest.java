@@ -8,6 +8,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -70,6 +71,27 @@ class HttpNotificationServiceTest {
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 
         service.notifyNewRequest(workerId, requestId, " worker@test.com ", details);
+        server.verify();
+    }
+
+    @Test
+    @DisplayName("El carrusel viaja como listas paralelas de fotos y tipos MIME")
+    void notifyNewRequestIncluyeCarrusel() {
+        when(emailActionLinkService.acceptUrl(workerId, requestId)).thenReturn("https://service.test/accept");
+        when(emailActionLinkService.rejectUrl(workerId, requestId)).thenReturn("https://service.test/reject");
+        RequestNotificationDetails details = new RequestNotificationDetails(
+                LocalDateTime.of(2026, 11, 25, 10, 30), "Chapinero", "Calle 1", "Reparar fuga", null,
+                "YQ==", "image/jpeg",
+                List.of(new RequestNotificationPhoto("YQ==", "image/jpeg"),
+                        new RequestNotificationPhoto("Yg==", "image/png")));
+
+        server.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(jsonPath("$.photoBase64s[0]").value("YQ=="))
+                .andExpect(jsonPath("$.photoBase64s[1]").value("Yg=="))
+                .andExpect(jsonPath("$.photoContentTypes[1]").value("image/png"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        service.notifyNewRequest(workerId, requestId, "worker@test.com", details);
         server.verify();
     }
 

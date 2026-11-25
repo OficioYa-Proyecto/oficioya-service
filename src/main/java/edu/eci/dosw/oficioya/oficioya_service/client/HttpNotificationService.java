@@ -1,6 +1,8 @@
 package edu.eci.dosw.oficioya.oficioya_service.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -85,6 +87,11 @@ public class HttpNotificationService implements NotificationService {
             if (details.imageUrl() != null) {
                 context.put("imageUrl", details.imageUrl());
             }
+            if (details.imageBase64() != null && !details.imageBase64().isBlank()) {
+                context.put("imageBase64", details.imageBase64());
+                context.put("imageContentType", details.imageContentType());
+            }
+            putPhotos(context, details);
         }
         sendWithActions(workerId, "INCOMING_REQUEST", requestId,
                 "Nueva solicitud de servicio cerca de ti", receiverEmail, context);
@@ -196,12 +203,38 @@ public class HttpNotificationService implements NotificationService {
                 if (details.imageUrl() != null) {
                     payload.put("imageUrl", details.imageUrl());
                 }
+                if (details.imageBase64() != null && !details.imageBase64().isBlank()) {
+                    payload.put("imageBase64", details.imageBase64());
+                    payload.put("imageContentType", details.imageContentType());
+                }
+                putPhotos(payload, details);
             }
 
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, buildHeaders());
             restTemplate.postForEntity(baseUrl + "/api/v1/notification", entity, String.class);
         } catch (Exception e) {
             log.warn("No se pudo enviar notificación {} a {} vía {}: {}", type, receiverId, baseUrl, e.getMessage());
+        }
+    }
+
+    /** Fotos del carrusel: listas paralelas de base64 y tipo MIME, sin tocar el campo de una sola foto. */
+    private static void putPhotos(Map<String, Object> payload, RequestNotificationDetails details) {
+        if (details == null || details.photos() == null || details.photos().isEmpty()) {
+            return;
+        }
+        List<String> base64s = new ArrayList<>();
+        List<String> contentTypes = new ArrayList<>();
+        for (RequestNotificationPhoto photo : details.photos()) {
+            if (photo == null || photo.base64() == null || photo.base64().isBlank()) {
+                continue;
+            }
+            base64s.add(photo.base64());
+            contentTypes.add(photo.contentType() == null || photo.contentType().isBlank()
+                    ? "image/jpeg" : photo.contentType());
+        }
+        if (!base64s.isEmpty()) {
+            payload.put("photoBase64s", base64s);
+            payload.put("photoContentTypes", contentTypes);
         }
     }
 

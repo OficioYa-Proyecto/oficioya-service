@@ -1,8 +1,19 @@
 package edu.eci.dosw.oficioya.oficioya_service.controller;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationPhoto;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ActiveResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestRequest;
 import edu.eci.dosw.oficioya.oficioya_service.dto.RequestResponse;
@@ -83,7 +95,80 @@ public class RequestController {
         UUID rootId = UUID.randomUUID();
         imageService.addImages(images, rootId, null, authHeader);
 
-        return requestService.create(req, CurrentUser.id(authentication), rootId, authHeader);
+        String imageBase64 = null;
+        String imageContentType = null;
+        if (images != null && !images.isEmpty()) {
+            MultipartFile first = images.get(0);
+            if (first != null && !first.isEmpty()) {
+                try {
+                    imageBase64 = Base64.getEncoder().encodeToString(first.getBytes());
+                    imageContentType = first.getContentType();
+                } catch (Exception e) {
+                    log.warn("No se pudo adjuntar la primera foto al correo: {}", e.getMessage());
+                }
+            }
+        }
+
+        List<RequestNotificationPhoto> photos = emailPhotos(images);
+        if (photos.isEmpty()) {
+            return requestService.create(req, CurrentUser.id(authentication), rootId, authHeader,
+                    imageBase64, imageContentType);
+        }
+        return requestService.create(req, CurrentUser.id(authentication), rootId, authHeader,
+                imageBase64, imageContentType, photos);
+    }
+
+    /**
+     * Prepara hasta tres fotos pequeñas en JPEG para el carrusel del correo.
+     * Recortar y reducir aquí evita enviar varios megabytes por notificación.
+     */
+    private List<RequestNotificationPhoto> emailPhotos(List<MultipartFile> images) {
+        if (images == null || images.isEmpty()) {
+            return List.of();
+        }
+        List<RequestNotificationPhoto> photos = new ArrayList<>();
+        for (MultipartFile image : images) {
+            if (photos.size() >= 3) {
+                break;
+            }
+            if (image == null || image.isEmpty()) {
+                continue;
+            }
+            try {
+                BufferedImage source = ImageIO.read(image.getInputStream());
+                if (source == null) {
+                    continue;
+                }
+                BufferedImage small = new BufferedImage(720, 420, BufferedImage.TYPE_INT_RGB);
+                Graphics2D graphics = small.createGraphics();
+                graphics.setColor(Color.WHITE);
+                graphics.fillRect(0, 0, small.getWidth(), small.getHeight());
+                double scale = Math.max(720.0 / source.getWidth(), 420.0 / source.getHeight());
+                int cropWidth = Math.max(1, (int) Math.round(720 / scale));
+                int cropHeight = Math.max(1, (int) Math.round(420 / scale));
+                int x = Math.max(0, (source.getWidth() - cropWidth) / 2);
+                int y = Math.max(0, (source.getHeight() - cropHeight) / 2);
+                graphics.drawImage(source, 0, 0, 720, 420, x, y, x + cropWidth, y + cropHeight, null);
+                graphics.dispose();
+
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+                ImageWriteParam params = writer.getDefaultWriteParam();
+                params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+                params.setCompressionQuality(0.72f);
+                try (ImageOutputStream stream = ImageIO.createImageOutputStream(output)) {
+                    writer.setOutput(stream);
+                    writer.write(null, new IIOImage(small, null, null), params);
+                } finally {
+                    writer.dispose();
+                }
+                photos.add(new RequestNotificationPhoto(
+                        Base64.getEncoder().encodeToString(output.toByteArray()), "image/jpeg"));
+            } catch (Exception e) {
+                log.warn("No se pudo preparar una foto para el correo: {}", e.getMessage());
+            }
+        }
+        return photos;
     }
 
     /*

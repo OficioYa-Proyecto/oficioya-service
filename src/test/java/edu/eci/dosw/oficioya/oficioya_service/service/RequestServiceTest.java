@@ -516,7 +516,7 @@ class RequestServiceTest {
         r.setWorkerId(trabajador);
         String url = "https://images.test/fuga.jpg";
         String authHeader = "token-prueba";
-        when(imageClient.getImages(rootId)).thenReturn(List.of(
+        when(imageClient.getImages(rootId, authHeader)).thenReturn(List.of(
                 new ImageResponse(null, rootId, "fuga.jpg", "image/jpeg", 1L,
                         LocalDateTime.now(), null, url, contratante)));
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
