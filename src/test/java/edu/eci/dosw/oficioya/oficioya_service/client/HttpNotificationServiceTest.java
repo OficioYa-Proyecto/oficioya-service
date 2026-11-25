@@ -117,6 +117,22 @@ class HttpNotificationServiceTest {
     }
 
     @Test
+    @DisplayName("Normaliza la URL de Notification cuando llega sin esquema")
+    void notificationUrlSinEsquema() {
+        RestTemplate rest = new RestTemplate();
+        HttpNotificationService sinEsquema = new HttpNotificationService(
+                "notification.test/", emailActionLinkService, "", null, rest);
+        MockRestServiceServer servidor = MockRestServiceServer.bindTo(rest).build();
+
+        servidor.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(jsonPath("$.type").value("REQUEST_CREATED"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        sinEsquema.notifyRequestCreated(contractorId(), requestId, "contractor@test.com");
+        servidor.verify();
+    }
+
+    @Test
     @DisplayName("Cada llamada a Notification lleva el token de servicio")
     void notificacionesConTokenDeServicio() {
         when(jwtUtil.generateServiceToken()).thenReturn("service-token");
@@ -139,6 +155,25 @@ class HttpNotificationServiceTest {
         autenticada.notifyRequestCreated(contractorId(), requestId, "contractor@test.com");
         autenticada.notifyNewRequest(workerId, requestId, "worker@test.com", null);
         servidorAutenticado.verify();
+    }
+
+    @Test
+    @DisplayName("El correo de quita de rol lleva el token de servicio")
+    void correoDeQuitaDeRolConTokenDeServicio() {
+        when(jwtUtil.generateServiceToken()).thenReturn("service-token");
+        RestTemplate rest = new RestTemplate();
+        HttpNotificationService autenticada = new HttpNotificationService(
+                "https://notification.test/", emailActionLinkService, "", jwtUtil, rest);
+        MockRestServiceServer servidor = MockRestServiceServer.bindTo(rest).build();
+
+        servidor.expect(requestTo("https://notification.test/api/v1/notification/email"))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer service-token"))
+                .andExpect(jsonPath("$.type").value("ROLE_REMOVAL_APPROVED"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        autenticada.notifyRoleRemovalEmail("ROLE_REMOVAL_APPROVED", contractorId(),
+                "contratante@test.com", requestId, "Asunto", "Cuerpo");
+        servidor.verify();
     }
 
     private UUID contractorId() {
