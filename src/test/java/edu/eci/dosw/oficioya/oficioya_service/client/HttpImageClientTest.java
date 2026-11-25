@@ -43,9 +43,9 @@ class HttpImageClientTest {
     }
 
     @Test
-    @DisplayName("Obtiene las imágenes de una solicitud filtrando por el tipo REQUESTS")
+    @DisplayName("Obtiene las imágenes de una solicitud filtrando por el tipo REQUEST")
     void obtieneImagenes() {
-        String url = "https://images.test/api/v1/by-root/" + rootId + "?tipo=REQUESTS";
+        String url = "https://images.test/api/v1/images/by-root/" + rootId + "?tipo=REQUEST";
         server.expect(requestTo(url))
                 .andExpect(method(HttpMethod.GET))
                 .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer service-token"))
@@ -72,7 +72,7 @@ class HttpImageClientTest {
         server = MockRestServiceServer.bindTo(builder).build();
         client = new HttpImageClient(builder.build(), null, jwtUtil);
 
-        server.expect(requestTo("https://images.test/api/v1/by-root/" + rootId + "?tipo=REQUESTS"))
+        server.expect(requestTo("https://images.test/api/v1/images/by-root/" + rootId + "?tipo=REQUEST"))
                 .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer generated-token"))
                 .andRespond(withSuccess("[]", MediaType.APPLICATION_JSON));
 
@@ -83,7 +83,7 @@ class HttpImageClientTest {
     @Test
     @DisplayName("Si Images no responde, la solicitud se crea sin imágenes")
     void errorDeImagesDevuelveListaVacia() {
-        server.expect(requestTo("https://images.test/api/v1/by-root/" + rootId + "?tipo=REQUESTS"))
+        server.expect(requestTo("https://images.test/api/v1/images/by-root/" + rootId + "?tipo=REQUEST"))
                 .andRespond(withServerError());
 
         assertTrue(client.getImages(rootId).isEmpty());
@@ -95,7 +95,8 @@ class HttpImageClientTest {
     void subeImagenesConReferencia() {
         List<MultipartFile> files = List.of(new MockMultipartFile("images", "fuga.jpg", "image/jpeg", new byte[]{1, 2}));
 
-        server.expect(requestTo("https://images.test/api/v1/batch"))
+        server.expect(requestTo("https://images.test/api/v1/images/batch?rootId=" + rootId
+                        + "&tipo=REQUEST&referenciaExterna=REF-1"))
                 .andExpect(method(HttpMethod.POST))
                 .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer token"))
                 .andExpect(header(HttpHeaders.CONTENT_TYPE, startsWith("multipart/form-data")))
@@ -110,7 +111,8 @@ class HttpImageClientTest {
     void subeImagenesSinReferencia() {
         List<MultipartFile> files = List.of(new MockMultipartFile("images", "fuga.jpg", "image/jpeg", new byte[]{1}));
 
-        server.expect(requestTo("https://images.test/api/v1/batch"))
+        server.expect(requestTo("https://images.test/api/v1/images/batch?rootId=" + rootId
+                        + "&tipo=REQUEST"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 
         assertDoesNotThrow(() -> client.uploadImages(files, rootId, null, "Bearer token"));
