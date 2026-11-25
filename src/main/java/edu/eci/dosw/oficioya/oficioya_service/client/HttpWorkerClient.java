@@ -50,6 +50,7 @@ public class HttpWorkerClient implements WorkerClient {
 
     @Override
     public boolean exists(UUID workerId, String authHeader) {
+        log.info("Buscando con id: {}", workerId);
         WorkerResponse response = null;
 
         try {
@@ -61,14 +62,17 @@ public class HttpWorkerClient implements WorkerClient {
             
             response = body.getBody();
         } catch (Exception exception) {
+            log.error("Exception con mensaje: {}", exception.getMessage());
             //log.warn("worker no respondió: {}", exception.getMessage());
             return false;
         }
 
         if(response.status() == WorkerStatus.PAUSED){
+            log.warn("Trabajador pausado");
             return false;
         }
         else{
+            log.info("Trabajador encontrado");
             return true;
         }
     }
