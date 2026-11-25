@@ -18,6 +18,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriBuilder;
 
 import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
@@ -65,8 +66,8 @@ public class HttpImageClient implements ImageClient {
 
         try {
             RestClient.RequestHeadersSpec<?> spec = restClient.get()
-                    .uri(uri -> uri.path("/api/v1/by-root/{rootId}")
-                        .queryParam("tipo", "REQUESTS")
+                    .uri(uri -> uri.path("/api/v1/images/by-root/{rootId}")
+                        .queryParam("tipo", "REQUEST")
                         .build(rootId));
             String token = resolveToken();
             if (token != null && !token.isBlank()) {
@@ -99,13 +100,16 @@ public class HttpImageClient implements ImageClient {
         for (MultipartFile file : files) {
             body.add("files", file.getResource());
         }
-        body.add("rootId", rootId.toString());
-        body.add("tipo", "REQUESTS");
-        if (referenciaExterna != null) {
-            body.add("referenciaExterna", referenciaExterna);
-        }
         restClient.post()
-            .uri("/api/v1/batch")
+            .uri(uri -> {
+                UriBuilder builder = uri.path("/api/v1/images/batch")
+                    .queryParam("rootId", rootId)
+                    .queryParam("tipo", "REQUEST");
+                if (referenciaExterna != null) {
+                    builder.queryParam("referenciaExterna", referenciaExterna);
+                }
+                return builder.build();
+            })
             .header(HttpHeaders.AUTHORIZATION, authHeader)
             .contentType(MediaType.MULTIPART_FORM_DATA)
             .body(body)
