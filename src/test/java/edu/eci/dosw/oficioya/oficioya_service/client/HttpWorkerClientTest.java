@@ -1,5 +1,6 @@
 package edu.eci.dosw.oficioya.oficioya_service.client;
 
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestClient;
 
@@ -34,14 +36,19 @@ class HttpWorkerClientTest {
         RestClient.Builder builder = RestClient.builder().baseUrl("https://worker.test");
         server = MockRestServiceServer.bindTo(builder).build();
         client = new HttpWorkerClient(builder.build());
+
+        // El constructor (RestClient) no asigna jwtUtil, y exists() lo necesita
+        // para generar el token de servicio.
+        JwtUtil jwtUtil = new JwtUtil("clave-de-prueba-de-al-menos-32-caracteres-123456", "oficioya", 30);
+        ReflectionTestUtils.setField(client, "jwtUtil", jwtUtil);
     }
 
     @Test
-    @DisplayName("Un trabajador activo se considera existente y recibe el token de la petición")
+    @DisplayName("Un trabajador activo existe y se consulta con un token de servicio")
     void trabajadorActivoExiste() {
         server.expect(requestTo("https://worker.test/api/v1/workers/" + workerId))
                 .andExpect(method(HttpMethod.GET))
-                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer token-de-usuario"))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, startsWith("Bearer ")))
                 .andRespond(withSuccess(respuesta("ACTIVE"), MediaType.APPLICATION_JSON));
 
         assertTrue(client.exists(workerId, "Bearer token-de-usuario"));
