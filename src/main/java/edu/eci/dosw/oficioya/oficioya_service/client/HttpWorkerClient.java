@@ -25,7 +25,7 @@ import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
 @Service
 public class HttpWorkerClient implements WorkerClient {
     private RestClient restClient;
-    private static final Logger log = LoggerFactory.getLogger(HttpNotificationService.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpWorkerClient.class);
     private JwtUtil jwtUtil;
 
     @Autowired
