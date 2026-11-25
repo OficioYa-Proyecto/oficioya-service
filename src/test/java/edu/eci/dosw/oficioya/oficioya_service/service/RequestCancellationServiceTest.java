@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,6 +33,7 @@ import edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepository;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
+import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 
 /**
  * SNOY-20: ventana de 24 h de las cancelaciones.
@@ -67,12 +69,15 @@ class RequestCancellationServiceTest {
         UUID contratante = UUID.randomUUID();
         Request r = solicitud(contratante, UUID.randomUUID(), RequestState.ACCEPTED, LocalDateTime.now().plusHours(25));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
+        when(userClient.getUser(r.getWorkerId())).thenReturn(usuario(r.getWorkerId(), "trabajador@correo.com"));
 
         LocalDateTime antes = LocalDateTime.now();
         service.cancelByClient(r.getId(), contratante);
 
         assertCancelada(r, antes);
         verify(requestRepository).save(r);
+        verify(notificationService).notifyCancelled(r.getWorkerId(), r.getId(),
+                "trabajador@correo.com", "CANCELLED_BY_CONTRACTOR");
     }
 
     /*
@@ -172,12 +177,15 @@ class RequestCancellationServiceTest {
         UUID trabajador = UUID.randomUUID();
         Request r = solicitud(UUID.randomUUID(), trabajador, RequestState.ACCEPTED, LocalDateTime.now().plusHours(30));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
+        when(userClient.getUser(r.getContractorId())).thenReturn(usuario(r.getContractorId(), "contratante@correo.com"));
 
         LocalDateTime antes = LocalDateTime.now();
         service.cancelByWorker(r.getId(), trabajador);
 
         assertCancelada(r, antes);
         verify(requestRepository).save(r);
+        verify(notificationService).notifyCancelled(r.getContractorId(), r.getId(),
+                "contratante@correo.com", "CANCELLED_BY_WORKER");
     }
 
     @Test
@@ -285,5 +293,10 @@ class RequestCancellationServiceTest {
         r.setState(estado);
         r.setDateCreated(LocalDateTime.now());
         return r;
+    }
+
+    private UserResponse usuario(UUID id, String email) {
+        return new UserResponse(id, "Usuario", email, List.of(), List.of("TRABAJADOR"),
+                "active", LocalDateTime.now(), LocalDateTime.now());
     }
 }

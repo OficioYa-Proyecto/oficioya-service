@@ -101,7 +101,8 @@ public class RequestCancellationService {
         request.setCancellationDateTime(LocalDateTime.now());
         requestRepository.save(request);
         // Notificar al trabajador que la solicitud fue cancelada (microservicio de notificaciones)
-        notificationService.notifyCancelled(request.getWorkerId(), requestId);
+        notificationService.notifyCancelled(request.getWorkerId(), requestId,
+                emailOf(request.getWorkerId()), "CANCELLED_BY_CONTRACTOR");
 
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
 
@@ -135,10 +136,23 @@ public class RequestCancellationService {
         request.setCancellationDateTime(LocalDateTime.now());
         requestRepository.save(request);
         // Notificar al contratante que la solicitud fue cancelada (microservicio de notificaciones)
-        notificationService.notifyCancelled(request.getContractorId(), requestId);
+        notificationService.notifyCancelled(request.getContractorId(), requestId,
+                emailOf(request.getContractorId()), "CANCELLED_BY_WORKER");
 
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
     }
+    private String emailOf(UUID userId) {
+        if (userClient == null || userId == null) {
+            return null;
+        }
+        try {
+            UserResponse user = userClient.getUser(userId);
+            return user != null ? user.email() : null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private void penalizarReputacion(UUID workerId) {
         if (reputationClient != null) {
             reputationClient.penalize(workerId, 0.5);

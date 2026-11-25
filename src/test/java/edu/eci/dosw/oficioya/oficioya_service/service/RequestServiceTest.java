@@ -217,6 +217,23 @@ class RequestServiceTest {
     }
 
     @Test
+    @DisplayName("aceptar y rechazar avisan por correo al contratante")
+    void responderConCorreoAlContratante() {
+        Request aceptada = solicitud(RequestState.PENDING, LocalDateTime.now());
+        Request rechazada = solicitud(RequestState.PENDING, LocalDateTime.now());
+        when(requestRepository.findById(aceptada.getId())).thenReturn(Optional.of(aceptada));
+        when(requestRepository.findById(rechazada.getId())).thenReturn(Optional.of(rechazada));
+        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(aceptada));
+        when(userClient.getUser(contratante)).thenReturn(usuario(contratante, "contratante@correo.com"));
+
+        service.acceptRequest(aceptada.getId(), trabajador);
+        service.rejectRequest(rechazada.getId(), trabajador);
+
+        verify(notificationService).notifyAccepted(contratante, aceptada.getId(), "contratante@correo.com");
+        verify(notificationService).notifyRejected(contratante, rechazada.getId(), "contratante@correo.com");
+    }
+
+    @Test
     @DisplayName("aceptar pasados los 30 min lanza TransicionInvalidaException y no guarda")
     void aceptarFueraDeVentana() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now().minusMinutes(31));
@@ -328,6 +345,7 @@ class RequestServiceTest {
         when(requestRepository.findById(elegida.getId())).thenReturn(Optional.of(elegida));
         when(requestRepository.findByRootId(rootId))
                 .thenReturn(List.of(elegida, enConflicto, pendiente, aceptada));
+        when(userClient.getUser(trabajador)).thenReturn(usuario(trabajador, "trabajador@correo.com"));
 
         LocalDateTime antes = LocalDateTime.now();
         RequestModel resultado = service.acceptConflict(elegida.getId(), contratante);
@@ -342,6 +360,11 @@ class RequestServiceTest {
         // la elegida no se marca como cancelada
         assertNull(elegida.getCancellationState());
         verify(requestRepository).saveAll(List.of(enConflicto, pendiente, aceptada));
+        verify(notificationService).notifyAccepted(trabajador, elegida.getId(), "trabajador@correo.com");
+        for (Request cancelada : List.of(enConflicto, pendiente, aceptada)) {
+            verify(notificationService).notifyCancelled(trabajador, cancelada.getId(),
+                    "trabajador@correo.com", "CANCELLED_BY_CONTRACTOR");
+        }
     }
 
     @ParameterizedTest
@@ -452,6 +475,33 @@ class RequestServiceTest {
     }
 
     @Test
+    @DisplayName("crear acepta un worker con rol en Users aunque Worker responda que no existe")
+    void crearAceptaWorkerValidadoEnUsersAunqueWorkerNoLoEncuentre() {
+        Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
+        r.setWorkerId(trabajador);
+        String authHeader = "token-prueba";
+        when(workerClient.exists(trabajador, authHeader)).thenReturn(false);
+        when(userClient.getUser(contratante)).thenReturn(new UserResponse(
+                contratante, "Contratante", "contratante@example.com", List.of(), List.of("CONTRATANTE"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+        when(userClient.getUser(trabajador)).thenReturn(new UserResponse(
+                trabajador, "Trabajador", "trabajador@example.com", List.of(), List.of("TRABAJADOR"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+        when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        RequestResponse response = service.create(
+                new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
+                        r.getExactAddress(), r.getScheduledDateTime(), null),
+                contratante, authHeader);
+
+        assertNotNull(response.rootId());
+        verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq("trabajador@example.com"),
+                any(RequestNotificationDetails.class));
+        verify(notificationService).notifyRequestCreated(eq(contratante), eq(response.rootId()),
+                eq("contratante@example.com"), any(RequestNotificationDetails.class));
+    }
+
+    @Test
     @DisplayName("crear envía la URL de la primera imagen en el contexto de la notificación")
     void crearIncluyeImagenEnLaNotificacion() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
@@ -501,5 +551,10 @@ class RequestServiceTest {
         r.setState(estado);
         r.setDateCreated(creada);
         return r;
+    }
+
+    private UserResponse usuario(UUID id, String email) {
+        return new UserResponse(id, "Usuario", email, List.of(), List.of("TRABAJADOR"),
+                "active", LocalDateTime.now(), LocalDateTime.now());
     }
 }

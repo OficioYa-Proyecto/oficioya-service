@@ -118,15 +118,18 @@ public class RequestService {
                 continue;
             }
 
-            if (workerClient != null && !workerClient.exists(id, authHeader)) {
-                log.info("WOrker no existe");
-                continue;
-            }
             worker = userClient.getUser(id);
 
             if (worker == null || worker.roles() == null || !worker.roles().contains("TRABAJADOR")) {
                 log.info("Usuario no encontrado, no tiene roles, o no era trabajador");
                 continue;
+            }
+
+            // Users es la fuente de verdad del rol. Worker puede responder 404 cuando el
+            // perfil está pausado o no existe; en ese caso se registran los dos resultados
+            // pero no se descarta al trabajador, para no bloquear la creación de la solicitud.
+            if (workerClient != null && !workerClient.exists(id, authHeader)) {
+                log.warn("El worker {} no está disponible en Worker; se validó el rol en Users", id);
             }
 
             Optional<Request> contractorCancelledWorker = requestRepository.findContractorHasCancelledWorker(contractorId, id);
@@ -297,7 +300,8 @@ public class RequestService {
 
         if (accepted.isEmpty()) {
             request.setState(RequestState.ACCEPTED);
-            notificationService.notifyAccepted(request.getContractorId(),requestId);
+            notificationService.notifyAccepted(request.getContractorId(), requestId,
+                    emailOf(request.getContractorId()));
         } else {
             request.setState(RequestState.CONFLICT);
             accepted.forEach(r -> r.setState(RequestState.CONFLICT));
@@ -313,7 +317,8 @@ public class RequestService {
         Request request = findAssignedToWorker(requestId, workerId);
         requireAnswerable(request);
         request.setState(RequestState.REJECTED);
-        notificationService.notifyRejected(request.getContractorId(), requestId);
+        notificationService.notifyRejected(request.getContractorId(), requestId,
+                emailOf(request.getContractorId()));
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
         return requestMapper.toModel(requestRepository.save(request));
     }
@@ -344,8 +349,12 @@ public class RequestService {
         requestRepository.saveAll(others);
 
         chosen.setState(RequestState.ACCEPTED);
-        
-        others.forEach(r -> notificationService.notifyCancelled(r.getContractorId(), requestId));
+
+        // Cada solicitud descartada pertenece a otro trabajador del mismo contratante.
+        others.forEach(r -> notificationService.notifyCancelled(r.getWorkerId(), r.getId(),
+                emailOf(r.getWorkerId()), "CANCELLED_BY_CONTRACTOR"));
+        notificationService.notifyAccepted(chosen.getWorkerId(), chosen.getId(),
+                emailOf(chosen.getWorkerId()));
 
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
         return requestMapper.toModel(requestRepository.save(chosen));
