@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.eci.dosw.oficioya.oficioya_service.client.ImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationDetails;
+import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationPhoto;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.WorkerClient;
@@ -81,15 +82,21 @@ public class RequestService {
     }
 
     public RequestResponse create(RequestRequest req, UUID contractorId, String authHeader){
-        return create(req, contractorId, UUID.randomUUID(), authHeader, null, null);
+        return create(req, contractorId, UUID.randomUUID(), authHeader, null, null, List.of());
     }
 
     public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId, String authHeader){
-        return create(req, contractorId, rootId, authHeader, null, null);
+        return create(req, contractorId, rootId, authHeader, null, null, List.of());
     }
 
     public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId, String authHeader,
                                   String imageBase64, String imageContentType){
+        return create(req, contractorId, rootId, authHeader, imageBase64, imageContentType, List.of());
+    }
+
+    public RequestResponse create(RequestRequest req, UUID contractorId, UUID rootId, String authHeader,
+                                  String imageBase64, String imageContentType,
+                                  List<RequestNotificationPhoto> photos){
         log.info("Creando una nueva request como usuario: {}", contractorId);
         List<UUID> workers = req.workersId();
 
@@ -177,7 +184,8 @@ public class RequestService {
         // Las imágenes se suben antes de crear las solicitudes, usando el mismo rootId.
         RequestNotificationDetails details = new RequestNotificationDetails(
                 req.scheduledDateTime(), req.neighborhood(), req.exactAddress(), req.description(),
-                firstImageUrl(newRootId, authHeader), imageBase64, imageContentType);
+                firstImageUrl(newRootId, authHeader), imageBase64, imageContentType,
+                photos == null ? List.of() : photos);
 
         // Se notifica después de persistir para que los requestId ya estén asignados.
         savedRequests.forEach(w -> notificationService.notifyNewRequest(
