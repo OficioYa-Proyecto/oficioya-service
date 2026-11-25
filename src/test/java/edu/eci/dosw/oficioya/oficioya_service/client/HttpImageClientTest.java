@@ -39,27 +39,41 @@ class HttpImageClientTest {
     void setUp() {
         RestClient.Builder builder = RestClient.builder().baseUrl("https://images.test");
         server = MockRestServiceServer.bindTo(builder).build();
-        client = new HttpImageClient(builder.build(), "service-token", null);
+        client = new HttpImageClient(builder.build(), "https://images.test", "service-token", null);
     }
 
     @Test
     @DisplayName("Obtiene las imágenes de una solicitud filtrando por el tipo REQUEST")
     void obtieneImagenes() {
         String url = "https://images.test/api/v1/images/by-root/" + rootId + "?tipo=REQUEST";
+        String imageId = UUID.randomUUID().toString();
         server.expect(requestTo(url))
                 .andExpect(method(HttpMethod.GET))
                 .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer service-token"))
-                .andRespond(withSuccess("[{\"id\":\"" + UUID.randomUUID()
+                .andRespond(withSuccess("[{\"id\":\"" + imageId
                         + "\",\"rootId\":\"" + rootId
                         + "\",\"nombre\":\"fuga.jpg\",\"tipoContenido\":\"image/jpeg\","
                         + "\"tamano\":10,\"fechaCarga\":\"2026-11-24T10:00:00\","
-                        + "\"referenciaExterna\":null,\"url\":\"https://images.test/api/v1/fuga.jpg\","
+                        + "\"referenciaExterna\":null,\"url\":\"/api/v1/images/" + imageId + "\","
                         + "\"subidoPor\":\"" + UUID.randomUUID() + "\"}]", MediaType.APPLICATION_JSON));
 
         List<ImageResponse> images = client.getImages(rootId);
 
         assertEquals(1, images.size());
         assertEquals("fuga.jpg", images.get(0).nombre());
+        assertEquals("https://images.test/api/v1/images/" + imageId, images.get(0).url());
+        server.verify();
+    }
+
+    @Test
+    @DisplayName("Usa el token del usuario que subió la imagen para consultarlas")
+    void obtieneImagenesConTokenDelUsuario() {
+        server.expect(requestTo("https://images.test/api/v1/images/by-root/" + rootId + "?tipo=REQUEST"))
+                .andExpect(method(HttpMethod.GET))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer user-token"))
+                .andRespond(withSuccess("[]", MediaType.APPLICATION_JSON));
+
+        assertTrue(client.getImages(rootId, "Bearer user-token").isEmpty());
         server.verify();
     }
 
@@ -70,7 +84,7 @@ class HttpImageClientTest {
         when(jwtUtil.generateServiceToken()).thenReturn("generated-token");
         RestClient.Builder builder = RestClient.builder().baseUrl("https://images.test");
         server = MockRestServiceServer.bindTo(builder).build();
-        client = new HttpImageClient(builder.build(), null, jwtUtil);
+        client = new HttpImageClient(builder.build(), "https://images.test", null, jwtUtil);
 
         server.expect(requestTo("https://images.test/api/v1/images/by-root/" + rootId + "?tipo=REQUEST"))
                 .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer generated-token"))

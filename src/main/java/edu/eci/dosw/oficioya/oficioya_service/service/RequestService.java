@@ -172,7 +172,7 @@ public class RequestService {
         // Las imágenes se suben antes de crear las solicitudes, usando el mismo rootId.
         RequestNotificationDetails details = new RequestNotificationDetails(
                 req.scheduledDateTime(), req.neighborhood(), req.exactAddress(), req.description(),
-                firstImageUrl(newRootId));
+                firstImageUrl(newRootId, authHeader));
 
         // Se notifica después de persistir para que los requestId ya estén asignados.
         savedRequests.forEach(w -> notificationService.notifyNewRequest(
@@ -184,12 +184,12 @@ public class RequestService {
 
     }
 
-    private String firstImageUrl(UUID rootId) {
+    private String firstImageUrl(UUID rootId, String authHeader) {
         if (imageClient == null) {
             return null;
         }
         try {
-            List<ImageResponse> images = imageClient.getImages(rootId);
+            List<ImageResponse> images = imageClient.getImages(rootId, authHeader);
             if (images == null || images.isEmpty()) {
                 return null;
             }
