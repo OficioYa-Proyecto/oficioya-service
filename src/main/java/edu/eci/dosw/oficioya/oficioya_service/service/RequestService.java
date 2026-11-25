@@ -114,15 +114,18 @@ public class RequestService {
 
         for (UUID id : workers){
             if(contractorId.equals(id)){
+                log.warn("EL usuario se trató de contratar a sí mismo");
                 continue;
             }
 
             if (workerClient != null && !workerClient.exists(id, authHeader)) {
+                log.info("WOrker no existe");
                 continue;
             }
             worker = userClient.getUser(id);
 
             if (worker == null || worker.roles() == null || !worker.roles().contains("TRABAJADOR")) {
+                log.info("Usuario no encontrado, no tiene roles, o no era trabajador");
                 continue;
             }
 

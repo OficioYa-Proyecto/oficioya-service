@@ -13,7 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
 
@@ -34,6 +35,7 @@ public class HttpUserClient implements UserClient {
     private final String baseUrl;
     private final String configuredToken;
     private final JwtUtil jwtUtil;
+    private static final Logger log = LoggerFactory.getLogger(HttpUserClient.class);
 
     @Autowired
     public HttpUserClient(
@@ -56,6 +58,7 @@ public class HttpUserClient implements UserClient {
 
     @Override
     public UserResponse getUser(UUID userId) {
+        log.info("Buscando user con id: {}", userId);
         String token = resolveToken();
         if (token == null) {
             return null;
@@ -71,8 +74,10 @@ public class HttpUserClient implements UserClient {
                     HttpMethod.GET,
                     entity,
                     UserResponse.class);
+            log.info("Usuario encontrado");
             return response.getBody();
         } catch (HttpClientErrorException e) {
+            log.error("Error del cliente: {}", e.getMessage());
             // Versiones anteriores sólo exponían el perfil completo bajo /admin.
             try {
                 ResponseEntity<UserResponse> response = restTemplate.exchange(
@@ -80,8 +85,10 @@ public class HttpUserClient implements UserClient {
                         HttpMethod.GET,
                         entity,
                         UserResponse.class);
+                log.info("Encontrado con el HttpClientErrorException");
                 return response.getBody();
             } catch (HttpClientErrorException adminError) {
+                log.error("Admin error con la otra exposición: {}", adminError.getMessage());
                 return null;
             }
         }
