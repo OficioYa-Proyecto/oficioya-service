@@ -203,3 +203,823 @@ This generated password is for development use only. Your security configuration
 2026-11-25T07:05:34.293-05:00  INFO 9992 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-11-25T07:05:34.296-05:00  INFO 9992 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
 2026-11-25T07:05:34.298-05:00  INFO 9992 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:09:46.739-05:00  INFO 9304 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Starting OficioyaServiceApplicationTests using Java 26 with PID 9304 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:09:46.742-05:00  INFO 9304 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : The following 1 profile is active: "test"
+2026-11-25T07:09:48.803-05:00  INFO 9304 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:09:48.807-05:00  INFO 9304 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:09:48.934-05:00  INFO 9304 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 105 ms. Found 1 JPA repository interface.
+2026-11-25T07:09:50.090-05:00  INFO 9304 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-25T07:09:50.607-05:00  INFO 9304 --- [oficioya-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-25T07:09:50.610-05:00  INFO 9304 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-25T07:09:50.632-05:00  INFO 9304 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:testdb (H2 2.4)
+2026-11-25T07:09:50.746-05:00  WARN 9304 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:09:50.790-05:00  INFO 9304 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:09:50.793-05:00  INFO 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.014s)
+2026-11-25T07:09:50.793-05:00  WARN 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:09:50.804-05:00  INFO 9304 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:09:50.882-05:00  INFO 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:09:50.887-05:00  INFO 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:09:51.123-05:00  INFO 9304 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:09:51.275-05:00  INFO 9304 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-25T07:09:51.972-05:00  INFO 9304 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:09:52.088-05:00  WARN 9304 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:09:52.126-05:00  INFO 9304 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:09:53.846-05:00  INFO 9304 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:09:53.921-05:00  INFO 9304 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:09:54.272-05:00  INFO 9304 --- [oficioya-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-25T07:09:56.556-05:00  WARN 9304 --- [oficioya-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-25T07:09:56.650-05:00  WARN 9304 --- [oficioya-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: d624c637-f706-44f0-8288-f86500f83dd3
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-11-25T07:09:56.666-05:00  INFO 9304 --- [oficioya-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-11-25T07:09:58.002-05:00  INFO 9304 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Started OficioyaServiceApplicationTests in 11.978 seconds (process running for 21.373)
+2026-11-25T07:09:58.007-05:00  WARN 9304 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-25T07:09:58.007-05:00  WARN 9304 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-25T07:09:58.058-05:00  INFO 9304 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:09:58.142-05:00  INFO 9304 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:09:58.145-05:00  INFO 9304 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:09:58.175-05:00  INFO 9304 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:09:58.233-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Starting RequestRepositoryTest using Java 26 with PID 9304 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:09:58.233-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : The following 1 profile is active: "test"
+2026-11-25T07:09:58.490-05:00  INFO 9304 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:09:58.490-05:00  INFO 9304 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:09:58.543-05:00  INFO 9304 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 1 JPA repository interface.
+2026-11-25T07:09:58.569-05:00  INFO 9304 --- [oficioya-service] [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-25T07:09:58.622-05:00  INFO 9304 --- [oficioya-service] [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:6a2a88cd-1f13-414a-b3e7-e49f19d47143;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-25T07:09:58.649-05:00  INFO 9304 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:6a2a88cd-1f13-414a-b3e7-e49f19d47143 (H2 2.4)
+2026-11-25T07:09:58.659-05:00  WARN 9304 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:09:58.663-05:00  INFO 9304 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:09:58.664-05:00  INFO 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.001s)
+2026-11-25T07:09:58.664-05:00  WARN 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:09:58.666-05:00  INFO 9304 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:09:58.676-05:00  INFO 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:09:58.677-05:00  INFO 9304 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:09:58.708-05:00  INFO 9304 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:09:58.754-05:00  INFO 9304 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:09:58.757-05:00  WARN 9304 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:09:58.758-05:00  INFO 9304 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:6a2a88cd-1f13-414a-b3e7-e49f19d47143]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: 6A2A88CD-1F13-414A-B3E7-E49F19D47143/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:09:58.850-05:00  INFO 9304 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:09:58.857-05:00  INFO 9304 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:09:58.952-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Started RequestRepositoryTest in 0.769 seconds (process running for 22.323)
+2026-11-25T07:09:59.681-05:00  INFO 9304 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:09:59.722-05:00  INFO 9304 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:09:59.724-05:00  INFO 9304 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:09:59.731-05:00  INFO 9304 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:09:59.750-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:09:59.751-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:09:59.752-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:09:59.942-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:09:59.942-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:09:59.943-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:09:59.961-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:09:59.961-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:09:59.963-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:00.035-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:00.035-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:00.036-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:00.051-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:00.051-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:00.052-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:00.072-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:00.072-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:00.073-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:00.110-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:00.110-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:00.111-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:00.127-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:00.127-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:00.129-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:00.159-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:00.160-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:00.161-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:00.175-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:00.176-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:00.178-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:10:00.190-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: cdbfd8b0-e42d-4f5e-a7f9-6ce1de11ec64
+2026-11-25T07:10:01.292-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/cdbfd8b0-e42d-4f5e-a7f9-6ce1de11ec64/account": "{"timestamp":"2026-11-25T12:10:01.166266162","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/cdbfd8b0-e42d-4f5e-a7f9-6ce1de11ec64/account"}"
+2026-11-25T07:10:01.423-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/cdbfd8b0-e42d-4f5e-a7f9-6ce1de11ec64": "{"timestamp":"2026-11-25T12:10:01.316582677","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/cdbfd8b0-e42d-4f5e-a7f9-6ce1de11ec64"}"
+2026-11-25T07:10:02.164-05:00  WARN 9304 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación REJECTED_REQUEST a cdbfd8b0-e42d-4f5e-a7f9-6ce1de11ec64 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:10:02.189-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:02.190-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:02.191-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:02.217-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:02.217-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:02.219-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:10:02.232-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 76ff0fef-5294-4b8c-88b8-f4f980acab6b
+2026-11-25T07:10:02.371-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/76ff0fef-5294-4b8c-88b8-f4f980acab6b/account": "{"timestamp":"2026-11-25T12:10:02.256573947","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/76ff0fef-5294-4b8c-88b8-f4f980acab6b/account"}"
+2026-11-25T07:10:02.501-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/76ff0fef-5294-4b8c-88b8-f4f980acab6b": "{"timestamp":"2026-11-25T12:10:02.395270601","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/76ff0fef-5294-4b8c-88b8-f4f980acab6b"}"
+2026-11-25T07:10:03.051-05:00  WARN 9304 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 76ff0fef-5294-4b8c-88b8-f4f980acab6b vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:10:03.076-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.077-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.079-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:10:03.089-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.090-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.091-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:03.101-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.101-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.103-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:10:03.117-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.117-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.118-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:03.140-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.140-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.141-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:03.165-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.165-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.167-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:03.179-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.179-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.180-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:03.197-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:03.197-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:03.199-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-25T07:10:03.212-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: b2ebcd38-85cc-497c-a277-109e9ba9787e
+2026-11-25T07:10:03.371-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/b2ebcd38-85cc-497c-a277-109e9ba9787e/account": "{"timestamp":"2026-11-25T12:10:03.256674135","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/b2ebcd38-85cc-497c-a277-109e9ba9787e/account"}"
+2026-11-25T07:10:03.500-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/b2ebcd38-85cc-497c-a277-109e9ba9787e": "{"timestamp":"2026-11-25T12:10:03.394303304","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/b2ebcd38-85cc-497c-a277-109e9ba9787e"}"
+2026-11-25T07:10:04.062-05:00  WARN 9304 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a b2ebcd38-85cc-497c-a277-109e9ba9787e vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:10:04.075-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:04.076-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:04.077-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:04.087-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 2d28fa74-976e-42b1-9f4c-14511d7c27f3
+2026-11-25T07:10:04.229-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/2d28fa74-976e-42b1-9f4c-14511d7c27f3/account": "{"timestamp":"2026-11-25T12:10:04.123927465","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/2d28fa74-976e-42b1-9f4c-14511d7c27f3/account"}"
+2026-11-25T07:10:04.359-05:00 ERROR 9304 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/2d28fa74-976e-42b1-9f4c-14511d7c27f3": "{"timestamp":"2026-11-25T12:10:04.25273343","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/2d28fa74-976e-42b1-9f4c-14511d7c27f3"}"
+2026-11-25T07:10:04.887-05:00  WARN 9304 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 2d28fa74-976e-42b1-9f4c-14511d7c27f3 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:10:04.901-05:00  INFO 9304 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:10:04.901-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:10:04.902-05:00  INFO 9304 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:10:05.349-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: af6ae14e-d182-45f6-ba4b-f032e90e7a5a Cancelada por worker: ea4225e0-d945-4f57-bba8-67b091929157
+2026-11-25T07:10:05.423-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: ecb62138-dac5-4e62-a279-0e5db803f0f1 Cancelada por contractor: 6d92276f-360a-4f2a-aec4-67c667b66009
+2026-11-25T07:10:05.430-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: c211357b-50db-49e6-9eff-4883e5294e9b Cancelada por contractor: 5c51b50f-5816-4c48-bf44-d9e0aac8142c
+2026-11-25T07:10:05.435-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: e78e8a62-c21a-4d9d-a5aa-659e806a6110 Cancelada por contractor: ab6bb1a3-46b2-497f-a4de-0a9536af39c1
+2026-11-25T07:10:05.441-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 74dbbb29-fb09-406b-8246-ee9bb003db18 Cancelada por worker: 3a6ffb0d-f876-4727-96ab-0629fc8ddafa
+2026-11-25T07:10:05.445-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 8a0ad3df-175b-458c-adc5-47718df56b85 Cancelada por worker: 8f4fef9e-8f33-4a43-addb-39982a389515
+2026-11-25T07:10:05.446-05:00  WARN 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : La solicitud ya estaba completada
+2026-11-25T07:10:05.450-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: e83c605f-1591-4e66-9902-a7531906f301 Cancelada por contractor: 13efcd39-f81c-42ca-a38b-d250dcdf1b51
+2026-11-25T07:10:05.457-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: b5aeb5c0-1de3-47d1-bc5a-78a3ac04875f Cancelada por contractor: 37871aa9-1cb9-4bf4-9348-5ac31f9d50ca
+2026-11-25T07:10:05.461-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 093bde5e-9033-49b2-a9db-55ad2bdea22e Cancelada por contractor: f2a7d29c-4f05-4639-a692-de6f39b3bf0d
+2026-11-25T07:10:05.467-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 48af2abe-6a83-420a-9a80-d5ed036fd4e6 Cancelada por worker: c9946264-9d3a-45ae-9335-fe9755663386
+2026-11-25T07:10:05.472-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: fa9b78fc-de2c-4da6-b89b-8e2d73eb71a2 Cancelada por worker: d2a311f5-2642-480d-ae84-ca566760d4e6
+2026-11-25T07:10:05.476-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: c082e277-c603-4e4b-a323-64fb93bb007d Cancelada por contractor: 5c0e4d22-cc48-46ef-98dd-2982c5dea4a7
+2026-11-25T07:10:05.484-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 572cf3b1-981f-4393-965a-043b83fa013c Cancelada por worker: f641b17c-d2bc-48d6-9e95-750bb7331c26
+2026-11-25T07:10:05.489-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: dd4a3c0d-5d36-4505-a955-a14a0a5e093c Cancelada por worker: ec2bb4f0-d73c-4f2a-8a87-74b0aaee84d7
+2026-11-25T07:10:05.495-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: e6297220-0ddd-4c0a-82b4-e11001426bc8 Cancelada por contractor: 482344bb-8e2c-428e-bdae-3233c361c0b2
+2026-11-25T07:10:05.499-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 935d32d9-eff8-4c82-9d75-0e1dee35c8c5 Cancelada por worker: 1fb1d35f-0b90-4e32-9e28-a8d93b16bd40
+2026-11-25T07:10:05.500-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Trabajador canceló con menos de 24 horas
+2026-11-25T07:10:05.500-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Notificando a reputation
+2026-11-25T07:10:05.504-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 7baf2702-442a-4b36-8cd8-c3a7baf98e88 Cancelada por worker: 04ac9e08-1c20-41c5-bf82-b69654085815
+2026-11-25T07:10:05.584-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: f9f185a9-be42-47eb-9053-f6ad72af8ad6 cancelando request: a2dfc05f-c50b-4a60-9adc-2b87542a55e1
+2026-11-25T07:10:05.585-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: a2dfc05f-c50b-4a60-9adc-2b87542a55e1 Cancelada por contractor: f9f185a9-be42-47eb-9053-f6ad72af8ad6
+2026-11-25T07:10:05.585-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Contratante canceló con menos de 24 horas
+2026-11-25T07:10:05.588-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 57cc9d55-73a8-4fed-8959-2d8f17b844dc cancelando request: 0d16dacd-2b7e-4594-ab92-8d56889909cb
+2026-11-25T07:10:05.590-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 0d16dacd-2b7e-4594-ab92-8d56889909cb Cancelada por contractor: 57cc9d55-73a8-4fed-8959-2d8f17b844dc
+2026-11-25T07:10:05.592-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: df24cd7b-f05d-460d-9bac-f35ecf997205 cancelando request: f922f770-209c-4708-ac2e-89e0cc983c10
+2026-11-25T07:10:05.594-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: f922f770-209c-4708-ac2e-89e0cc983c10 Cancelada por worker: df24cd7b-f05d-460d-9bac-f35ecf997205
+2026-11-25T07:10:05.912-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: d0318ccd-d380-484d-8250-986eeed11ab2
+2026-11-25T07:10:05.920-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: 6879ceab-a40f-40a3-9ace-da6ceeee2fbb
+2026-11-25T07:10:05.986-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: fff8ec63-2fce-4aa7-bb72-2b3fc7448683
+2026-11-25T07:10:05.986-05:00  WARN 9304 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : El worker 4c2ce866-f9be-4a44-be1a-2eaa25fb529e no está disponible en Worker; se validó el rol en Users
+2026-11-25T07:10:06.065-05:00  INFO 9304 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: 7741dead-64c0-4f73-901e-7061d8a865f7
+2026-11-25T07:10:06.162-05:00  INFO 9304 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:10:06.652-05:00  INFO 9304 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-25T07:10:06.656-05:00  INFO 9304 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-11-25T07:10:06.658-05:00  INFO 9304 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:11:52.160-05:00  INFO 1640 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Starting OficioyaServiceApplicationTests using Java 26 with PID 1640 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:11:52.163-05:00  INFO 1640 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : The following 1 profile is active: "test"
+2026-11-25T07:11:54.161-05:00  INFO 1640 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:11:54.166-05:00  INFO 1640 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:11:54.292-05:00  INFO 1640 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 103 ms. Found 1 JPA repository interface.
+2026-11-25T07:11:55.439-05:00  INFO 1640 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-25T07:11:55.957-05:00  INFO 1640 --- [oficioya-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-25T07:11:55.960-05:00  INFO 1640 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-25T07:11:55.988-05:00  INFO 1640 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:testdb (H2 2.4)
+2026-11-25T07:11:56.097-05:00  WARN 1640 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:11:56.155-05:00  INFO 1640 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:11:56.158-05:00  INFO 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.019s)
+2026-11-25T07:11:56.159-05:00  WARN 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:11:56.170-05:00  INFO 1640 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:11:56.233-05:00  INFO 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:11:56.240-05:00  INFO 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:11:56.459-05:00  INFO 1640 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:11:56.620-05:00  INFO 1640 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-25T07:11:57.304-05:00  INFO 1640 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:11:57.441-05:00  WARN 1640 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:11:57.471-05:00  INFO 1640 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:11:59.218-05:00  INFO 1640 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:11:59.290-05:00  INFO 1640 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:11:59.611-05:00  INFO 1640 --- [oficioya-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-25T07:12:01.859-05:00  WARN 1640 --- [oficioya-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-25T07:12:01.953-05:00  WARN 1640 --- [oficioya-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 29516532-5ebb-40e5-9824-9d829d006395
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-11-25T07:12:01.977-05:00  INFO 1640 --- [oficioya-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-11-25T07:12:03.286-05:00  INFO 1640 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Started OficioyaServiceApplicationTests in 11.803 seconds (process running for 20.901)
+2026-11-25T07:12:03.292-05:00  WARN 1640 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-25T07:12:03.292-05:00  WARN 1640 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-25T07:12:03.341-05:00  INFO 1640 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:12:03.420-05:00  INFO 1640 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:12:03.422-05:00  INFO 1640 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:12:03.455-05:00  INFO 1640 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:12:03.517-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Starting RequestRepositoryTest using Java 26 with PID 1640 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:12:03.518-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : The following 1 profile is active: "test"
+2026-11-25T07:12:03.753-05:00  INFO 1640 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:12:03.753-05:00  INFO 1640 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:12:03.876-05:00  INFO 1640 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 118 ms. Found 1 JPA repository interface.
+2026-11-25T07:12:03.895-05:00  INFO 1640 --- [oficioya-service] [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-25T07:12:03.932-05:00  INFO 1640 --- [oficioya-service] [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:623e012e-b349-4fbf-b889-3b0118a1824c;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-25T07:12:03.955-05:00  INFO 1640 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:623e012e-b349-4fbf-b889-3b0118a1824c (H2 2.4)
+2026-11-25T07:12:03.964-05:00  WARN 1640 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:12:03.967-05:00  INFO 1640 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:12:03.968-05:00  INFO 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.001s)
+2026-11-25T07:12:03.968-05:00  WARN 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:12:03.971-05:00  INFO 1640 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:12:03.981-05:00  INFO 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:12:03.981-05:00  INFO 1640 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:12:04.007-05:00  INFO 1640 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:12:04.052-05:00  INFO 1640 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:12:04.055-05:00  WARN 1640 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:12:04.056-05:00  INFO 1640 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:623e012e-b349-4fbf-b889-3b0118a1824c]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: 623E012E-B349-4FBF-B889-3B0118A1824C/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:12:04.136-05:00  INFO 1640 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:12:04.149-05:00  INFO 1640 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:12:04.232-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Started RequestRepositoryTest in 0.77 seconds (process running for 21.847)
+2026-11-25T07:12:04.901-05:00  INFO 1640 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:12:04.940-05:00  INFO 1640 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:12:04.942-05:00  INFO 1640 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:12:04.950-05:00  INFO 1640 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:12:04.972-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:04.973-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:04.974-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.167-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.167-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.169-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.187-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.187-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.189-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:12:05.267-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.267-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.269-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:12:05.292-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.292-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.294-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.313-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.313-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.316-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.390-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.390-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.392-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.415-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.415-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.417-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.456-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.456-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.457-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.469-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:05.470-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:05.471-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:05.482-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: bca1bdac-b5e3-4567-908e-c316118e26ac
+2026-11-25T07:12:06.711-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/bca1bdac-b5e3-4567-908e-c316118e26ac/account": "{"timestamp":"2026-11-25T12:12:06.573320473","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/bca1bdac-b5e3-4567-908e-c316118e26ac/account"}"
+2026-11-25T07:12:06.841-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/bca1bdac-b5e3-4567-908e-c316118e26ac": "{"timestamp":"2026-11-25T12:12:06.732177917","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/bca1bdac-b5e3-4567-908e-c316118e26ac"}"
+2026-11-25T07:12:07.599-05:00  WARN 1640 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación REJECTED_REQUEST a bca1bdac-b5e3-4567-908e-c316118e26ac vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:12:07.620-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:07.621-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:07.622-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:07.649-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:07.649-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:07.650-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:07.661-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 002e7043-1b6e-4079-b929-f359cdef5fd6
+2026-11-25T07:12:07.791-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/002e7043-1b6e-4079-b929-f359cdef5fd6/account": "{"timestamp":"2026-11-25T12:12:07.682491788","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/002e7043-1b6e-4079-b929-f359cdef5fd6/account"}"
+2026-11-25T07:12:07.922-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/002e7043-1b6e-4079-b929-f359cdef5fd6": "{"timestamp":"2026-11-25T12:12:07.814084206","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/002e7043-1b6e-4079-b929-f359cdef5fd6"}"
+2026-11-25T07:12:08.456-05:00  WARN 1640 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 002e7043-1b6e-4079-b929-f359cdef5fd6 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:12:08.469-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.469-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.470-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.482-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.482-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.483-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.495-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.495-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.496-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.513-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.513-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.514-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.536-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.537-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.538-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.560-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.560-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.561-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.574-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.574-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.575-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.595-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:08.596-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:08.597-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:08.609-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 7379d193-290e-4aab-b56c-34ed435af868
+2026-11-25T07:12:08.741-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/7379d193-290e-4aab-b56c-34ed435af868/account": "{"timestamp":"2026-11-25T12:12:08.630972015","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/7379d193-290e-4aab-b56c-34ed435af868/account"}"
+2026-11-25T07:12:08.888-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/7379d193-290e-4aab-b56c-34ed435af868": "{"timestamp":"2026-11-25T12:12:08.779721535","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/7379d193-290e-4aab-b56c-34ed435af868"}"
+2026-11-25T07:12:09.626-05:00  WARN 1640 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 7379d193-290e-4aab-b56c-34ed435af868 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:12:09.640-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:09.640-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:09.641-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:12:09.651-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 4abf4798-00ff-4cc6-92c0-c5fc5ef9a036
+2026-11-25T07:12:09.811-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/4abf4798-00ff-4cc6-92c0-c5fc5ef9a036/account": "{"timestamp":"2026-11-25T12:12:09.674275103","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/4abf4798-00ff-4cc6-92c0-c5fc5ef9a036/account"}"
+2026-11-25T07:12:09.981-05:00 ERROR 1640 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/4abf4798-00ff-4cc6-92c0-c5fc5ef9a036": "{"timestamp":"2026-11-25T12:12:09.834514466","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/4abf4798-00ff-4cc6-92c0-c5fc5ef9a036"}"
+2026-11-25T07:12:10.469-05:00  WARN 1640 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 4abf4798-00ff-4cc6-92c0-c5fc5ef9a036 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:12:10.484-05:00  INFO 1640 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:12:10.485-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:12:10.485-05:00  INFO 1640 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-25T07:12:10.989-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 3dee9d15-0e44-4f83-baf7-aedfcac830f1 Cancelada por worker: ef450039-7e3d-4ea5-be39-99ed93fb0ff3
+2026-11-25T07:12:11.060-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: da8f137a-1880-41c4-9336-a3cdf78035cd Cancelada por contractor: c269629e-a615-4d73-a2af-277d433006dc
+2026-11-25T07:12:11.064-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 5f9caac3-a0d6-49ab-ba1c-40e6536d6c8b Cancelada por contractor: 0353b164-7a8d-433c-a22a-45a82fc42348
+2026-11-25T07:12:11.068-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 3ff6c0d2-f7a3-4204-8ea0-f859a7cc80ac Cancelada por contractor: 01e5c24f-c9e0-4968-a273-e60adecacbbd
+2026-11-25T07:12:11.073-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: f74f823f-2430-4fd6-a25d-1318ce17c294 Cancelada por worker: e0f51f00-38f9-40fc-8900-948c382002e7
+2026-11-25T07:12:11.079-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 5c9ffaa9-3e10-4c42-bb1f-0ccb0310431f Cancelada por worker: 2a55a892-64d3-4574-bbb2-d35678e5aee6
+2026-11-25T07:12:11.079-05:00  WARN 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : La solicitud ya estaba completada
+2026-11-25T07:12:11.083-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: a83abf55-548d-4946-a205-5249da8c8aef Cancelada por contractor: 05005623-624a-4c80-b409-b1e9ca0180ea
+2026-11-25T07:12:11.089-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 31bfae2a-fc86-4204-be0e-1547214241e8 Cancelada por contractor: 129a9a31-eccc-4178-95e4-bee7d49504d6
+2026-11-25T07:12:11.093-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 1bb2f222-4917-4bdb-a162-0a67e3aa3877 Cancelada por contractor: d8577a30-eeb6-41db-94ad-22fd4dbb4e31
+2026-11-25T07:12:11.097-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 5cca0b50-c7be-4b07-be1a-b87ff8821dc5 Cancelada por worker: 0f17667c-3e80-4e32-980f-64cde53505fc
+2026-11-25T07:12:11.102-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: ae72eea0-4c0f-4a0a-b180-f47ed64d4c3a Cancelada por worker: 69c02176-1d7e-4fef-b56e-078ab61a482f
+2026-11-25T07:12:11.105-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 91dcacb9-ec57-4c47-b04c-d35f748fc46c Cancelada por contractor: 95399f11-3a9f-4d38-afc6-44cb885a4849
+2026-11-25T07:12:11.114-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: e10f6f84-2b35-4214-816d-a273274e69d3 Cancelada por worker: c02cf1da-53c6-4dc5-bb13-517820c8e0af
+2026-11-25T07:12:11.119-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 41dd0ee5-e568-4854-a00c-5e86e87e63fc Cancelada por worker: adbe5a34-b8a7-4fc5-9851-2ffab23e4459
+2026-11-25T07:12:11.125-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: b635e6fe-564e-4123-a5b2-305dd17c3c0e Cancelada por contractor: 068fb8d9-32a0-48df-a2d5-ad48a92c8cb8
+2026-11-25T07:12:11.128-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 13c9d513-d8c0-477d-b781-95acd65b7870 Cancelada por worker: af15368d-8811-4c35-ade2-42a29bc8810e
+2026-11-25T07:12:11.129-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Trabajador canceló con menos de 24 horas
+2026-11-25T07:12:11.129-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Notificando a reputation
+2026-11-25T07:12:11.133-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 93d1cbdf-2b43-4329-bcfa-b41a8b693f4c Cancelada por worker: e3bed6ba-969f-4fe4-9393-49e29090e28e
+2026-11-25T07:12:11.221-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: cf89e795-ec3e-4d8b-a370-d8c38413353d cancelando request: 551f881a-3fca-430c-8444-d77019259f93
+2026-11-25T07:12:11.221-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 551f881a-3fca-430c-8444-d77019259f93 Cancelada por contractor: cf89e795-ec3e-4d8b-a370-d8c38413353d
+2026-11-25T07:12:11.222-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Contratante canceló con menos de 24 horas
+2026-11-25T07:12:11.226-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 62808a90-1083-402c-aa63-a8054fb14d4d cancelando request: 6bd4fb61-61d0-4149-b806-046458048d39
+2026-11-25T07:12:11.226-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 6bd4fb61-61d0-4149-b806-046458048d39 Cancelada por contractor: 62808a90-1083-402c-aa63-a8054fb14d4d
+2026-11-25T07:12:11.231-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 0c9afc0f-3396-4151-a14c-9f59bf1cf84a cancelando request: e1a28025-8318-4f04-ac76-216d8ccf8765
+2026-11-25T07:12:11.231-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: e1a28025-8318-4f04-ac76-216d8ccf8765 Cancelada por worker: 0c9afc0f-3396-4151-a14c-9f59bf1cf84a
+2026-11-25T07:12:11.513-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: fa545998-8d17-428a-bde0-c2b9224f35f3
+2026-11-25T07:12:11.522-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: e2075167-af94-4971-b1e4-b0b9461a7ce0
+2026-11-25T07:12:11.612-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: 518ce09c-1d8e-4ce0-b350-a1f35445216c
+2026-11-25T07:12:11.612-05:00  WARN 1640 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : El worker fdef03f9-4ef5-43b2-8ae5-1287d6540da2 no está disponible en Worker; se validó el rol en Users
+2026-11-25T07:12:11.742-05:00  INFO 1640 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: b6bb19c0-d252-404b-bd3a-b0db23df0a98
+2026-11-25T07:12:11.857-05:00  INFO 1640 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:12:12.373-05:00  INFO 1640 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-25T07:12:12.376-05:00  INFO 1640 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-11-25T07:12:12.378-05:00  INFO 1640 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:20:55.064-05:00  INFO 25564 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Starting OficioyaServiceApplicationTests using Java 26 with PID 25564 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:20:55.066-05:00  INFO 25564 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : The following 1 profile is active: "test"
+2026-11-25T07:20:57.076-05:00  INFO 25564 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:20:57.080-05:00  INFO 25564 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:20:57.207-05:00  INFO 25564 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 109 ms. Found 1 JPA repository interface.
+2026-11-25T07:20:58.383-05:00  INFO 25564 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-25T07:20:58.872-05:00  INFO 25564 --- [oficioya-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-25T07:20:58.875-05:00  INFO 25564 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-25T07:20:58.907-05:00  INFO 25564 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:testdb (H2 2.4)
+2026-11-25T07:20:59.002-05:00  WARN 25564 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:20:59.045-05:00  INFO 25564 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:20:59.049-05:00  INFO 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.016s)
+2026-11-25T07:20:59.050-05:00  WARN 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:20:59.065-05:00  INFO 25564 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:20:59.123-05:00  INFO 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:20:59.129-05:00  INFO 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:20:59.358-05:00  INFO 25564 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:20:59.506-05:00  INFO 25564 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-25T07:21:00.221-05:00  INFO 25564 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:21:00.404-05:00  WARN 25564 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:21:00.434-05:00  INFO 25564 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:21:02.329-05:00  INFO 25564 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:21:02.411-05:00  INFO 25564 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:21:02.778-05:00  INFO 25564 --- [oficioya-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-25T07:21:04.939-05:00  WARN 25564 --- [oficioya-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-25T07:21:05.037-05:00  WARN 25564 --- [oficioya-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 38bd19d6-4a75-4605-9213-51e9a1dbe7ab
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-11-25T07:21:05.059-05:00  INFO 25564 --- [oficioya-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-11-25T07:21:06.321-05:00  INFO 25564 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Started OficioyaServiceApplicationTests in 11.959 seconds (process running for 22.068)
+2026-11-25T07:21:06.325-05:00  WARN 25564 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-25T07:21:06.326-05:00  WARN 25564 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-25T07:21:06.369-05:00  INFO 25564 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:21:06.436-05:00  INFO 25564 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:21:06.438-05:00  INFO 25564 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:21:06.467-05:00  INFO 25564 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:21:06.519-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Starting RequestRepositoryTest using Java 26 with PID 25564 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:21:06.520-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : The following 1 profile is active: "test"
+2026-11-25T07:21:06.764-05:00  INFO 25564 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:21:06.765-05:00  INFO 25564 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:21:06.816-05:00  INFO 25564 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 1 JPA repository interface.
+2026-11-25T07:21:06.835-05:00  INFO 25564 --- [oficioya-service] [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-25T07:21:06.875-05:00  INFO 25564 --- [oficioya-service] [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:43e425a7-530e-46aa-a497-330733b74b76;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-25T07:21:06.904-05:00  INFO 25564 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:43e425a7-530e-46aa-a497-330733b74b76 (H2 2.4)
+2026-11-25T07:21:06.913-05:00  WARN 25564 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:21:06.918-05:00  INFO 25564 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:21:06.918-05:00  INFO 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.001s)
+2026-11-25T07:21:06.919-05:00  WARN 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:21:06.921-05:00  INFO 25564 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:21:06.932-05:00  INFO 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:21:06.932-05:00  INFO 25564 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:21:06.958-05:00  INFO 25564 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:21:07.002-05:00  INFO 25564 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:21:07.006-05:00  WARN 25564 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:21:07.008-05:00  INFO 25564 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:43e425a7-530e-46aa-a497-330733b74b76]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: 43E425A7-530E-46AA-A497-330733B74B76/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:21:07.083-05:00  INFO 25564 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:21:07.093-05:00  INFO 25564 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:21:07.169-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Started RequestRepositoryTest in 0.695 seconds (process running for 22.916)
+2026-11-25T07:21:07.858-05:00  INFO 25564 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:21:07.895-05:00  INFO 25564 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:21:07.897-05:00  INFO 25564 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:21:07.904-05:00  INFO 25564 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:21:07.930-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:07.931-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:07.933-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:21:08.134-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.135-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.137-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:21:08.156-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.156-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.157-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:08.225-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.225-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.226-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:08.237-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.237-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.238-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-25T07:21:08.253-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.253-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.253-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-25T07:21:08.290-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.290-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.291-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:08.304-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.304-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.305-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:08.333-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.334-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.335-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:08.347-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:08.347-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:08.349-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:08.359-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: ea58dae1-11b9-4353-9793-a0ab00ad4092
+2026-11-25T07:21:09.342-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/ea58dae1-11b9-4353-9793-a0ab00ad4092/account": "{"timestamp":"2026-11-25T12:21:09.199619503","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/ea58dae1-11b9-4353-9793-a0ab00ad4092/account"}"
+2026-11-25T07:21:09.519-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/ea58dae1-11b9-4353-9793-a0ab00ad4092": "{"timestamp":"2026-11-25T12:21:09.366546481","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/ea58dae1-11b9-4353-9793-a0ab00ad4092"}"
+2026-11-25T07:21:10.282-05:00  WARN 25564 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación REJECTED_REQUEST a ea58dae1-11b9-4353-9793-a0ab00ad4092 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:21:10.303-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:10.303-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:10.305-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:10.332-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:10.333-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:10.334-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:10.346-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 82f9e599-d05b-4c91-b180-741145c5941b
+2026-11-25T07:21:10.499-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/82f9e599-d05b-4c91-b180-741145c5941b/account": "{"timestamp":"2026-11-25T12:21:10.366012544","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/82f9e599-d05b-4c91-b180-741145c5941b/account"}"
+2026-11-25T07:21:10.638-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/82f9e599-d05b-4c91-b180-741145c5941b": "{"timestamp":"2026-11-25T12:21:10.50639558","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/82f9e599-d05b-4c91-b180-741145c5941b"}"
+2026-11-25T07:21:11.153-05:00  WARN 25564 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 82f9e599-d05b-4c91-b180-741145c5941b vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:21:11.165-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.166-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.167-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:11.182-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.182-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.184-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:21:11.196-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.196-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.197-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:11.214-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.214-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.216-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:21:11.237-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.237-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.238-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:11.261-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.262-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.263-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:11.276-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.276-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.277-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-25T07:21:11.296-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:11.297-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:11.298-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:11.310-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 908d9a43-356f-4eee-8e4b-5348f3095a61
+2026-11-25T07:21:11.448-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/908d9a43-356f-4eee-8e4b-5348f3095a61/account": "{"timestamp":"2026-11-25T12:21:11.321762548","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/908d9a43-356f-4eee-8e4b-5348f3095a61/account"}"
+2026-11-25T07:21:11.582-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/908d9a43-356f-4eee-8e4b-5348f3095a61": "{"timestamp":"2026-11-25T12:21:11.456772431","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/908d9a43-356f-4eee-8e4b-5348f3095a61"}"
+2026-11-25T07:21:12.495-05:00  WARN 25564 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 908d9a43-356f-4eee-8e4b-5348f3095a61 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:21:12.509-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:12.510-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:12.511-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:12.522-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 69db7379-ac3e-4a6f-99d1-c2887f56e8bf
+2026-11-25T07:21:12.664-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/69db7379-ac3e-4a6f-99d1-c2887f56e8bf/account": "{"timestamp":"2026-11-25T12:21:12.540355661","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/69db7379-ac3e-4a6f-99d1-c2887f56e8bf/account"}"
+2026-11-25T07:21:12.797-05:00 ERROR 25564 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/69db7379-ac3e-4a6f-99d1-c2887f56e8bf": "{"timestamp":"2026-11-25T12:21:12.672773494","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/69db7379-ac3e-4a6f-99d1-c2887f56e8bf"}"
+2026-11-25T07:21:13.278-05:00  WARN 25564 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 69db7379-ac3e-4a6f-99d1-c2887f56e8bf vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:21:13.292-05:00  INFO 25564 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:21:13.292-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:21:13.293-05:00  INFO 25564 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:21:13.792-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 82bdf565-125d-4f16-90d4-47acfb177009 Cancelada por worker: 400387dd-543a-4dce-9320-867ad3ace360
+2026-11-25T07:21:13.873-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 4fe5089e-7acf-4917-afd2-f80ce03ca340 Cancelada por contractor: 58bd8c35-8f17-4561-935f-8626e8ca2d0d
+2026-11-25T07:21:13.878-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: ff575ce3-5de4-4ffd-8a24-599128467ca5 Cancelada por contractor: ca524988-7461-49a9-878d-db913a713f0f
+2026-11-25T07:21:13.884-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: a17d894a-0e9a-4049-bdc6-4222af518b56 Cancelada por contractor: 109daae7-8e6e-4813-8ec9-c3d0f80571aa
+2026-11-25T07:21:13.888-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: b7012fe9-a090-4dae-b776-792480dedfaf Cancelada por worker: 018a9692-78f0-4dd7-9faf-b03b51ef1095
+2026-11-25T07:21:13.894-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: c6438966-d7c6-4f3b-808f-0f1f89f5a5f2 Cancelada por worker: 0a14dc73-7c76-434d-a741-85cfd6dbc39d
+2026-11-25T07:21:13.894-05:00  WARN 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : La solicitud ya estaba completada
+2026-11-25T07:21:13.897-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 59181f2d-e618-40c1-aa1d-626298750267 Cancelada por contractor: 1c1e45e1-f33f-4827-af8d-31733f12aea8
+2026-11-25T07:21:13.903-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 8a4c1edf-b24b-4437-82fa-265810e709ea Cancelada por contractor: 5bd5e502-3836-437c-a68c-ffe37fab2f53
+2026-11-25T07:21:13.906-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: df76de07-5da0-4dcc-9295-e83e690483f0 Cancelada por contractor: 76b1de57-ade2-4e8e-99c6-d82b49cf1028
+2026-11-25T07:21:13.912-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: eb9461ed-2ba3-4fb4-a32f-1c77b1e5a1b8 Cancelada por worker: 1b546744-8c6d-4bd1-9626-fe3b100f0094
+2026-11-25T07:21:13.917-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: bf1dd5a4-c7c8-4654-bf98-d069fb0cbfcf Cancelada por worker: 98c03a43-4df9-4035-ab6c-b5f5e5e0f00b
+2026-11-25T07:21:13.922-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 4ec69a44-5ead-4558-9726-9596169df256 Cancelada por contractor: d9a8ac29-3a05-4759-b5ff-6965d1a33120
+2026-11-25T07:21:13.930-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 400fc977-5bcb-4313-94b9-5344d906533e Cancelada por worker: 1e5400a7-fb09-4785-8808-a9d0bb12912e
+2026-11-25T07:21:13.936-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: e8b7e36a-698d-406c-8cf5-2a23de52b553 Cancelada por worker: caf2f6b3-c1eb-467e-90ef-a5b9629071cb
+2026-11-25T07:21:13.940-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: fc03cdb7-f179-4c12-bc75-f107d7170ef4 Cancelada por contractor: 85d01b78-ac3d-4a42-97e3-96d35495dc6e
+2026-11-25T07:21:13.945-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: cd888230-ea4a-4503-a235-bce97469a5c9 Cancelada por worker: 68c94b38-c1a3-467f-baed-f82f60155d3a
+2026-11-25T07:21:13.945-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Trabajador canceló con menos de 24 horas
+2026-11-25T07:21:13.945-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Notificando a reputation
+2026-11-25T07:21:13.950-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 64bef504-dd56-4608-bbc6-fb75e7c42018 Cancelada por worker: a3010399-fcf2-43c9-b86e-9cb87a607834
+2026-11-25T07:21:14.038-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 24fe643a-45c3-4996-8b51-253cb3a3b9f2 cancelando request: 63cb054a-d60a-437f-8f18-5086fa0580a0
+2026-11-25T07:21:14.038-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 63cb054a-d60a-437f-8f18-5086fa0580a0 Cancelada por contractor: 24fe643a-45c3-4996-8b51-253cb3a3b9f2
+2026-11-25T07:21:14.039-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Contratante canceló con menos de 24 horas
+2026-11-25T07:21:14.043-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 68551968-cae4-4fc8-9fd5-b9d5dc457943 cancelando request: 720918a0-f1da-407f-8ae6-8cc7008a751b
+2026-11-25T07:21:14.044-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 720918a0-f1da-407f-8ae6-8cc7008a751b Cancelada por contractor: 68551968-cae4-4fc8-9fd5-b9d5dc457943
+2026-11-25T07:21:14.049-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 45beac7a-a148-43ee-b243-ae98f0345d0e cancelando request: 77df7634-c66c-4b17-9b2e-f48d9c7d99de
+2026-11-25T07:21:14.050-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 77df7634-c66c-4b17-9b2e-f48d9c7d99de Cancelada por worker: 45beac7a-a148-43ee-b243-ae98f0345d0e
+2026-11-25T07:21:14.402-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: 6967c1b3-6e5f-41d2-aa54-d8a632dc222d
+2026-11-25T07:21:14.411-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: d9fe16ac-2ed4-4139-956c-b71c5742f8e7
+2026-11-25T07:21:14.485-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: 4eef540e-6e23-4b02-baf8-e457d2f5e3c6
+2026-11-25T07:21:14.485-05:00  WARN 25564 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : El worker 0a16d77d-47e0-47c6-876d-25943d84f7ef no está disponible en Worker; se validó el rol en Users
+2026-11-25T07:21:14.576-05:00  INFO 25564 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: fddf7786-74cb-41d6-9be4-a0799cc45151
+2026-11-25T07:21:14.687-05:00  INFO 25564 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:21:15.138-05:00  INFO 25564 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-25T07:21:15.142-05:00  INFO 25564 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-11-25T07:21:15.143-05:00  INFO 25564 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:22:28.391-05:00  INFO 23860 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Starting OficioyaServiceApplicationTests using Java 26 with PID 23860 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:22:28.394-05:00  INFO 23860 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : The following 1 profile is active: "test"
+2026-11-25T07:22:30.398-05:00  INFO 23860 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:22:30.404-05:00  INFO 23860 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:22:30.537-05:00  INFO 23860 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 115 ms. Found 1 JPA repository interface.
+2026-11-25T07:22:31.668-05:00  INFO 23860 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-25T07:22:32.197-05:00  INFO 23860 --- [oficioya-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-25T07:22:32.201-05:00  INFO 23860 --- [oficioya-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-25T07:22:32.224-05:00  INFO 23860 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:testdb (H2 2.4)
+2026-11-25T07:22:32.327-05:00  WARN 23860 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:22:32.376-05:00  INFO 23860 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:22:32.380-05:00  INFO 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.014s)
+2026-11-25T07:22:32.380-05:00  WARN 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:22:32.392-05:00  INFO 23860 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:22:32.483-05:00  INFO 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:22:32.491-05:00  INFO 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:22:32.737-05:00  INFO 23860 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:22:32.895-05:00  INFO 23860 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-25T07:22:33.581-05:00  INFO 23860 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:22:33.694-05:00  WARN 23860 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:22:33.724-05:00  INFO 23860 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:22:35.406-05:00  INFO 23860 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:22:35.491-05:00  INFO 23860 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:22:35.808-05:00  INFO 23860 --- [oficioya-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-25T07:22:38.077-05:00  WARN 23860 --- [oficioya-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-25T07:22:38.157-05:00  WARN 23860 --- [oficioya-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: faa9e9d2-cb11-4f5f-9540-c1a677fc0a3a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-11-25T07:22:38.177-05:00  INFO 23860 --- [oficioya-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-11-25T07:22:39.427-05:00  INFO 23860 --- [oficioya-service] [main] .e.d.o.o.OficioyaServiceApplicationTests : Started OficioyaServiceApplicationTests in 11.689 seconds (process running for 21.134)
+2026-11-25T07:22:39.431-05:00  WARN 23860 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-25T07:22:39.432-05:00  WARN 23860 --- [oficioya-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-25T07:22:39.478-05:00  INFO 23860 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:22:39.546-05:00  INFO 23860 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:22:39.549-05:00  INFO 23860 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest]: RequestRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:22:39.582-05:00  INFO 23860 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepositoryTest
+2026-11-25T07:22:39.635-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Starting RequestRepositoryTest using Java 26 with PID 23860 (started by Brian in C:\Users\Brian\Documents\AClases-------------------------------------------------\2026-2\DOSW\OficioYa_proyecto\oficioya-service)
+2026-11-25T07:22:39.635-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : The following 1 profile is active: "test"
+2026-11-25T07:22:39.856-05:00  INFO 23860 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-25T07:22:39.856-05:00  INFO 23860 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-25T07:22:39.896-05:00  INFO 23860 --- [oficioya-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 1 JPA repository interface.
+2026-11-25T07:22:39.919-05:00  INFO 23860 --- [oficioya-service] [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-25T07:22:39.954-05:00  INFO 23860 --- [oficioya-service] [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:fe4cc6cd-7a50-42f7-9a97-2fc7acc60aa9;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-25T07:22:39.982-05:00  INFO 23860 --- [oficioya-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:fe4cc6cd-7a50-42f7-9a97-2fc7acc60aa9 (H2 2.4)
+2026-11-25T07:22:39.991-05:00  WARN 23860 --- [oficioya-service] [main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-25T07:22:39.996-05:00  INFO 23860 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-25T07:22:39.997-05:00  INFO 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.001s)
+2026-11-25T07:22:39.997-05:00  WARN 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2026-11-25T07:22:39.999-05:00  INFO 23860 --- [oficioya-service] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-25T07:22:40.009-05:00  INFO 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-25T07:22:40.010-05:00  INFO 23860 --- [oficioya-service] [main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+2026-11-25T07:22:40.039-05:00  INFO 23860 --- [oficioya-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-25T07:22:40.093-05:00  INFO 23860 --- [oficioya-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-25T07:22:40.097-05:00  WARN 23860 --- [oficioya-service] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-25T07:22:40.098-05:00  INFO 23860 --- [oficioya-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:fe4cc6cd-7a50-42f7-9a97-2fc7acc60aa9]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: FE4CC6CD-7A50-42F7-9A97-2FC7ACC60AA9/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T07:22:40.166-05:00  INFO 23860 --- [oficioya-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T07:22:40.174-05:00  INFO 23860 --- [oficioya-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:22:40.267-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.r.RequestRepositoryTest        : Started RequestRepositoryTest in 0.678 seconds (process running for 21.975)
+2026-11-25T07:22:40.934-05:00  INFO 23860 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:22:40.985-05:00  INFO 23860 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:22:40.989-05:00  INFO 23860 --- [oficioya-service] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest]: SeguridadRequestTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-25T07:22:41.000-05:00  INFO 23860 --- [oficioya-service] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration edu.eci.dosw.oficioya.oficioya_service.OficioyaServiceApplication for test class edu.eci.dosw.oficioya.oficioya_service.security.SeguridadRequestTest
+2026-11-25T07:22:41.026-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.027-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.029-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:41.225-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.226-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.227-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:41.243-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.243-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.244-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:41.311-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.311-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.313-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:22:41.327-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.327-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.328-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:41.343-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.343-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.345-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:22:41.379-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.379-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.380-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:41.396-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.396-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.398-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:22:41.425-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.425-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.426-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-11-25T07:22:41.437-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:41.437-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:41.438-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:41.450-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 11f014e4-a8d2-429a-b9a7-c1982d85bc0f
+2026-11-25T07:22:42.708-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/11f014e4-a8d2-429a-b9a7-c1982d85bc0f/account": "{"timestamp":"2026-11-25T12:22:42.561527783","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/11f014e4-a8d2-429a-b9a7-c1982d85bc0f/account"}"
+2026-11-25T07:22:42.841-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/11f014e4-a8d2-429a-b9a7-c1982d85bc0f": "{"timestamp":"2026-11-25T12:22:42.715426379","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/11f014e4-a8d2-429a-b9a7-c1982d85bc0f"}"
+2026-11-25T07:22:43.649-05:00  WARN 23860 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación REJECTED_REQUEST a 11f014e4-a8d2-429a-b9a7-c1982d85bc0f vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:22:43.672-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:43.672-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:43.674-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:43.703-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:43.703-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:43.704-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:43.716-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: fc5e8801-b718-4ce2-bb83-18ec0ee9547b
+2026-11-25T07:22:43.849-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/fc5e8801-b718-4ce2-bb83-18ec0ee9547b/account": "{"timestamp":"2026-11-25T12:22:43.722883297","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/fc5e8801-b718-4ce2-bb83-18ec0ee9547b/account"}"
+2026-11-25T07:22:43.992-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/fc5e8801-b718-4ce2-bb83-18ec0ee9547b": "{"timestamp":"2026-11-25T12:22:43.856142367","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/fc5e8801-b718-4ce2-bb83-18ec0ee9547b"}"
+2026-11-25T07:22:44.482-05:00  WARN 23860 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a fc5e8801-b718-4ce2-bb83-18ec0ee9547b vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:22:44.496-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.496-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.497-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:44.509-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.510-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.512-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:22:44.526-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.527-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.528-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:44.544-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.544-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.547-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-11-25T07:22:44.570-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.570-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.571-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:44.593-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.593-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.595-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:22:44.607-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.608-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.609-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:44.628-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:44.629-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:44.631-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-25T07:22:44.643-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 9430f675-008c-476a-b8f7-eeb49f23ea38
+2026-11-25T07:22:44.777-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/9430f675-008c-476a-b8f7-eeb49f23ea38/account": "{"timestamp":"2026-11-25T12:22:44.65112191","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/9430f675-008c-476a-b8f7-eeb49f23ea38/account"}"
+2026-11-25T07:22:44.911-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/9430f675-008c-476a-b8f7-eeb49f23ea38": "{"timestamp":"2026-11-25T12:22:44.785436775","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/9430f675-008c-476a-b8f7-eeb49f23ea38"}"
+2026-11-25T07:22:45.435-05:00  WARN 23860 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 9430f675-008c-476a-b8f7-eeb49f23ea38 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:22:45.448-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:45.448-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:45.449-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:45.459-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Buscando user con id: 5a2beb22-c1f8-43ff-b67a-a15c98e51231
+2026-11-25T07:22:45.593-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Error del cliente: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/users/5a2beb22-c1f8-43ff-b67a-a15c98e51231/account": "{"timestamp":"2026-11-25T12:22:45.466752439","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/users/5a2beb22-c1f8-43ff-b67a-a15c98e51231/account"}"
+2026-11-25T07:22:45.732-05:00 ERROR 23860 --- [oficioya-service] [main] e.e.d.o.o.client.HttpUserClient          : Admin error con la otra exposición: 401 Unauthorized on GET request for "https://oficioya-users-api-cmaxb7fphegvdwb3.chilecentral-01.azurewebsites.net/api/v1/admin/users/5a2beb22-c1f8-43ff-b67a-a15c98e51231": "{"timestamp":"2026-11-25T12:22:45.600749532","status":401,"error":"Unauthorized","message":"Token ausente, inválido o expirado","route":"/api/v1/admin/users/5a2beb22-c1f8-43ff-b67a-a15c98e51231"}"
+2026-11-25T07:22:46.223-05:00  WARN 23860 --- [oficioya-service] [main] e.e.d.o.o.c.HttpNotificationService      : No se pudo enviar notificación ACCEPTED_REQUEST a 5a2beb22-c1f8-43ff-b67a-a15c98e51231 vía https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net: 401 Unauthorized on POST request for "https://oficioya-notificationapi-apffc2eygzgcbghp.brazilsouth-01.azurewebsites.net/api/v1/notification": [no body]
+2026-11-25T07:22:46.238-05:00  INFO 23860 --- [oficioya-service] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-25T07:22:46.239-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-25T07:22:46.240-05:00  INFO 23860 --- [oficioya-service] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-11-25T07:22:46.703-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: c172062e-ee0b-4891-9050-904440da7761 Cancelada por worker: 5358587a-a1bc-401a-9efc-20a2b5a1fd5c
+2026-11-25T07:22:46.776-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 09502225-7645-4e9d-ba67-800facd73368 Cancelada por contractor: c512c510-3b6e-4eea-ad1a-eee2de7cf96e
+2026-11-25T07:22:46.782-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 60606420-583b-4f6f-8395-c3397f822df7 Cancelada por contractor: b290d647-37c1-4f15-9962-fc2eb6b2c989
+2026-11-25T07:22:46.786-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 5b79437c-083f-42ef-84a1-c87fc106d90f Cancelada por contractor: 1c90fdb2-a591-4499-871c-e4f4edfec7e0
+2026-11-25T07:22:46.790-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: e1732b60-5e8c-481e-a231-adeaad4dfe99 Cancelada por worker: 87ebd562-dc4d-45af-a324-8684fa54d1aa
+2026-11-25T07:22:46.795-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 5bab64b8-4734-4e3f-bee4-0128e8b72f5e Cancelada por worker: e80faaa0-2617-4941-81c4-bf43e6086c83
+2026-11-25T07:22:46.796-05:00  WARN 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : La solicitud ya estaba completada
+2026-11-25T07:22:46.800-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 706f1225-236d-439b-a2fc-337710c9e321 Cancelada por contractor: 9623c632-f41e-47e0-9029-439417772a66
+2026-11-25T07:22:46.805-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 181aee70-ce65-40be-a40e-359f0def8734 Cancelada por contractor: 8bb2b20f-d0f3-482b-acc4-5151b523f092
+2026-11-25T07:22:46.808-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 551f5351-1c3b-4b68-afbe-8df2fbe28dad Cancelada por contractor: c3099c1c-fdbe-495d-8d1a-588d038e8dc6
+2026-11-25T07:22:46.812-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: f5946527-8747-4e0d-8675-3a7b48de288e Cancelada por worker: d5bcad16-d421-445a-950e-a2a562f0fb90
+2026-11-25T07:22:46.815-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 3c18b4f4-d661-4c43-86dc-75dc613f6014 Cancelada por worker: 67a5bd91-1e45-485b-805d-f18a6b5f69c6
+2026-11-25T07:22:46.820-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 845919c2-ca02-4e90-af3f-eaf896f4f1c3 Cancelada por contractor: 641254e8-1c7b-4405-9e73-fa35935e54c2
+2026-11-25T07:22:46.827-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 71c32a48-3eff-4914-9d23-ede8f4980f8c Cancelada por worker: 68423eaf-4f80-4bc6-8c06-a7eca9642513
+2026-11-25T07:22:46.832-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 5a3d1639-b95b-4221-bb32-0e76ae48b01e Cancelada por worker: 338762b7-c830-47e3-8248-9b76f07b6633
+2026-11-25T07:22:46.837-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: f4f020d4-aedc-4b47-ba4e-89cbc0644e47 Cancelada por contractor: d867752d-6c3f-46f1-a71b-1f622bfe0de9
+2026-11-25T07:22:46.841-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 299893dc-9438-4d2d-a13f-c43d2cfbdb14 Cancelada por worker: 3cf6372a-8f3c-4c73-83d3-53092fda9aa0
+2026-11-25T07:22:46.841-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Trabajador canceló con menos de 24 horas
+2026-11-25T07:22:46.842-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Notificando a reputation
+2026-11-25T07:22:46.845-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 756859cf-f597-4f02-b76a-cd512cbda70f Cancelada por worker: 6d0652c2-e9d0-4873-b05e-9dbe64bce5b1
+2026-11-25T07:22:46.932-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 8a7ea7e3-2d4b-45dc-81d6-86ec409c68c5 cancelando request: d93759c9-4ecf-44a3-a9d1-a0e95da14e54
+2026-11-25T07:22:46.932-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: d93759c9-4ecf-44a3-a9d1-a0e95da14e54 Cancelada por contractor: 8a7ea7e3-2d4b-45dc-81d6-86ec409c68c5
+2026-11-25T07:22:46.932-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Contratante canceló con menos de 24 horas
+2026-11-25T07:22:46.936-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: a6ea30ae-7e87-46c6-913e-63ebcea62f26 cancelando request: 382045f2-e96d-4606-8089-2215616e13ba
+2026-11-25T07:22:46.936-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 382045f2-e96d-4606-8089-2215616e13ba Cancelada por contractor: a6ea30ae-7e87-46c6-913e-63ebcea62f26
+2026-11-25T07:22:46.939-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : User: 1fd3311c-91c4-477b-8fb2-9a4aeec51125 cancelando request: 1021c86d-2199-47db-88d0-2b4f2e25945c
+2026-11-25T07:22:46.939-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.s.RequestCancellationService   : Request: 1021c86d-2199-47db-88d0-2b4f2e25945c Cancelada por worker: 1fd3311c-91c4-477b-8fb2-9a4aeec51125
+2026-11-25T07:22:47.331-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: edea5188-12ce-4f6b-a60a-dadfb6d25793
+2026-11-25T07:22:47.350-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: c18b70d8-38f1-4688-bd8e-e4776308af9a
+2026-11-25T07:22:47.431-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: 2b5f9551-413c-4292-abeb-dd258f89e18c
+2026-11-25T07:22:47.432-05:00  WARN 23860 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : El worker 43ea438e-c6b9-4e67-8256-0bc2c1990adf no está disponible en Worker; se validó el rol en Users
+2026-11-25T07:22:47.507-05:00  INFO 23860 --- [oficioya-service] [main] e.e.d.o.o.service.RequestService         : Creando una nueva request como usuario: ac87660e-8083-4917-8f9a-39cf09e1926a
+2026-11-25T07:22:47.612-05:00  INFO 23860 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T07:22:48.155-05:00  INFO 23860 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-25T07:22:48.159-05:00  INFO 23860 --- [oficioya-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-11-25T07:22:48.161-05:00  INFO 23860 --- [oficioya-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
