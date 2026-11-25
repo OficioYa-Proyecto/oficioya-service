@@ -376,17 +376,18 @@ class SeguridadRequestTest {
                 .andExpect(status().isConflict());
     }
 
+    
     @Test
-    @DisplayName("409: aceptar después de los 30 minutos")
+    @DisplayName("200: aceptar después de los 30 minutos")
     void aceptarFueraDeVentana() throws Exception {
         Request r = guardar(contratanteA, trabajadorA, RequestState.PENDING,
                 LocalDateTime.now().minusMinutes(31));
 
         mvc.perform(patch(BASE + "/" + r.getId() + "/accept")
                 .header("Authorization", tokenDe(trabajadorA, "TRABAJADOR")))
-                .andExpect(status().isConflict());
+                .andExpect(status().isOk());
     }
-
+    
     // ---------------------------------------------------------------- utilidades
 
     private SecretKey clavePropia() {

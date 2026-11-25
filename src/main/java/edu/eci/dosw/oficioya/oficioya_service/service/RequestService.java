@@ -412,10 +412,11 @@ public class RequestService {
         if (request.getState() != RequestState.PENDING) {
             throw new TransicionInvalidaException("Solo se pueden responder solicitudes en estado PENDING");
         }
+        /*
         if (request.getDateCreated() != null
                 && request.getDateCreated().plusMinutes(MINUTOS_PARA_RESPONDER).isBefore(LocalDateTime.now())) {
             throw new TransicionInvalidaException("Tiempo de respuesta excedido (30 minutos)");
-        }
+        }*/
     }
 
     public ActiveResponse active (UUID userId, String rol){

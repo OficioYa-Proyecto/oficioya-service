@@ -234,17 +234,20 @@ class RequestServiceTest {
     }
 
     @Test
-    @DisplayName("aceptar pasados los 30 min lanza TransicionInvalidaException y no guarda")
+    @DisplayName("aceptar pasados los 30 min guarda")
     void aceptarFueraDeVentana() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now().minusMinutes(31));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
 
-        TransicionInvalidaException ex = assertThrows(TransicionInvalidaException.class,
-                () -> service.acceptRequest(r.getId(), trabajador));
+        try{
+            service.acceptRequest(r.getId(), trabajador);
+        }
+        catch(Exception e){
+            assertTrue(false);
+        }
 
-        assertTrue(ex.getMessage().contains("30 minutos"));
-        assertEquals(RequestState.PENDING, r.getState());
-        verify(requestRepository, never()).save(any());
+        assertEquals(RequestState.ACCEPTED, r.getState());
+        verify(requestRepository).save(any(Request.class));
     }
 
     @ParameterizedTest
@@ -298,14 +301,19 @@ class RequestServiceTest {
     }
 
     @Test
-    @DisplayName("rechazar pasados los 30 min lanza TransicionInvalidaException")
+    @DisplayName("rechazar pasados los 30 min ")
     void rechazarFueraDeVentana() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now().minusMinutes(45));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
 
-        assertThrows(TransicionInvalidaException.class, () -> service.rejectRequest(r.getId(), trabajador));
+        try{
+            service.rejectRequest(r.getId(), trabajador);
+        }
+        catch(Exception e){
+            assertTrue(false);
+        }
 
-        assertEquals(RequestState.PENDING, r.getState());
+        assertEquals(RequestState.REJECTED, r.getState());
     }
 
     @ParameterizedTest
