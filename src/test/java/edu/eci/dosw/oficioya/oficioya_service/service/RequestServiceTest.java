@@ -217,6 +217,23 @@ class RequestServiceTest {
     }
 
     @Test
+    @DisplayName("aceptar y rechazar avisan por correo al contratante")
+    void responderConCorreoAlContratante() {
+        Request aceptada = solicitud(RequestState.PENDING, LocalDateTime.now());
+        Request rechazada = solicitud(RequestState.PENDING, LocalDateTime.now());
+        when(requestRepository.findById(aceptada.getId())).thenReturn(Optional.of(aceptada));
+        when(requestRepository.findById(rechazada.getId())).thenReturn(Optional.of(rechazada));
+        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(aceptada));
+        when(userClient.getUser(contratante)).thenReturn(usuario(contratante, "contratante@correo.com"));
+
+        service.acceptRequest(aceptada.getId(), trabajador);
+        service.rejectRequest(rechazada.getId(), trabajador);
+
+        verify(notificationService).notifyAccepted(contratante, aceptada.getId(), "contratante@correo.com");
+        verify(notificationService).notifyRejected(contratante, rechazada.getId(), "contratante@correo.com");
+    }
+
+    @Test
     @DisplayName("aceptar pasados los 30 min lanza TransicionInvalidaException y no guarda")
     void aceptarFueraDeVentana() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now().minusMinutes(31));
@@ -328,6 +345,7 @@ class RequestServiceTest {
         when(requestRepository.findById(elegida.getId())).thenReturn(Optional.of(elegida));
         when(requestRepository.findByRootId(rootId))
                 .thenReturn(List.of(elegida, enConflicto, pendiente, aceptada));
+        when(userClient.getUser(trabajador)).thenReturn(usuario(trabajador, "trabajador@correo.com"));
 
         LocalDateTime antes = LocalDateTime.now();
         RequestModel resultado = service.acceptConflict(elegida.getId(), contratante);
@@ -342,6 +360,11 @@ class RequestServiceTest {
         // la elegida no se marca como cancelada
         assertNull(elegida.getCancellationState());
         verify(requestRepository).saveAll(List.of(enConflicto, pendiente, aceptada));
+        verify(notificationService).notifyAccepted(trabajador, elegida.getId(), "trabajador@correo.com");
+        for (Request cancelada : List.of(enConflicto, pendiente, aceptada)) {
+            verify(notificationService).notifyCancelled(trabajador, cancelada.getId(),
+                    "trabajador@correo.com", "CANCELLED_BY_CONTRACTOR");
+        }
     }
 
     @ParameterizedTest
@@ -501,5 +524,10 @@ class RequestServiceTest {
         r.setState(estado);
         r.setDateCreated(creada);
         return r;
+    }
+
+    private UserResponse usuario(UUID id, String email) {
+        return new UserResponse(id, "Usuario", email, List.of(), List.of("TRABAJADOR"),
+                "active", LocalDateTime.now(), LocalDateTime.now());
     }
 }

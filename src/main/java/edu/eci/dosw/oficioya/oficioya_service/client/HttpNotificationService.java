@@ -117,6 +117,37 @@ public class HttpNotificationService implements NotificationService {
     }
 
     @Override
+    public void notifyAccepted(UUID receiverId, UUID requestId, String receiverEmail) {
+        send(receiverId, "ACCEPTED_REQUEST", requestId,
+                "Tu solicitud fue aceptada", receiverEmail, null);
+    }
+
+    @Override
+    public void notifyRejected(UUID receiverId, UUID requestId, String receiverEmail) {
+        send(receiverId, "REJECTED_REQUEST", requestId,
+                "El trabajo fue rechazado por el trabajador", receiverEmail, null);
+    }
+
+    @Override
+    public void notifyCompleted(UUID receiverId, UUID requestId, String receiverEmail) {
+        send(receiverId, "COMPLETED_WORK", requestId,
+                "El trabajo fue reportado como terminado", receiverEmail, null);
+    }
+
+    @Override
+    public void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail) {
+        notifyCancelled(receiverId, requestId, receiverEmail, "CANCELLED_BY_CONTRACTOR");
+    }
+
+    @Override
+    public void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail, String type) {
+        String cancellationType = "CANCELLED_BY_WORKER".equals(type)
+                ? "CANCELLED_BY_WORKER" : "CANCELLED_BY_CONTRACTOR";
+        send(receiverId, cancellationType, requestId,
+                "Una solicitud fue cancelada", receiverEmail, null);
+    }
+
+    @Override
     public void notifyRoleRemovalEmail(String type, UUID receiverId, String receiverEmail,
                                        UUID requestId, String subject, String body) {
         if (receiverEmail == null || receiverEmail.isBlank()) {

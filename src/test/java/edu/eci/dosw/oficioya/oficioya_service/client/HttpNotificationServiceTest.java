@@ -74,29 +74,45 @@ class HttpNotificationServiceTest {
     }
 
     @Test
-    @DisplayName("Las demás notificaciones publican el tipo correcto sin enlaces de acción")
+    @DisplayName("Las demás notificaciones publican el tipo y el correo del destinatario")
     void notificacionesSinAcciones() {
         server.expect(requestTo("https://notification.test/api/v1/notification"))
                 .andExpect(jsonPath("$.type").value("REQUEST_CREATED"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
         server.expect(requestTo("https://notification.test/api/v1/notification"))
                 .andExpect(jsonPath("$.type").value("ACCEPTED_REQUEST"))
+                .andExpect(jsonPath("$.receiverEmail").value("destino@test.com"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
         server.expect(requestTo("https://notification.test/api/v1/notification"))
                 .andExpect(jsonPath("$.type").value("CANCELLED_BY_CONTRACTOR"))
+                .andExpect(jsonPath("$.receiverEmail").value("destino@test.com"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
         server.expect(requestTo("https://notification.test/api/v1/notification"))
                 .andExpect(jsonPath("$.type").value("COMPLETED_WORK"))
+                .andExpect(jsonPath("$.receiverEmail").value("destino@test.com"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
         server.expect(requestTo("https://notification.test/api/v1/notification"))
                 .andExpect(jsonPath("$.type").value("REJECTED_REQUEST"))
+                .andExpect(jsonPath("$.receiverEmail").value("destino@test.com"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 
         service.notifyRequestCreated(workerId, requestId, null);
-        service.notifyAccepted(workerId, requestId);
-        service.notifyCancelled(workerId, requestId);
-        service.notifyCompleted(workerId, requestId);
-        service.notifyRejected(workerId, requestId);
+        service.notifyAccepted(workerId, requestId, "destino@test.com");
+        service.notifyCancelled(workerId, requestId, "destino@test.com");
+        service.notifyCompleted(workerId, requestId, "destino@test.com");
+        service.notifyRejected(workerId, requestId, "destino@test.com");
+        server.verify();
+    }
+
+    @Test
+    @DisplayName("La cancelación del trabajador usa su propio tipo de notificación")
+    void cancelacionPorTrabajador() {
+        server.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(jsonPath("$.type").value("CANCELLED_BY_WORKER"))
+                .andExpect(jsonPath("$.receiverEmail").value("contratante@test.com"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        service.notifyCancelled(workerId, requestId, "contratante@test.com", "CANCELLED_BY_WORKER");
         server.verify();
     }
 

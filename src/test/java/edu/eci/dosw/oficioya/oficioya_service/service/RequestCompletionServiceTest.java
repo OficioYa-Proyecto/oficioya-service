@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +24,8 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
+import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
+import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.exception.RecursoNoEncontradoException;
 import edu.eci.dosw.oficioya.oficioya_service.exception.RecursosAjenosException;
@@ -44,6 +47,9 @@ class RequestCompletionServiceTest {
     @Mock
     NotificationService notificationService;
 
+    @Mock
+    UserClient userClient;
+
     @Spy
     RequestMapper requestMapper = Mappers.getMapper(RequestMapper.class);
 
@@ -56,12 +62,13 @@ class RequestCompletionServiceTest {
         UUID trabajador = UUID.randomUUID();
         Request r = solicitud(trabajador, RequestState.ACCEPTED);
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
+        when(userClient.getUser(r.getContractorId())).thenReturn(contratante(r.getContractorId()));
 
         service.completeRequest(r.getId(), trabajador);
 
         assertEquals(RequestState.COMPLETED, r.getState());
         verify(requestRepository).save(r);
-        verify(notificationService).notifyCompleted(r.getContractorId(), r.getId());
+        verify(notificationService).notifyCompleted(r.getContractorId(), r.getId(), "contratante@correo.com");
     }
 
     @Test
@@ -76,7 +83,7 @@ class RequestCompletionServiceTest {
         assertEquals("Recursos no pertenecientes al usuario", ex.getMessage());
         assertEquals(RequestState.ACCEPTED, r.getState());
         verify(requestRepository, never()).save(any());
-        verify(notificationService, never()).notifyCompleted(any(), any());
+        verify(notificationService, never()).notifyCompleted(any(), any(), any());
     }
 
     @ParameterizedTest
@@ -93,7 +100,7 @@ class RequestCompletionServiceTest {
         assertEquals("Solo se pueden completar solicitudes en estado ACCEPTED", ex.getMessage());
         assertEquals(estado, r.getState());
         verify(requestRepository, never()).save(any());
-        verify(notificationService, never()).notifyCompleted(any(), any());
+        verify(notificationService, never()).notifyCompleted(any(), any(), any());
     }
 
     @Test
@@ -118,5 +125,10 @@ class RequestCompletionServiceTest {
         r.setState(estado);
         r.setDateCreated(LocalDateTime.now());
         return r;
+    }
+
+    private UserResponse contratante(UUID id) {
+        return new UserResponse(id, "Contratante", "contratante@correo.com", List.of(),
+                List.of("CONTRATANTE"), "ACTIVE", null, null);
     }
 }
