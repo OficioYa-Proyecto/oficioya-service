@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import edu.eci.dosw.oficioya.oficioya_service.client.HttpWorkerClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
@@ -33,6 +35,8 @@ public class RequestCancellationService {
 
     private final ReputationClient reputationClient;
 
+    private static final Logger log = LoggerFactory.getLogger(RequestCancellationService.class);
+
     public RequestCancellationService(RequestRepository requestRepository, RequestMapper requestMapper, NotificationService notificationService, UserClient userClient, ReputationClient reputationClient) {
         this.requestRepository = requestRepository;
         this.requestMapper = requestMapper;
@@ -42,7 +46,9 @@ public class RequestCancellationService {
     }
 
     public RequestModel cancelRequest(UUID requestId, UUID userId){
+        log.info("User: {} cancelando request: {}",userId, requestId);
         if(requestRepository.findById(requestId).isEmpty()){
+            log.error("Request no encontrada");
             throw new RecursoNoEncontradoException("NO_ENCONTRADO");
         }
 
@@ -57,6 +63,7 @@ public class RequestCancellationService {
         Request found = requestRepository.findById(requestId).orElse(null);
 
         if(!userId.equals(found.getContractorId()) && !userId.equals(found.getWorkerId())){
+            log.warn("Usuario intentó acceder a un recurso ajeno");
             throw new RecursosAjenosException();
         }
 
@@ -72,6 +79,8 @@ public class RequestCancellationService {
 
 
     public void cancelByClient(UUID requestId, UUID contractorId) {
+        log.info("Request: {} Cancelada por contractor: {}", requestId,contractorId);
+
         Request request = requestRepository.findById(requestId).orElseThrow();
         if (!request.getContractorId().equals(contractorId)) {
             throw new RecursosAjenosException();
@@ -87,6 +96,7 @@ public class RequestCancellationService {
         if (request.getState() == RequestState.ACCEPTED && request.getScheduledDateTime() != null) {
             LocalDateTime limit = request.getScheduledDateTime().minusHours(24);
             if (LocalDateTime.now().isAfter(limit)) {
+                log.info("Contratante canceló con menos de 24 horas");
                 request.setCancellationState(CancellationState.IN_PROGRESS);
             }
             else{
@@ -109,12 +119,15 @@ public class RequestCancellationService {
     }
 
     public void cancelByWorker(UUID requestId, UUID workerId) {
+        log.info("Request: {} Cancelada por worker: {}", requestId, workerId);
+
         Request request = requestRepository.findById(requestId).orElseThrow();
         if (!request.getWorkerId().equals(workerId)) {
             throw new RecursosAjenosException();
         }
 
         if (request.getState() == RequestState.COMPLETED) {
+            log.warn("La solicitud ya estaba completada");
             //TODO: CAmbiar tipo de exception
             throw new RuntimeException("No se puede cancelar a solicitud ya completada");
         }
@@ -125,8 +138,10 @@ public class RequestCancellationService {
         if (request.getState() == RequestState.ACCEPTED && request.getScheduledDateTime() != null) {
             LocalDateTime limit = request.getScheduledDateTime().minusHours(24);
             if (LocalDateTime.now().isAfter(limit)) {
+                log.info("Trabajador canceló con menos de 24 horas");
                 // Notificar a Reputation: cancelación tardía
                 if (reputationClient != null) {
+                    log.info("Notificando a reputation");
                     reputationClient.notifyLateCancellation(requestId, workerId, request.getScheduledDateTime(), LocalDateTime.now());
                 }
             }

@@ -6,7 +6,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import edu.eci.dosw.oficioya.oficioya_service.client.HttpWorkerClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
@@ -27,6 +30,7 @@ public class RequestCompletionService {
     private final NotificationService notificationService;
     private final ReputationClient reputationClient;
     private final UserClient userClient;
+    private static final Logger log = LoggerFactory.getLogger(RequestCompletionService.class);
 
     public RequestCompletionService(RequestRepository requestRepository, RequestMapper requestMapper, NotificationService notificationService, ReputationClient reputationClient) {
         this(requestRepository, requestMapper, notificationService, reputationClient, null);
@@ -64,6 +68,7 @@ public class RequestCompletionService {
         notificationService.notifyCompleted(request.getContractorId(), requestId,
                 emailOf(request.getContractorId()));
         if (reputationClient != null) {
+            log.info("Se notifica completado servicio: {} con worker: {}, contractor :{}",requestId,request.getWorkerId(),request.getContractorId());
             reputationClient.notifyServiceCompleted(requestId, request.getWorkerId(), request.getContractorId(), LocalDateTime.now());
         }
 
