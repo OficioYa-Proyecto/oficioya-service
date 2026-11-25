@@ -27,6 +27,15 @@ public interface NotificationService {
     void notifyCompleted(UUID contractorId, UUID requestId);
     void notifyRejected(UUID contractorId, UUID requestId);
 
+    /**
+     * RF-13. Correos de quita de rol. El cuerpo ya viene armado desde Service;
+     * Notification sólo lo envía por SMTP.
+     */
+    default void notifyRoleRemovalEmail(String type, UUID receiverId, String receiverEmail,
+                                        UUID requestId, String subject, String body) {
+        // Las implementaciones que no envían correo no hacen nada.
+    }
+
     /*
      void notifyConflict(UUID contractorId, UUID requestId);???
      */
