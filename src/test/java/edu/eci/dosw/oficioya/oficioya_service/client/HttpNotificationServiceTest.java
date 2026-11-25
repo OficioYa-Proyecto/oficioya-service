@@ -157,6 +157,25 @@ class HttpNotificationServiceTest {
         servidorAutenticado.verify();
     }
 
+    @Test
+    @DisplayName("El correo de quita de rol lleva el token de servicio")
+    void correoDeQuitaDeRolConTokenDeServicio() {
+        when(jwtUtil.generateServiceToken()).thenReturn("service-token");
+        RestTemplate rest = new RestTemplate();
+        HttpNotificationService autenticada = new HttpNotificationService(
+                "https://notification.test/", emailActionLinkService, "", jwtUtil, rest);
+        MockRestServiceServer servidor = MockRestServiceServer.bindTo(rest).build();
+
+        servidor.expect(requestTo("https://notification.test/api/v1/notification/email"))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer service-token"))
+                .andExpect(jsonPath("$.type").value("ROLE_REMOVAL_APPROVED"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        autenticada.notifyRoleRemovalEmail("ROLE_REMOVAL_APPROVED", contractorId(),
+                "contratante@test.com", requestId, "Asunto", "Cuerpo");
+        servidor.verify();
+    }
+
     private UUID contractorId() {
         return UUID.fromString("00000000-0000-0000-0000-000000000099");
     }

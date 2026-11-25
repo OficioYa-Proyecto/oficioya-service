@@ -167,9 +167,7 @@ public class HttpNotificationService implements NotificationService {
             payload.put("body", body);
             payload.put("type", type);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, buildHeaders());
             restTemplate.postForEntity(baseUrl + "/api/v1/notification/email", entity, String.class);
             log.info("Correo {} de quita de rol enviado a {}", type, receiverEmail.trim());
         } catch (Exception e) {
