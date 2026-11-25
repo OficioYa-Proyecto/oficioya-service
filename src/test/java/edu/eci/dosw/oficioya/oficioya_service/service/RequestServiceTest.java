@@ -402,8 +402,8 @@ class RequestServiceTest {
         r.setRootId(UUID.randomUUID());
         String authHeader = "prueba";
         
-        when(userClient.getUser(r.getWorkerId())).thenReturn(new UserResponse(r.getWorkerId(), "name","email",List.of("301"),List.of("TRABAJADOR"),"active",LocalDateTime.now(),LocalDateTime.now()));
-        when(userClient.getUser(r.getContractorId())).thenReturn(new UserResponse(r.getContractorId(), "name","email",List.of("301"),List.of("CONTRATANTE"),"active",LocalDateTime.now(),LocalDateTime.now()));
+        when(userClient.getUser(r.getWorkerId())).thenReturn(new UserResponse(r.getWorkerId(), "name","email",List.of(),List.of("TRABAJADOR"),"active",LocalDateTime.now(),LocalDateTime.now()));
+        when(userClient.getUser(r.getContractorId())).thenReturn(new UserResponse(r.getContractorId(), "name","email",List.of(),List.of("CONTRATANTE"),"active",LocalDateTime.now(),LocalDateTime.now()));
         when(workerClient.exists(r.getWorkerId(), authHeader)).thenReturn(true);
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
         when(requestRepository.countActiveWorker(r.getWorkerId())).thenReturn(5);
@@ -431,11 +431,11 @@ class RequestServiceTest {
         String authHeader = "token-prueba";
         when(workerClient.exists(trabajador,authHeader)).thenReturn(true);
         when(userClient.getUser(contratante)).thenReturn(new UserResponse(
-                contratante, "Contratante", correo, List.of("300"), List.of("CONTRATANTE"),
+                contratante, "Contratante", correo, List.of(), List.of("CONTRATANTE"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
         String correoTrabajador = "trabajador@example.com";
         when(userClient.getUser(trabajador)).thenReturn(new UserResponse(
-                trabajador, "Trabajador", correoTrabajador, List.of("300"), List.of("TRABAJADOR"),
+                trabajador, "Trabajador", correoTrabajador, List.of(), List.of("TRABAJADOR"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -465,12 +465,12 @@ class RequestServiceTest {
         
         when(userClient.getUser(contratante)).thenReturn(new UserResponse(
                 contratante, "Contratante", "contratante@example.com",
-                List.of("300"), List.of("CONTRATANTE"),
+                List.of(), List.of("CONTRATANTE"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
 
         when(userClient.getUser(trabajador)).thenReturn(new UserResponse(
                 trabajador, "Trabajador", "trabajador@example.com",
-                List.of("300"), List.of("TRABAJADOR"),
+                List.of(), List.of("TRABAJADOR"),
                 "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
 
         when(workerClient.exists(trabajador,authHeader)).thenReturn(true);
