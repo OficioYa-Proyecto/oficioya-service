@@ -118,15 +118,18 @@ public class RequestService {
                 continue;
             }
 
-            if (workerClient != null && !workerClient.exists(id, authHeader)) {
-                log.info("WOrker no existe");
-                continue;
-            }
             worker = userClient.getUser(id);
 
             if (worker == null || worker.roles() == null || !worker.roles().contains("TRABAJADOR")) {
                 log.info("Usuario no encontrado, no tiene roles, o no era trabajador");
                 continue;
+            }
+
+            // Users es la fuente de verdad del rol. Worker puede responder 404 cuando el
+            // perfil está pausado o no existe; en ese caso se registran los dos resultados
+            // pero no se descarta al trabajador, para no bloquear la creación de la solicitud.
+            if (workerClient != null && !workerClient.exists(id, authHeader)) {
+                log.warn("El worker {} no está disponible en Worker; se validó el rol en Users", id);
             }
 
             Optional<Request> contractorCancelledWorker = requestRepository.findContractorHasCancelledWorker(contractorId, id);

@@ -452,6 +452,33 @@ class RequestServiceTest {
     }
 
     @Test
+    @DisplayName("crear acepta un worker con rol en Users aunque Worker responda que no existe")
+    void crearAceptaWorkerValidadoEnUsersAunqueWorkerNoLoEncuentre() {
+        Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
+        r.setWorkerId(trabajador);
+        String authHeader = "token-prueba";
+        when(workerClient.exists(trabajador, authHeader)).thenReturn(false);
+        when(userClient.getUser(contratante)).thenReturn(new UserResponse(
+                contratante, "Contratante", "contratante@example.com", List.of(), List.of("CONTRATANTE"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+        when(userClient.getUser(trabajador)).thenReturn(new UserResponse(
+                trabajador, "Trabajador", "trabajador@example.com", List.of(), List.of("TRABAJADOR"),
+                "ACTIVE", LocalDateTime.now(), LocalDateTime.now()));
+        when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        RequestResponse response = service.create(
+                new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
+                        r.getExactAddress(), r.getScheduledDateTime(), null),
+                contratante, authHeader);
+
+        assertNotNull(response.rootId());
+        verify(notificationService).notifyNewRequest(eq(trabajador), any(), eq("trabajador@example.com"),
+                any(RequestNotificationDetails.class));
+        verify(notificationService).notifyRequestCreated(eq(contratante), eq(response.rootId()),
+                eq("contratante@example.com"), any(RequestNotificationDetails.class));
+    }
+
+    @Test
     @DisplayName("crear envía la URL de la primera imagen en el contexto de la notificación")
     void crearIncluyeImagenEnLaNotificacion() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
