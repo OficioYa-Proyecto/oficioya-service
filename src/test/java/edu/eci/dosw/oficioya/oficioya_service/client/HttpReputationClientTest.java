@@ -1,19 +1,25 @@
 package edu.eci.dosw.oficioya.oficioya_service.client;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
-
+import org.mockito.quality.Strictness;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -21,10 +27,17 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
+import edu.eci.dosw.oficioya.oficioya_service.security.JwtUtil;
+
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class HttpReputationClientTest {
 
     private HttpReputationClient client;
     private MockRestServiceServer server;
+    
+    @Mock
+    private JwtUtil jwtUtil;
 
     private final UUID solicitudId = UUID.randomUUID();
     private final UUID trabajadorId = UUID.randomUUID();
@@ -32,9 +45,11 @@ class HttpReputationClientTest {
 
     @BeforeEach
     void setUp() {
-        client = new HttpReputationClient("https://reputation.test/");
+        jwtUtil = mock(JwtUtil.class);
+        client = new HttpReputationClient("https://reputation.test/", jwtUtil);
         RestTemplate restTemplate = (RestTemplate) ReflectionTestUtils.getField(client, "restTemplate");
         server = MockRestServiceServer.bindTo(restTemplate).build();
+        when(jwtUtil.generateServiceToken()).thenReturn("fake-system-token");
     }
 
     @Test
@@ -50,6 +65,7 @@ class HttpReputationClientTest {
                 .andExpect(jsonPath("$.trabajadorId").value(trabajadorId.toString()))
                 .andExpect(jsonPath("$.fechaHoraServicio").value(fechaServicio.toString()))
                 .andExpect(jsonPath("$.fechaCancelacion").value(fechaCancelacion.toString()))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer fake-system-token"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 
         client.notifyLateCancellation(solicitudId, trabajadorId, fechaServicio, fechaCancelacion);
@@ -67,6 +83,7 @@ class HttpReputationClientTest {
                 .andExpect(jsonPath("$.trabajadorId").value(trabajadorId.toString()))
                 .andExpect(jsonPath("$.contratanteId").value(contratanteId.toString()))
                 .andExpect(jsonPath("$.fechaCumplida").value(fechaCumplida.toString()))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, "Bearer fake-system-token"))
                 .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 
         client.notifyServiceCompleted(solicitudId, trabajadorId, contratanteId, fechaCumplida);
