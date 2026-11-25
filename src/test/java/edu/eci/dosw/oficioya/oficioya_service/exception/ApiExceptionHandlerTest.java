@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import edu.eci.dosw.oficioya.oficioya_service.dto.ApiError;
@@ -74,7 +75,7 @@ class ApiExceptionHandlerTest {
     @Test
     @DisplayName("cuerpo ilegible -> 400 con mensaje genérico")
     void cuerpoIlegible() {
-        ResponseEntity<ApiError> r = handler.cuerpoIlegible(null, request);
+        ResponseEntity<ApiError> r = handler.cuerpoIlegible(new HttpMessageNotReadableException("Cuerpo de la petición inválido", null), request);
 
         verificar(r, HttpStatus.BAD_REQUEST, "Bad Request", "Cuerpo de la petición inválido");
     }

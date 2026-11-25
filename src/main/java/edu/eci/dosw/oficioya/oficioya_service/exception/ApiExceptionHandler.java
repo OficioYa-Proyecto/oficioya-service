@@ -6,13 +6,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import edu.eci.dosw.oficioya.oficioya_service.client.HttpNotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.dto.ApiError;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     @ExceptionHandler(CorreoDuplicadoException.class)
     public ResponseEntity<ApiError> duplicado(CorreoDuplicadoException ex, HttpServletRequest req) {
@@ -52,6 +55,8 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiError> cuerpoIlegible(HttpMessageNotReadableException ex, HttpServletRequest req) {
+        log.warn("Cuerpo ilegible en {} {}: {}", req.getMethod(), req.getRequestURI(),
+            ex.getMostSpecificCause().getMessage());
         return ResponseEntity.badRequest().body(
                 ApiError.of(400, "Bad Request", "Cuerpo de la petición inválido", req.getRequestURI()));
     }
