@@ -8,7 +8,7 @@ public record UserResponse(
         UUID id,
         String name,
         String email,
-        List<String> phones,
+        List<UserPhoneDTO> phones,
         List<String> roles,
         String accountStatus,
         LocalDateTime createdAt,
