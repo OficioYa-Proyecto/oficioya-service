@@ -322,34 +322,41 @@ public class RequestService {
         requireAnswerable(request);
 
         // Predisposición: si la publicación fue enviada a más de un trabajador y todavía hay
-        // pendientes que no han rechazado, la solicitud entra en disputa (CONFLICT) desde la
-        // primera aceptación, sin esperar una segunda. Si todos los demás ya rechazaron/cancelaron
-        // (o solo había un trabajador), queda aceptada (ACCEPTED) como si fuera a uno solo.
+        // candidatos vivos (PENDING/ACCEPTED/CONFLICT), la primera aceptación pone la solicitud
+        // en disputa (CONFLICT) para que el contratante elija, sin esperar una segunda aceptación.
+        // Los PENDING se dejan intactos: así cada trabajador puede seguir aceptando o rechazando
+        // y el grupo se resuelve solo cuando quede un único candidato. Si todos los demás ya
+        // rechazaron/cancelaron (o solo había un trabajador), queda ACCEPTED como siempre.
         boolean multiWorker = group.size() > 1;
 
-        List<Request> accepted = group.stream()
+        List<Request> otherAccepted = group.stream()
                 .filter(r -> !r.getId().equals(request.getId()))
-                .filter(r -> r.getState() == RequestState.ACCEPTED || r.getState() == RequestState.CONFLICT)
+                .filter(r -> r.getState() == RequestState.ACCEPTED)
                 .toList();
 
-        List<Request> pendingOthers = group.stream()
+        List<Request> otherPending = group.stream()
                 .filter(r -> !r.getId().equals(request.getId()))
                 .filter(r -> r.getState() == RequestState.PENDING)
                 .toList();
 
-        if (!multiWorker || (accepted.isEmpty() && pendingOthers.isEmpty())) {
+        List<Request> otherConflict = group.stream()
+                .filter(r -> !r.getId().equals(request.getId()))
+                .filter(r -> r.getState() == RequestState.CONFLICT)
+                .toList();
+
+        boolean otherCandidatesAlive = !otherAccepted.isEmpty()
+                || !otherPending.isEmpty() || !otherConflict.isEmpty();
+
+        if (!multiWorker || !otherCandidatesAlive) {
             request.setState(RequestState.ACCEPTED);
             notificationService.notifyAccepted(request.getContractorId(), requestId,
                     emailOf(request.getContractorId()), detailsOf(request));
         } else {
             request.setState(RequestState.CONFLICT);
-            accepted.forEach(r -> r.setState(RequestState.CONFLICT));
-            pendingOthers.forEach(r -> r.setState(RequestState.CONFLICT));
-            List<Request> toSave = new ArrayList<>();
-            toSave.addAll(accepted);
-            toSave.addAll(pendingOthers);
-            if (!toSave.isEmpty()) {
-                requestRepository.saveAll(toSave);
+            // Solo las aceptadas previas se alinean en CONFLICT; las PENDING se respetan.
+            otherAccepted.forEach(r -> r.setState(RequestState.CONFLICT));
+            if (!otherAccepted.isEmpty()) {
+                requestRepository.saveAll(otherAccepted);
             }
             notificationService.notifyConflict(request.getContractorId(), request.getId(),
                     request.getRootId(), emailOf(request.getContractorId()), detailsOf(request));
@@ -357,16 +364,41 @@ public class RequestService {
         return requestMapper.toModel(requestRepository.save(request));
     }
 
-    /** El trabajador asignado rechaza una solicitud PENDING dentro de los 30 minutos. */
+    /**
+     * El trabajador asignado rechaza una solicitud PENDING dentro de los 30 minutos.
+     * En CONFLICT también se puede rechazar: ese candidato sale del grupo y, si solo
+     * queda uno en CONFLICT, la disputa se resuelve sola como ACCEPTED.
+     */
     @Transactional
     public RequestModel rejectRequest(UUID requestId, UUID workerId) {
         Request request = findAssignedToWorker(requestId, workerId);
-        requireAnswerable(request);
+        if (request.getState() != RequestState.PENDING && request.getState() != RequestState.CONFLICT) {
+            throw new TransicionInvalidaException("Solo se pueden rechazar solicitudes PENDING o CONFLICT");
+        }
+        boolean wasConflict = request.getState() == RequestState.CONFLICT;
         request.setState(RequestState.REJECTED);
         notificationService.notifyRejected(request.getContractorId(), requestId,
                 emailOf(request.getContractorId()));
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
-        return requestMapper.toModel(requestRepository.save(request));
+        RequestModel result = requestMapper.toModel(requestRepository.save(request));
+        if (wasConflict && request.getRootId() != null) {
+            resolveSingleConflict(request.getRootId());
+        }
+        return result;
+    }
+
+    /** Si tras un rechazo/cancelación solo queda un CONFLICT en el grupo, se acepta automáticamente. */
+    private void resolveSingleConflict(UUID rootId) {
+        List<Request> remaining = requestRepository.findByRootId(rootId).stream()
+                .filter(r -> r.getState() == RequestState.CONFLICT)
+                .toList();
+        if (remaining.size() == 1) {
+            Request sole = remaining.get(0);
+            sole.setState(RequestState.ACCEPTED);
+            requestRepository.save(sole);
+            notificationService.notifyAccepted(sole.getWorkerId(), sole.getId(),
+                    emailOf(sole.getWorkerId()), detailsOf(sole));
+        }
     }
 
     /**

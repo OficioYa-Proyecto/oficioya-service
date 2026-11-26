@@ -279,6 +279,47 @@ class RequestCancellationServiceTest {
         assertThrows(NoSuchElementException.class, () -> service.cancelByWorker(id, UUID.randomUUID()));
     }
 
+    @Test
+    @DisplayName("cancelar en CONFLICT con un solo restante lo resuelve automáticamente a ACCEPTED")
+    void cancelarEnConflictoResuelveAlUnicoRestante() {
+        UUID contratante = UUID.randomUUID();
+        UUID trabajador = UUID.randomUUID();
+        Request cancelada = solicitud(contratante, trabajador, RequestState.CONFLICT, LocalDateTime.now().plusDays(3));
+        Request restante = solicitud(contratante, UUID.randomUUID(), RequestState.CONFLICT, LocalDateTime.now().plusDays(3));
+        restante.setRootId(cancelada.getRootId());
+        when(requestRepository.findById(cancelada.getId())).thenReturn(Optional.of(cancelada));
+        when(requestRepository.findByRootId(cancelada.getRootId())).thenReturn(List.of(cancelada, restante));
+        when(userClient.getUser(contratante)).thenReturn(usuario(contratante, "contratante@correo.com"));
+
+        service.cancelByWorker(cancelada.getId(), trabajador);
+
+        assertEquals(RequestState.CANCELED, cancelada.getState());
+        assertEquals(RequestState.ACCEPTED, restante.getState());
+        verify(requestRepository).save(restante);
+        verify(notificationService).notifyAccepted(eq(restante.getWorkerId()), eq(restante.getId()),
+                any(), any(RequestNotificationDetails.class));
+    }
+
+    @Test
+    @DisplayName("el contratante cancela en CONFLICT y el único restante pasa a ACCEPTED")
+    void contratanteCancelaEnConflictoResuelveAlUnicoRestante() {
+        UUID contratante = UUID.randomUUID();
+        Request cancelada = solicitud(contratante, UUID.randomUUID(), RequestState.CONFLICT, LocalDateTime.now().plusDays(3));
+        Request restante = solicitud(contratante, UUID.randomUUID(), RequestState.CONFLICT, LocalDateTime.now().plusDays(3));
+        restante.setRootId(cancelada.getRootId());
+        when(requestRepository.findById(cancelada.getId())).thenReturn(Optional.of(cancelada));
+        when(requestRepository.findByRootId(cancelada.getRootId())).thenReturn(List.of(cancelada, restante));
+        when(userClient.getUser(restante.getWorkerId())).thenReturn(usuario(restante.getWorkerId(), "trabajador@correo.com"));
+
+        service.cancelByClient(cancelada.getId(), contratante);
+
+        assertEquals(RequestState.CANCELED, cancelada.getState());
+        assertEquals(RequestState.ACCEPTED, restante.getState());
+        verify(requestRepository).save(restante);
+        verify(notificationService).notifyAccepted(eq(restante.getWorkerId()), eq(restante.getId()),
+                any(), any(RequestNotificationDetails.class));
+    }
+
     // ------------------------------------------------------------ utilidades
 
     private void assertCancelada(Request r, LocalDateTime antes) {

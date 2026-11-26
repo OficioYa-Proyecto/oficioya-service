@@ -202,6 +202,40 @@ class RequestServiceTest {
     }
 
     @Test
+    @DisplayName("primera aceptación con otro PENDING predispone CONFLICT y deja al otro PENDING")
+    void primeraAceptacionConPendientePredisponeConflicto() {
+        Request aceptada = solicitud(RequestState.PENDING, LocalDateTime.now());
+        Request pendiente = solicitud(RequestState.PENDING, LocalDateTime.now());
+        pendiente.setWorkerId(UUID.randomUUID());
+        when(requestRepository.findById(aceptada.getId())).thenReturn(Optional.of(aceptada));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(aceptada, pendiente));
+        when(userClient.getUser(contratante)).thenReturn(usuario(contratante, "contratante@correo.com"));
+
+        RequestModel resultado = service.acceptRequest(aceptada.getId(), aceptada.getWorkerId());
+
+        assertEquals(RequestState.CONFLICT, resultado.getState());
+        assertEquals(RequestState.CONFLICT, aceptada.getState());
+        assertEquals(RequestState.PENDING, pendiente.getState(), "el otro candidato debe poder seguir respondiendo");
+        verify(requestRepository, never()).saveAll(any());
+        verify(notificationService).notifyConflict(eq(contratante), eq(aceptada.getId()), eq(rootId),
+                eq("contratante@correo.com"), any(RequestNotificationDetails.class));
+    }
+
+    @Test
+    @DisplayName("aceptar cuando el único otro candidato ya rechazó deja ACCEPTED")
+    void aceptarCuandoElOtroYaRechazoDejaAccepted() {
+        Request nueva = solicitud(RequestState.PENDING, LocalDateTime.now());
+        Request rechazada = solicitud(RequestState.REJECTED, LocalDateTime.now());
+        when(requestRepository.findById(nueva.getId())).thenReturn(Optional.of(nueva));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(nueva, rechazada));
+
+        RequestModel resultado = service.acceptRequest(nueva.getId(), trabajador);
+
+        assertEquals(RequestState.ACCEPTED, resultado.getState());
+        verify(notificationService, never()).notifyConflict(any(), any(), any(), any(), any(RequestNotificationDetails.class));
+    }
+
+    @Test
     @DisplayName("aceptar dentro de la ventana (29 min) es válido")
     void aceptarDentroDeLaVentana() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now().minusMinutes(29));
@@ -327,8 +361,8 @@ class RequestServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = RequestState.class, mode = EnumSource.Mode.EXCLUDE, names = { "PENDING" })
-    @DisplayName("rechazar una solicitud que no está PENDING lanza TransicionInvalidaException")
+    @EnumSource(value = RequestState.class, mode = EnumSource.Mode.EXCLUDE, names = { "PENDING", "CONFLICT" })
+    @DisplayName("rechazar una solicitud que no está PENDING ni CONFLICT lanza TransicionInvalidaException")
     void rechazarSiNoEstaPendiente(RequestState estado) {
         Request r = solicitud(estado, LocalDateTime.now());
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
@@ -336,6 +370,40 @@ class RequestServiceTest {
         assertThrows(TransicionInvalidaException.class, () -> service.rejectRequest(r.getId(), trabajador));
 
         assertEquals(estado, r.getState());
+    }
+
+    @Test
+    @DisplayName("rechazar en CONFLICT con un solo candidato restante lo resuelve a ACCEPTED")
+    void rechazarEnConflictoResuelveAlUnicoRestante() {
+        Request rechazada = solicitud(RequestState.CONFLICT, LocalDateTime.now());
+        Request restante = solicitud(RequestState.CONFLICT, LocalDateTime.now());
+        restante.setWorkerId(UUID.randomUUID());
+        when(requestRepository.findById(rechazada.getId())).thenReturn(Optional.of(rechazada));
+        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(rechazada, restante));
+
+        RequestModel resultado = service.rejectRequest(rechazada.getId(), trabajador);
+
+        assertEquals(RequestState.REJECTED, resultado.getState());
+        assertEquals(RequestState.ACCEPTED, restante.getState());
+        verify(requestRepository).save(restante);
+        verify(notificationService).notifyAccepted(eq(restante.getWorkerId()), eq(restante.getId()),
+                any(), any(RequestNotificationDetails.class));
+    }
+
+    @Test
+    @DisplayName("rechazar en CONFLICT con dos candidatos restantes mantiene la disputa")
+    void rechazarEnConflictoConDosRestantesMantieneDisputa() {
+        Request rechazada = solicitud(RequestState.CONFLICT, LocalDateTime.now());
+        Request uno = solicitud(RequestState.CONFLICT, LocalDateTime.now());
+        Request dos = solicitud(RequestState.CONFLICT, LocalDateTime.now());
+        when(requestRepository.findById(rechazada.getId())).thenReturn(Optional.of(rechazada));
+        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(rechazada, uno, dos));
+
+        service.rejectRequest(rechazada.getId(), trabajador);
+
+        assertEquals(RequestState.CONFLICT, uno.getState());
+        assertEquals(RequestState.CONFLICT, dos.getState());
+        verify(notificationService, never()).notifyAccepted(any(), any(), any(), any(RequestNotificationDetails.class));
     }
 
     @Test
