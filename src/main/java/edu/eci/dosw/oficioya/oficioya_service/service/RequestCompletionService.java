@@ -64,9 +64,11 @@ public class RequestCompletionService {
         }
 
         request.setState(RequestState.COMPLETED);
-        // Notificar al contratante que el trabajo fue completado (microservicio de notificaciones)
+        // Notificar a ambas partes: el contratante califica al trabajador y el trabajador al contratante.
         notificationService.notifyCompleted(request.getContractorId(), requestId,
                 emailOf(request.getContractorId()));
+        notificationService.notifyCompleted(request.getWorkerId(), requestId,
+                emailOf(request.getWorkerId()));
         if (reputationClient != null) {
             log.info("Se notifica completado servicio: {} con worker: {}, contractor :{}",requestId,request.getWorkerId(),request.getContractorId());
             reputationClient.notifyServiceCompleted(requestId, request.getWorkerId(), request.getContractorId(), LocalDateTime.now());

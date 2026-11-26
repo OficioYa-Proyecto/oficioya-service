@@ -63,12 +63,14 @@ class RequestCompletionServiceTest {
         Request r = solicitud(trabajador, RequestState.ACCEPTED);
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
         when(userClient.getUser(r.getContractorId())).thenReturn(contratante(r.getContractorId()));
+        when(userClient.getUser(r.getWorkerId())).thenReturn(trabajador(r.getWorkerId()));
 
         service.completeRequest(r.getId(), trabajador);
 
         assertEquals(RequestState.COMPLETED, r.getState());
         verify(requestRepository).save(r);
         verify(notificationService).notifyCompleted(r.getContractorId(), r.getId(), "contratante@correo.com");
+        verify(notificationService).notifyCompleted(r.getWorkerId(), r.getId(), "trabajador@correo.com");
     }
 
     @Test
@@ -130,5 +132,10 @@ class RequestCompletionServiceTest {
     private UserResponse contratante(UUID id) {
         return new UserResponse(id, "Contratante", "contratante@correo.com", List.of(),
                 List.of("CONTRATANTE"), "ACTIVE", null, null);
+    }
+
+    private UserResponse trabajador(UUID id) {
+        return new UserResponse(id, "Trabajador", "trabajador@correo.com", List.of(),
+                List.of("TRABAJADOR"), "ACTIVE", null, null);
     }
 }
