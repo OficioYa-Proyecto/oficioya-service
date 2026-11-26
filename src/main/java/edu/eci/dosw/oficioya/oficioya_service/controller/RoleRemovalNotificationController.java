@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/v1/requests/role-removals")
-@Tag(name = "Role removals", description = "Correos de peticiones para dejar de ser contratante o trabajador")
+@Tag(name = "Role removals", description = "Emails for requests to stop being contractor or worker")
 public class RoleRemovalNotificationController {
 
     private final RoleRemovalNotificationService roleRemovalNotificationService;
@@ -36,8 +36,8 @@ public class RoleRemovalNotificationController {
     @PostMapping("/notifications")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasAnyRole('SERVICE', 'SISTEMA', 'ADMIN')")
-    @Operation(summary = "Enviar correos de quita de rol",
-            description = "Construye y envía el correo al administrador (REQUESTED) o al usuario (APPROVED/REJECTED)")
+    @Operation(summary = "Send role removal emails",
+            description = "Builds and sends the email to the administrator (REQUESTED) or to the user (APPROVED/REJECTED)")
     public void notify(@Valid @RequestBody RoleRemovalNotificationRequest request) {
         roleRemovalNotificationService.notify(request);
     }

@@ -281,6 +281,7 @@ public class RequestController {
 
     @GetMapping("/active")
     @PreAuthorize("hasRole('SERVICE')")
+    @Operation(summary="Get active requests of a user", description = "Returns the number of active requests for the user in the given role")
     public ActiveResponse active(
             @RequestParam(required = true) UUID userId,
             @RequestParam(required = true) String role) {
