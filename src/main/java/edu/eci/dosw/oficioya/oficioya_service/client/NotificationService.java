@@ -56,6 +56,20 @@ public interface NotificationService {
     }
 
     /**
+     * Variantes con el contexto de la solicitud para que el correo de cambio de
+     * estado muestre la misma información que el correo de entrada.
+     */
+    default void notifyAccepted(UUID receiverId, UUID requestId, String receiverEmail,
+                                RequestNotificationDetails details) {
+        notifyAccepted(receiverId, requestId, receiverEmail);
+    }
+
+    default void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail,
+                                 String type, RequestNotificationDetails details) {
+        notifyCancelled(receiverId, requestId, receiverEmail, type);
+    }
+
+    /**
      * RF-13. Correos de quita de rol. El cuerpo ya viene armado desde Service;
      * Notification sólo lo envía por SMTP.
      */
@@ -70,5 +84,10 @@ public interface NotificationService {
      */
     default void notifyConflict(UUID contractorId, UUID requestId, UUID rootId, String receiverEmail) {
         // Sin correo: solo la implementación HTTP publica el evento en Notification.
+    }
+
+    default void notifyConflict(UUID contractorId, UUID requestId, UUID rootId, String receiverEmail,
+                                RequestNotificationDetails details) {
+        notifyConflict(contractorId, requestId, rootId, receiverEmail);
     }
 }

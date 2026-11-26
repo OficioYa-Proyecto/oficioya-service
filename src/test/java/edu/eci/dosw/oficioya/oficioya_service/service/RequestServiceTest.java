@@ -166,7 +166,10 @@ class RequestServiceTest {
         assertEquals(RequestState.CONFLICT, resultado.getState());
         assertEquals(RequestState.CONFLICT, yaAceptada.getState());
         verify(requestRepository).saveAll(List.of(yaAceptada));
-        verify(notificationService).notifyConflict(contratante, nueva.getId(), rootId, "contratante@correo.com");
+        verify(notificationService).notifyConflict(eq(contratante), eq(nueva.getId()), eq(rootId),
+                eq("contratante@correo.com"),
+                argThat(d -> d != null && "Usaquén".equals(d.neighborhood())
+                        && "Arreglo de una fuga".equals(d.description())));
     }
 
     @Test
@@ -231,7 +234,10 @@ class RequestServiceTest {
         service.acceptRequest(aceptada.getId(), trabajador);
         service.rejectRequest(rechazada.getId(), trabajador);
 
-        verify(notificationService).notifyAccepted(contratante, aceptada.getId(), "contratante@correo.com");
+        verify(notificationService).notifyAccepted(eq(contratante), eq(aceptada.getId()),
+                eq("contratante@correo.com"),
+                argThat(d -> d != null && "Usaquén".equals(d.neighborhood())
+                        && "Arreglo de una fuga".equals(d.description())));
         verify(notificationService).notifyRejected(contratante, rechazada.getId(), "contratante@correo.com");
     }
 
@@ -372,10 +378,13 @@ class RequestServiceTest {
         // la elegida no se marca como cancelada
         assertNull(elegida.getCancellationState());
         verify(requestRepository).saveAll(List.of(enConflicto, pendiente, aceptada));
-        verify(notificationService).notifyAccepted(trabajador, elegida.getId(), "trabajador@correo.com");
+        verify(notificationService).notifyAccepted(eq(trabajador), eq(elegida.getId()),
+                eq("trabajador@correo.com"),
+                argThat(d -> d != null && "Usaquén".equals(d.neighborhood())));
         for (Request cancelada : List.of(enConflicto, pendiente, aceptada)) {
-            verify(notificationService).notifyCancelled(trabajador, cancelada.getId(),
-                    "trabajador@correo.com", "CANCELLED_BY_CONTRACTOR");
+            verify(notificationService).notifyCancelled(eq(trabajador), eq(cancelada.getId()),
+                    eq("trabajador@correo.com"), eq("CANCELLED_BY_CONTRACTOR"),
+                    argThat(d -> d != null && "Usaquén".equals(d.neighborhood())));
         }
     }
 

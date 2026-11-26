@@ -154,6 +154,29 @@ public class HttpNotificationService implements NotificationService {
     }
 
     @Override
+    public void notifyAccepted(UUID receiverId, UUID requestId, String receiverEmail,
+                               RequestNotificationDetails details) {
+        send(receiverId, "ACCEPTED_REQUEST", requestId,
+                "Tu solicitud fue aceptada", receiverEmail, details);
+    }
+
+    @Override
+    public void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail,
+                                String type, RequestNotificationDetails details) {
+        String cancellationType = "CANCELLED_BY_WORKER".equals(type)
+                ? "CANCELLED_BY_WORKER" : "CANCELLED_BY_CONTRACTOR";
+        send(receiverId, cancellationType, requestId,
+                "Una solicitud fue cancelada", receiverEmail, details);
+    }
+
+    @Override
+    public void notifyConflict(UUID contractorId, UUID requestId, UUID rootId, String receiverEmail,
+                               RequestNotificationDetails details) {
+        send(contractorId, "CONFLICT_REQUEST", requestId,
+                "Dos trabajadores aceptaron tu solicitud. Elige cuál continúa.", receiverEmail, details, rootId);
+    }
+
+    @Override
     public void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail) {
         notifyCancelled(receiverId, requestId, receiverEmail, "CANCELLED_BY_CONTRACTOR");
     }

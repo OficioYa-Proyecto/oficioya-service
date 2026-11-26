@@ -213,6 +213,13 @@ public class RequestService {
         }
     }
 
+    /** Contexto que el correo de aceptación, disputa o cancelación reutiliza del correo de entrada. */
+    private RequestNotificationDetails detailsOf(Request request) {
+        return new RequestNotificationDetails(
+                request.getScheduledDateTime(), request.getNeighborhood(), request.getExactAddress(),
+                request.getDescription(), firstImageUrl(request.getRootId(), null));
+    }
+
     private String emailOf(UUID userId) {
         if (userClient == null) {
             return null;
@@ -322,13 +329,13 @@ public class RequestService {
         if (accepted.isEmpty()) {
             request.setState(RequestState.ACCEPTED);
             notificationService.notifyAccepted(request.getContractorId(), requestId,
-                    emailOf(request.getContractorId()));
+                    emailOf(request.getContractorId()), detailsOf(request));
         } else {
             request.setState(RequestState.CONFLICT);
             accepted.forEach(r -> r.setState(RequestState.CONFLICT));
             requestRepository.saveAll(accepted);
             notificationService.notifyConflict(request.getContractorId(), request.getId(),
-                    request.getRootId(), emailOf(request.getContractorId()));
+                    request.getRootId(), emailOf(request.getContractorId()), detailsOf(request));
         }
         return requestMapper.toModel(requestRepository.save(request));
     }
@@ -381,9 +388,9 @@ public class RequestService {
 
         // Cada solicitud descartada pertenece a otro trabajador del mismo contratante.
         others.forEach(r -> notificationService.notifyCancelled(r.getWorkerId(), r.getId(),
-                emailOf(r.getWorkerId()), "CANCELLED_BY_CONTRACTOR"));
+                emailOf(r.getWorkerId()), "CANCELLED_BY_CONTRACTOR", detailsOf(r)));
         notificationService.notifyAccepted(chosen.getWorkerId(), chosen.getId(),
-                emailOf(chosen.getWorkerId()));
+                emailOf(chosen.getWorkerId()), detailsOf(chosen));
 
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
         return requestMapper.toModel(requestRepository.save(chosen));

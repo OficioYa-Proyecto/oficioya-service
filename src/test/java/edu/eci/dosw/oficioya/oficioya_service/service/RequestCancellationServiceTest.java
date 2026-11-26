@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +34,7 @@ import edu.eci.dosw.oficioya.oficioya_service.model.RequestState;
 import edu.eci.dosw.oficioya.oficioya_service.repository.RequestRepository;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
+import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationDetails;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
 import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 
@@ -76,8 +79,9 @@ class RequestCancellationServiceTest {
 
         assertCancelada(r, antes);
         verify(requestRepository).save(r);
-        verify(notificationService).notifyCancelled(r.getWorkerId(), r.getId(),
-                "trabajador@correo.com", "CANCELLED_BY_CONTRACTOR");
+        verify(notificationService).notifyCancelled(eq(r.getWorkerId()), eq(r.getId()),
+                eq("trabajador@correo.com"), eq("CANCELLED_BY_CONTRACTOR"),
+                argThat(d -> d != null && r.getScheduledDateTime().equals(d.scheduledDateTime())));
     }
 
     /*
@@ -184,8 +188,9 @@ class RequestCancellationServiceTest {
 
         assertCancelada(r, antes);
         verify(requestRepository).save(r);
-        verify(notificationService).notifyCancelled(r.getContractorId(), r.getId(),
-                "contratante@correo.com", "CANCELLED_BY_WORKER");
+        verify(notificationService).notifyCancelled(eq(r.getContractorId()), eq(r.getId()),
+                eq("contratante@correo.com"), eq("CANCELLED_BY_WORKER"),
+                argThat(d -> d != null && r.getScheduledDateTime().equals(d.scheduledDateTime())));
     }
 
     @Test

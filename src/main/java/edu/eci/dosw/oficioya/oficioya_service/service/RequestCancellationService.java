@@ -4,13 +4,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.eci.dosw.oficioya.oficioya_service.client.HttpWorkerClient;
+import edu.eci.dosw.oficioya.oficioya_service.client.ImageClient;
 import edu.eci.dosw.oficioya.oficioya_service.client.NotificationService;
 import edu.eci.dosw.oficioya.oficioya_service.client.ReputationClient;
+import edu.eci.dosw.oficioya.oficioya_service.client.RequestNotificationDetails;
 import edu.eci.dosw.oficioya.oficioya_service.client.UserClient;
+import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.UserResponse;
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.exception.CredencialesInvalidasException;
@@ -35,6 +39,8 @@ public class RequestCancellationService {
 
     private final ReputationClient reputationClient;
 
+    private ImageClient imageClient;
+
     private static final Logger log = LoggerFactory.getLogger(RequestCancellationService.class);
 
     public RequestCancellationService(RequestRepository requestRepository, RequestMapper requestMapper, NotificationService notificationService, UserClient userClient, ReputationClient reputationClient) {
@@ -43,6 +49,11 @@ public class RequestCancellationService {
         this.notificationService = notificationService;
         this.userClient = userClient;
         this.reputationClient = reputationClient;
+    }
+
+    @Autowired(required = false)
+    public void setImageClient(ImageClient imageClient) {
+        this.imageClient = imageClient;
     }
 
     public RequestModel cancelRequest(UUID requestId, UUID userId){
@@ -112,7 +123,7 @@ public class RequestCancellationService {
         requestRepository.save(request);
         // Notificar al trabajador que la solicitud fue cancelada (microservicio de notificaciones)
         notificationService.notifyCancelled(request.getWorkerId(), requestId,
-                emailOf(request.getWorkerId()), "CANCELLED_BY_CONTRACTOR");
+                emailOf(request.getWorkerId()), "CANCELLED_BY_CONTRACTOR", detailsOf(request));
 
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
 
@@ -152,10 +163,28 @@ public class RequestCancellationService {
         requestRepository.save(request);
         // Notificar al contratante que la solicitud fue cancelada (microservicio de notificaciones)
         notificationService.notifyCancelled(request.getContractorId(), requestId,
-                emailOf(request.getContractorId()), "CANCELLED_BY_WORKER");
+                emailOf(request.getContractorId()), "CANCELLED_BY_WORKER", detailsOf(request));
 
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
     }
+    /** El correo de cancelación reutiliza el contexto que ya tenía el correo de entrada. */
+    private RequestNotificationDetails detailsOf(Request request) {
+        String imageUrl = null;
+        if (imageClient != null) {
+            try {
+                List<ImageResponse> images = imageClient.getImages(request.getRootId());
+                if (images != null && !images.isEmpty()) {
+                    imageUrl = images.get(0).url();
+                }
+            } catch (Exception e) {
+                log.warn("No se pudo obtener la imagen de la solicitud {}: {}", request.getRootId(), e.getMessage());
+            }
+        }
+        return new RequestNotificationDetails(
+                request.getScheduledDateTime(), request.getNeighborhood(), request.getExactAddress(),
+                request.getDescription(), imageUrl);
+    }
+
     private String emailOf(UUID userId) {
         if (userClient == null || userId == null) {
             return null;

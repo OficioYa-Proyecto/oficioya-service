@@ -146,6 +146,39 @@ class HttpNotificationServiceTest {
     }
 
     @Test
+    @DisplayName("Aceptar, cancelar y disputar publican el contexto completo de la solicitud")
+    void cambiosDeEstadoIncluyenDetallesDeLaSolicitud() {
+        RequestNotificationDetails details = new RequestNotificationDetails(
+                LocalDateTime.of(2026, 11, 25, 10, 30), "Chapinero", "Calle 1", "Reparar fuga",
+                "https://images.test/fuga.jpg");
+        UUID root = UUID.randomUUID();
+
+        server.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(jsonPath("$.type").value("ACCEPTED_REQUEST"))
+                .andExpect(jsonPath("$.scheduledDateTime").value("2026-11-25T10:30"))
+                .andExpect(jsonPath("$.neighborhood").value("Chapinero"))
+                .andExpect(jsonPath("$.exactAddress").value("Calle 1"))
+                .andExpect(jsonPath("$.description").value("Reparar fuga"))
+                .andExpect(jsonPath("$.imageUrl").value("https://images.test/fuga.jpg"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+        server.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(jsonPath("$.type").value("CANCELLED_BY_WORKER"))
+                .andExpect(jsonPath("$.neighborhood").value("Chapinero"))
+                .andExpect(jsonPath("$.exactAddress").value("Calle 1"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+        server.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(jsonPath("$.type").value("CONFLICT_REQUEST"))
+                .andExpect(jsonPath("$.rootId").value(root.toString()))
+                .andExpect(jsonPath("$.neighborhood").value("Chapinero"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        service.notifyAccepted(workerId, requestId, "destino@test.com", details);
+        service.notifyCancelled(workerId, requestId, "destino@test.com", "CANCELLED_BY_WORKER", details);
+        service.notifyConflict(workerId, requestId, root, "destino@test.com", details);
+        server.verify();
+    }
+
+    @Test
     @DisplayName("La cancelación del trabajador usa su propio tipo de notificación")
     void cancelacionPorTrabajador() {
         server.expect(requestTo("https://notification.test/api/v1/notification"))
