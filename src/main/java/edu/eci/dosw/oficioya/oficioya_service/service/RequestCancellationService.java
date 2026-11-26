@@ -115,12 +115,28 @@ public class RequestCancellationService {
             }
         }
 
+        boolean wasConflict = request.getState() == RequestState.CONFLICT;
         request.setState(RequestState.CANCELED);
         if (request.getCancellationState() == null) {
             request.setCancellationState(CancellationState.COMPLETED);
         }
         request.setCancellationDateTime(LocalDateTime.now());
         requestRepository.save(request);
+        // Auto-resolución: si la cancelada estaba en CONFLICT y solo queda un CONFLICT en el grupo,
+        // se resuelve automáticamente a ACCEPTED (como si solo uno se hubiera enviado).
+        if (wasConflict && request.getRootId() != null) {
+            List<Request> group = requestRepository.findByRootId(request.getRootId());
+            List<Request> remaining = group.stream()
+                    .filter(r -> r.getState() == RequestState.CONFLICT)
+                    .toList();
+            if (remaining.size() == 1) {
+                Request sole = remaining.get(0);
+                sole.setState(RequestState.ACCEPTED);
+                requestRepository.save(sole);
+                notificationService.notifyAccepted(sole.getWorkerId(), sole.getId(),
+                        emailOf(sole.getWorkerId()), detailsOf(sole));
+            }
+        }
         // Notificar al trabajador que la solicitud fue cancelada (microservicio de notificaciones)
         notificationService.notifyCancelled(request.getWorkerId(), requestId,
                 emailOf(request.getWorkerId()), "CANCELLED_BY_CONTRACTOR", detailsOf(request));
@@ -137,6 +153,7 @@ public class RequestCancellationService {
             throw new RecursosAjenosException();
         }
 
+        boolean wasConflict = request.getState() == RequestState.CONFLICT;
         if (request.getState() == RequestState.COMPLETED) {
             log.warn("La solicitud ya estaba completada");
             //TODO: CAmbiar tipo de exception
@@ -161,6 +178,21 @@ public class RequestCancellationService {
         request.setCancellationState(CancellationState.COMPLETED);
         request.setCancellationDateTime(LocalDateTime.now());
         requestRepository.save(request);
+        // Auto-resolución: si la solicitud cancelada estaba en CONFLICT y solo queda un CONFLICT
+        // en el grupo, se resuelve automáticamente a ACCEPTED (como si solo uno se hubiera enviado).
+        if (wasConflict && request.getRootId() != null) {
+            List<Request> group = requestRepository.findByRootId(request.getRootId());
+            List<Request> remaining = group.stream()
+                    .filter(r -> r.getState() == RequestState.CONFLICT)
+                    .toList();
+            if (remaining.size() == 1) {
+                Request sole = remaining.get(0);
+                sole.setState(RequestState.ACCEPTED);
+                requestRepository.save(sole);
+                notificationService.notifyAccepted(sole.getWorkerId(), sole.getId(),
+                        emailOf(sole.getWorkerId()), detailsOf(sole));
+            }
+        }
         // Notificar al contratante que la solicitud fue cancelada (microservicio de notificaciones)
         notificationService.notifyCancelled(request.getContractorId(), requestId,
                 emailOf(request.getContractorId()), "CANCELLED_BY_WORKER", detailsOf(request));

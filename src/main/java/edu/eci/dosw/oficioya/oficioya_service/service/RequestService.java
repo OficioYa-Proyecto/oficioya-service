@@ -321,19 +321,36 @@ public class RequestService {
                         RecursoNoEncontradoException.SOLICITUD_NO_ENCONTRADA));
         requireAnswerable(request);
 
+        // Predisposición: si la publicación fue enviada a más de un trabajador y todavía hay
+        // pendientes que no han rechazado, la solicitud entra en disputa (CONFLICT) desde la
+        // primera aceptación, sin esperar una segunda. Si todos los demás ya rechazaron/cancelaron
+        // (o solo había un trabajador), queda aceptada (ACCEPTED) como si fuera a uno solo.
+        boolean multiWorker = group.size() > 1;
+
         List<Request> accepted = group.stream()
                 .filter(r -> !r.getId().equals(request.getId()))
                 .filter(r -> r.getState() == RequestState.ACCEPTED || r.getState() == RequestState.CONFLICT)
                 .toList();
 
-        if (accepted.isEmpty()) {
+        List<Request> pendingOthers = group.stream()
+                .filter(r -> !r.getId().equals(request.getId()))
+                .filter(r -> r.getState() == RequestState.PENDING)
+                .toList();
+
+        if (!multiWorker || (accepted.isEmpty() && pendingOthers.isEmpty())) {
             request.setState(RequestState.ACCEPTED);
             notificationService.notifyAccepted(request.getContractorId(), requestId,
                     emailOf(request.getContractorId()), detailsOf(request));
         } else {
             request.setState(RequestState.CONFLICT);
             accepted.forEach(r -> r.setState(RequestState.CONFLICT));
-            requestRepository.saveAll(accepted);
+            pendingOthers.forEach(r -> r.setState(RequestState.CONFLICT));
+            List<Request> toSave = new ArrayList<>();
+            toSave.addAll(accepted);
+            toSave.addAll(pendingOthers);
+            if (!toSave.isEmpty()) {
+                requestRepository.saveAll(toSave);
+            }
             notificationService.notifyConflict(request.getContractorId(), request.getId(),
                     request.getRootId(), emailOf(request.getContractorId()), detailsOf(request));
         }

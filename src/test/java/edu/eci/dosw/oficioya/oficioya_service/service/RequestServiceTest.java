@@ -187,8 +187,8 @@ class RequestServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = RequestState.class, names = { "PENDING", "REJECTED", "CANCELED", "EXPIRED", "COMPLETED", "DELETED" })
-    @DisplayName("aceptar ignora las del mismo rootId que no están ACCEPTED ni CONFLICT")
+    @EnumSource(value = RequestState.class, names = { "REJECTED", "CANCELED", "EXPIRED", "COMPLETED", "DELETED" })
+    @DisplayName("aceptar ignora las del mismo rootId que no están ACCEPTED, CONFLICT ni PENDING")
     void aceptarIgnoraOtrasEnOtrosEstados(RequestState otroEstado) {
         Request nueva = solicitud(RequestState.PENDING, LocalDateTime.now());
         Request otra = solicitud(otroEstado, LocalDateTime.now());
