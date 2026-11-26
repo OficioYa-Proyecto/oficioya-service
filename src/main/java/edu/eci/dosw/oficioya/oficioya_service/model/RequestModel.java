@@ -10,6 +10,8 @@ public class RequestModel {
     private UUID contractorId;
     private UUID workerId;
     private String description;
+    private Long localityId;
+    private String locality;
     private String neighborhood;
     private String exactAddress;
     private LocalDateTime scheduledDateTime;
@@ -60,6 +62,22 @@ public class RequestModel {
 
     public String getDescription(){
         return this.description;
+    }
+
+    public void setLocalityId(Long newLocalityId){
+        this.localityId = newLocalityId;
+    }
+
+    public Long getLocalityId(){
+        return this.localityId;
+    }
+
+    public void setLocality(String newLocality){
+        this.locality = newLocality;
+    }
+
+    public String getLocality(){
+        return this.locality;
     }
 
     public void setNeighborhood(String newNeigh){

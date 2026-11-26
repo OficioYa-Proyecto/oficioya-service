@@ -31,6 +31,8 @@ public class ResponseMapper {
             createdRequest.setContractorId(contractorId);
             createdRequest.setWorkerId(workerId);
             createdRequest.setDescription(req.description());
+            createdRequest.setLocalityId(req.localityId());
+            createdRequest.setLocality(req.locality());
             createdRequest.setNeighborhood(req.neighborhood());
             createdRequest.setExactAddress(req.exactAddress());
             createdRequest.setScheduledDateTime(req.scheduledDateTime());

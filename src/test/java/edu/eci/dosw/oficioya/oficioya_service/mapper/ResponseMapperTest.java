@@ -25,7 +25,9 @@ class ResponseMapperTest {
         RequestRequest req = new RequestRequest(
                 List.of(worker1, worker2),
                 "desc",
-                "zone",
+                1L,
+                "Usaquén",
+                "Chapinero",
                 "addr",
                 LocalDateTime.now().plusDays(1),
                 null

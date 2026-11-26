@@ -55,7 +55,7 @@ class HttpNotificationServiceTest {
         when(emailActionLinkService.acceptUrl(workerId, requestId)).thenReturn(accept);
         when(emailActionLinkService.rejectUrl(workerId, requestId)).thenReturn(reject);
         RequestNotificationDetails details = new RequestNotificationDetails(
-                LocalDateTime.of(2026, 11, 25, 10, 30), "Chapinero", "Calle 1", "Reparar fuga",
+                LocalDateTime.of(2026, 11, 25, 10, 30), "Usaquén", "Chapinero", "Calle 1", "Reparar fuga",
                 "https://images.test/fuga.jpg");
 
         server.expect(requestTo("https://notification.test/api/v1/notification"))
@@ -64,6 +64,7 @@ class HttpNotificationServiceTest {
                 .andExpect(jsonPath("$.type").value("INCOMING_REQUEST"))
                 .andExpect(jsonPath("$.requestId").value(requestId.toString()))
                 .andExpect(jsonPath("$.receiverEmail").value("worker@test.com"))
+                .andExpect(jsonPath("$.locality").value("Usaquén"))
                 .andExpect(jsonPath("$.neighborhood").value("Chapinero"))
                 .andExpect(jsonPath("$.imageUrl").value("https://images.test/fuga.jpg"))
                 .andExpect(jsonPath("$.acceptUrl").value(accept))
@@ -80,7 +81,7 @@ class HttpNotificationServiceTest {
         when(emailActionLinkService.acceptUrl(workerId, requestId)).thenReturn("https://service.test/accept");
         when(emailActionLinkService.rejectUrl(workerId, requestId)).thenReturn("https://service.test/reject");
         RequestNotificationDetails details = new RequestNotificationDetails(
-                LocalDateTime.of(2026, 11, 25, 10, 30), "Chapinero", "Calle 1", "Reparar fuga", null,
+                LocalDateTime.of(2026, 11, 25, 10, 30), "Usaquén", "Chapinero", "Calle 1", "Reparar fuga", null,
                 "YQ==", "image/jpeg",
                 List.of(new RequestNotificationPhoto("YQ==", "image/jpeg"),
                         new RequestNotificationPhoto("Yg==", "image/png")));

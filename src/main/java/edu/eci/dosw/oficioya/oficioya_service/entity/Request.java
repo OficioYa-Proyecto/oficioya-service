@@ -26,6 +26,12 @@ public class Request {
     @Column (nullable = false)
     private String description;
 
+    @Column (name = "locality_id")
+    private Long localityId;
+
+    @Column (nullable = false)
+    private String locality;
+
     @Column (nullable = false)
     private String neighborhood;
 
@@ -89,6 +95,22 @@ public class Request {
 
     public String getDescription(){
         return this.description;
+    }
+
+    public void setLocalityId(Long newLocalityId){
+        this.localityId = newLocalityId;
+    }
+
+    public Long getLocalityId(){
+        return this.localityId;
+    }
+
+    public void setLocality(String newLocality){
+        this.locality = newLocality;
+    }
+
+    public String getLocality(){
+        return this.locality;
     }
 
     public void setNeighborhood(String newNeigh){

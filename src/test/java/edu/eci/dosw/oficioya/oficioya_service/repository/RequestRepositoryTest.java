@@ -51,6 +51,7 @@ public class RequestRepositoryTest {
         r1.setContractorId(r1Contractor);
         r1.setWorkerId(r1Worker);
         r1.setDescription(description);
+        r1.setLocality("Usaquén");
         r1.setNeighborhood(neighborhood);
         r1.setExactAddress(exactAddress);
         r1.setScheduledDateTime(scheduledDateTime);
@@ -96,6 +97,7 @@ public class RequestRepositoryTest {
         r2.setContractorId(r2Contractor);
         r2.setWorkerId(r2Worker);
         r2.setDescription(description);
+        r2.setLocality("Usaquén");
         r2.setNeighborhood(neighborhood);
         r2.setExactAddress(exactAddress);
         r2.setScheduledDateTime(scheduledDateTime);
@@ -150,6 +152,7 @@ public class RequestRepositoryTest {
         r2.setContractorId(r2Contractor);
         r2.setWorkerId(r2Worker);
         r2.setDescription(description);
+        r2.setLocality("Usaquén");
         r2.setNeighborhood(neighborhood);
         r2.setExactAddress(exactAddress);
         r2.setScheduledDateTime(scheduledDateTime);
@@ -195,6 +198,7 @@ public class RequestRepositoryTest {
         r2.setContractorId(r2Contractor);
         r2.setWorkerId(r2Worker);
         r2.setDescription(description);
+        r2.setLocality("Usaquén");
         r2.setNeighborhood(neighborhood);
         r2.setExactAddress(exactAddress);
         r2.setScheduledDateTime(scheduledDateTime);
@@ -273,6 +277,7 @@ public class RequestRepositoryTest {
         r2.setContractorId(r2Contractor);
         r2.setWorkerId(r2Worker);
         r2.setDescription(description);
+        r2.setLocality("Usaquén");
         r2.setNeighborhood(neighborhood);
         r2.setExactAddress(exactAddress);
         r2.setScheduledDateTime(scheduledDateTime);
@@ -317,6 +322,7 @@ public class RequestRepositoryTest {
         r2.setContractorId(r2Contractor);
         r2.setWorkerId(r2Worker);
         r2.setDescription(description);
+        r2.setLocality("Usaquén");
         r2.setNeighborhood(neighborhood);
         r2.setExactAddress(exactAddress);
         r2.setScheduledDateTime(scheduledDateTime);

@@ -417,7 +417,9 @@ class SeguridadRequestTest {
         r.setContractorId(contratante);
         r.setWorkerId(trabajador);
         r.setDescription("Arreglo de una fuga");
-        r.setNeighborhood("Usaquén");
+        r.setLocalityId(1L);
+        r.setLocality("Usaquén");
+        r.setNeighborhood("Chapinero");
         r.setExactAddress("Calle 1 # 2-3");
         r.setScheduledDateTime(LocalDateTime.now().plusDays(3));
         r.setState(estado);

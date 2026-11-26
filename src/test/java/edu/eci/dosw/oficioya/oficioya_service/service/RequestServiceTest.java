@@ -441,7 +441,7 @@ class RequestServiceTest {
         when(requestRepository.countActiveContractor(r.getContractorId())).thenReturn(1222);
 
         RequestResponse response = service.create(
-            new RequestRequest(List.of(r.getWorkerId()), r.getDescription(), r.getNeighborhood(), r.getExactAddress(), r.getScheduledDateTime(), null),
+            new RequestRequest(List.of(r.getWorkerId()), r.getDescription(), r.getLocalityId(), r.getLocality(), r.getNeighborhood(), r.getExactAddress(), r.getScheduledDateTime(), null),
             r.getContractorId(),
             authHeader
         );
@@ -471,9 +471,9 @@ class RequestServiceTest {
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
 
         RequestNotificationDetails esperados = new RequestNotificationDetails(
-                r.getScheduledDateTime(), r.getNeighborhood(), r.getExactAddress(), r.getDescription());
+                r.getScheduledDateTime(), r.getLocality(), r.getNeighborhood(), r.getExactAddress(), r.getDescription());
         RequestResponse response = service.create(
-                new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
+                new RequestRequest(List.of(trabajador), r.getDescription(), r.getLocalityId(), r.getLocality(), r.getNeighborhood(),
                         r.getExactAddress(), r.getScheduledDateTime(), null),
                 contratante,authHeader);
 
@@ -498,7 +498,7 @@ class RequestServiceTest {
         when(requestRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
 
         RequestResponse response = service.create(
-                new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
+                new RequestRequest(List.of(trabajador), r.getDescription(), r.getLocalityId(), r.getLocality(), r.getNeighborhood(),
                         r.getExactAddress(), r.getScheduledDateTime(), null),
                 contratante, authHeader);
 
@@ -534,7 +534,7 @@ class RequestServiceTest {
         when(workerClient.exists(trabajador,authHeader)).thenReturn(true);
 
         service.create(
-                new RequestRequest(List.of(trabajador), r.getDescription(), r.getNeighborhood(),
+                new RequestRequest(List.of(trabajador), r.getDescription(), r.getLocalityId(), r.getLocality(), r.getNeighborhood(),
                         r.getExactAddress(), r.getScheduledDateTime(), null),
                 contratante, rootId,authHeader);
 
@@ -553,7 +553,9 @@ class RequestServiceTest {
         r.setContractorId(contratante);
         r.setWorkerId(trabajador);
         r.setDescription("Arreglo de una fuga");
-        r.setNeighborhood("Usaquén");
+        r.setLocalityId(1L);
+        r.setLocality("Usaquén");
+        r.setNeighborhood("Chapinero");
         r.setExactAddress("Calle 1 # 2-3");
         r.setScheduledDateTime(LocalDateTime.now().plusDays(3));
         r.setState(estado);

@@ -75,6 +75,9 @@ public class HttpNotificationService implements NotificationService {
             if (details.scheduledDateTime() != null) {
                 context.put("scheduledDateTime", details.scheduledDateTime().toString());
             }
+            if (details.locality() != null) {
+                context.put("locality", details.locality());
+            }
             if (details.neighborhood() != null) {
                 context.put("neighborhood", details.neighborhood());
             }
@@ -197,6 +200,7 @@ public class HttpNotificationService implements NotificationService {
                 if (details.scheduledDateTime() != null) {
                     payload.put("scheduledDateTime", details.scheduledDateTime().toString());
                 }
+                payload.put("locality", details.locality());
                 payload.put("neighborhood", details.neighborhood());
                 payload.put("exactAddress", details.exactAddress());
                 payload.put("description", details.description());

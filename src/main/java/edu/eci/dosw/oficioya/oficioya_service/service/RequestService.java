@@ -183,7 +183,7 @@ public class RequestService {
 
         // Las imágenes se suben antes de crear las solicitudes, usando el mismo rootId.
         RequestNotificationDetails details = new RequestNotificationDetails(
-                req.scheduledDateTime(), req.neighborhood(), req.exactAddress(), req.description(),
+                req.scheduledDateTime(), req.locality(), req.neighborhood(), req.exactAddress(), req.description(),
                 firstImageUrl(newRootId, authHeader), imageBase64, imageContentType,
                 photos == null ? List.of() : photos);
 
