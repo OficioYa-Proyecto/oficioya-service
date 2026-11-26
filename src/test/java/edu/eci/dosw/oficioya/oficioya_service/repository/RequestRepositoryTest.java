@@ -6,6 +6,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = "spring.flyway.enabled=false")
 public class RequestRepositoryTest {
     @Autowired 
     private RequestRepository requestRepo;
@@ -128,6 +130,17 @@ public class RequestRepositoryTest {
 
         assertEquals(list1.getContractorId(),r1Saved.getContractorId());
         assertEquals(list2.getContractorId(),r2Saved.getContractorId());
+    }
+
+    @Test
+    @DisplayName("findByRootIdForUpdate devuelve las filas bloqueadas del grupo")
+    void findByRootIdForUpdateDevuelveElGrupo() {
+        Request saved = requestRepo.save(r1);
+
+        List<Request> group = requestRepo.findByRootIdForUpdate(saved.getRootId());
+
+        assertEquals(1, group.size());
+        assertEquals(saved.getId(), group.get(0).getId());
     }
 
     @Test 

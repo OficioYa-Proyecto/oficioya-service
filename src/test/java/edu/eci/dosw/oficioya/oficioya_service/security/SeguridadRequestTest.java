@@ -27,6 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -47,6 +48,7 @@ import io.jsonwebtoken.security.Keys;
  */
 @SpringBootTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = "spring.flyway.enabled=false")
 class SeguridadRequestTest {
 
     private static final String BASE = "/api/v1/requests";

@@ -127,6 +127,25 @@ class HttpNotificationServiceTest {
     }
 
     @Test
+    @DisplayName("El conflicto publica el tipo CONFLICT_REQUEST y el rootId para el enlace de elección")
+    void notifyConflictPublicaRootId() {
+        UUID contractorId = UUID.randomUUID();
+        UUID root = UUID.randomUUID();
+
+        server.expect(requestTo("https://notification.test/api/v1/notification"))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(jsonPath("$.receiverId").value(contractorId.toString()))
+                .andExpect(jsonPath("$.type").value("CONFLICT_REQUEST"))
+                .andExpect(jsonPath("$.requestId").value(requestId.toString()))
+                .andExpect(jsonPath("$.rootId").value(root.toString()))
+                .andExpect(jsonPath("$.receiverEmail").value("contratante@test.com"))
+                .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+
+        service.notifyConflict(contractorId, requestId, root, " contratante@test.com ");
+        server.verify();
+    }
+
+    @Test
     @DisplayName("La cancelación del trabajador usa su propio tipo de notificación")
     void cancelacionPorTrabajador() {
         server.expect(requestTo("https://notification.test/api/v1/notification"))

@@ -64,7 +64,11 @@ public interface NotificationService {
         // Las implementaciones que no envían correo no hacen nada.
     }
 
-    /*
-     void notifyConflict(UUID contractorId, UUID requestId);???
+    /**
+     * Dos trabajadores aceptaron la misma publicación y el contratante debe elegir.
+     * Las implementaciones que no envían correo no hacen nada.
      */
+    default void notifyConflict(UUID contractorId, UUID requestId, UUID rootId, String receiverEmail) {
+        // Sin correo: solo la implementación HTTP publica el evento en Notification.
+    }
 }

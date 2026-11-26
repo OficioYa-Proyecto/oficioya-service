@@ -148,6 +148,12 @@ public class HttpNotificationService implements NotificationService {
     }
 
     @Override
+    public void notifyConflict(UUID contractorId, UUID requestId, UUID rootId, String receiverEmail) {
+        send(contractorId, "CONFLICT_REQUEST", requestId,
+                "Dos trabajadores aceptaron tu solicitud. Elige cuál continúa.", receiverEmail, null, rootId);
+    }
+
+    @Override
     public void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail) {
         notifyCancelled(receiverId, requestId, receiverEmail, "CANCELLED_BY_CONTRACTOR");
     }
@@ -184,12 +190,20 @@ public class HttpNotificationService implements NotificationService {
 
     private void send(UUID receiverId, String type, UUID requestId, String message, String receiverEmail,
                       RequestNotificationDetails details) {
+        send(receiverId, type, requestId, message, receiverEmail, details, null);
+    }
+
+    private void send(UUID receiverId, String type, UUID requestId, String message, String receiverEmail,
+                      RequestNotificationDetails details, UUID rootId) {
         try {
             Map<String, Object> payload = new HashMap<>();
             payload.put("receiverId", receiverId);
             payload.put("type", type);
             payload.put("requestId", requestId);
             payload.put("message", message);
+            if (rootId != null) {
+                payload.put("rootId", rootId.toString());
+            }
             if (receiverEmail != null && !receiverEmail.isBlank()) {
                 payload.put("receiverEmail", receiverEmail.trim());
             }

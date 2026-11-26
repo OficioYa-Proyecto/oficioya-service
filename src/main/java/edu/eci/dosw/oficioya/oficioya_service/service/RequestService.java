@@ -303,10 +303,18 @@ public class RequestService {
      */
     @Transactional
     public RequestModel acceptRequest(UUID requestId, UUID workerId) {
-        Request request = findAssignedToWorker(requestId, workerId);
+        Request assigned = findAssignedToWorker(requestId, workerId);
+        // Bloquea el grupo completo antes de decidir: dos aceptaciones simultáneas
+        // se serializan y la segunda ve el estado que dejó la primera.
+        List<Request> group = requestRepository.findByRootIdForUpdate(assigned.getRootId());
+        Request request = group.stream()
+                .filter(r -> r.getId().equals(requestId))
+                .findFirst()
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        RecursoNoEncontradoException.SOLICITUD_NO_ENCONTRADA));
         requireAnswerable(request);
 
-        List<Request> accepted = requestRepository.findByRootId(request.getRootId()).stream()
+        List<Request> accepted = group.stream()
                 .filter(r -> !r.getId().equals(request.getId()))
                 .filter(r -> r.getState() == RequestState.ACCEPTED || r.getState() == RequestState.CONFLICT)
                 .toList();
@@ -319,7 +327,8 @@ public class RequestService {
             request.setState(RequestState.CONFLICT);
             accepted.forEach(r -> r.setState(RequestState.CONFLICT));
             requestRepository.saveAll(accepted);
-            //notificationService;???
+            notificationService.notifyConflict(request.getContractorId(), request.getId(),
+                    request.getRootId(), emailOf(request.getContractorId()));
         }
         return requestMapper.toModel(requestRepository.save(request));
     }
@@ -342,15 +351,22 @@ public class RequestService {
      */
     @Transactional
     public RequestModel acceptConflict(UUID requestId, UUID contractorId) {
-        Request chosen = requestRepository.findById(requestId)
+        Request owned = requestRepository.findById(requestId)
                 .filter(r -> r.getContractorId().equals(contractorId))
                 .orElseThrow(() -> new RecursoNoEncontradoException(RecursoNoEncontradoException.SOLICITUD_NO_ENCONTRADA));
+        // El mismo bloqueo por rootId evita que dos resolver simultáneos elijan trabajadores distintos.
+        List<Request> group = requestRepository.findByRootIdForUpdate(owned.getRootId());
+        Request chosen = group.stream()
+                .filter(r -> r.getId().equals(requestId))
+                .findFirst()
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        RecursoNoEncontradoException.SOLICITUD_NO_ENCONTRADA));
         if (chosen.getState() != RequestState.CONFLICT) {
             throw new TransicionInvalidaException("Solo se puede resolver un conflicto sobre una solicitud en estado CONFLICT");
         }
 
         LocalDateTime now = LocalDateTime.now();
-        List<Request> others = requestRepository.findByRootId(chosen.getRootId()).stream()
+        List<Request> others = group.stream()
                 .filter(r -> !r.getId().equals(chosen.getId()))
                 .filter(r -> CANCELABLES_EN_CONFLICTO.contains(r.getState()))
                 .toList();

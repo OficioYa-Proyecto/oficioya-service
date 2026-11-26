@@ -3,7 +3,9 @@ package edu.eci.dosw.oficioya.oficioya_service.repository;
 import edu.eci.dosw.oficioya.oficioya_service.entity.Request;
 import edu.eci.dosw.oficioya.oficioya_service.model.CancellationState;
 import edu.eci.dosw.oficioya.oficioya_service.model.RequestState;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +25,12 @@ public interface RequestRepository extends JpaRepository<Request, UUID> {
     List<Request> findByWorkerId(UUID workerId);
 
     List<Request> findByRootId(UUID rootId);
-    
+
+    /** Bloquea todas las filas de una publicación para resolver disputas sin carreras. */
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT r FROM Request r WHERE r.rootId = :rootId")
+    List<Request> findByRootIdForUpdate(@Param("rootId") UUID rootId);
+
     List<Request> findByContractorIdOrWorkerId(UUID contractorId, UUID workerId);
 
     List<Request> findByWorkerIdAndState(UUID workerId, RequestState state);

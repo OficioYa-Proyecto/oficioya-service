@@ -95,7 +95,7 @@ class RequestServiceTest {
         r.setWorkerId(UUID.randomUUID());
         r.setRootId(UUID.randomUUID());
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
-        when(requestRepository.findByRootId(r.getRootId())).thenReturn(List.of(r));
+        when(requestRepository.findByRootIdForUpdate(r.getRootId())).thenReturn(List.of(r));
         when(requestRepository.save(any(Request.class))).thenAnswer(inv -> inv.getArgument(0));
 
         RequestModel result = service.acceptRequest(r.getId(), r.getWorkerId());
@@ -144,7 +144,7 @@ class RequestServiceTest {
     void aceptarSinConflicto() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now());
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(r));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(r));
 
         RequestModel resultado = service.acceptRequest(r.getId(), trabajador);
 
@@ -158,13 +158,15 @@ class RequestServiceTest {
         Request nueva = solicitud(RequestState.PENDING, LocalDateTime.now());
         Request yaAceptada = solicitud(RequestState.ACCEPTED, LocalDateTime.now());
         when(requestRepository.findById(nueva.getId())).thenReturn(Optional.of(nueva));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(nueva, yaAceptada));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(nueva, yaAceptada));
+        when(userClient.getUser(contratante)).thenReturn(usuario(contratante, "contratante@correo.com"));
 
         RequestModel resultado = service.acceptRequest(nueva.getId(), trabajador);
 
         assertEquals(RequestState.CONFLICT, resultado.getState());
         assertEquals(RequestState.CONFLICT, yaAceptada.getState());
         verify(requestRepository).saveAll(List.of(yaAceptada));
+        verify(notificationService).notifyConflict(contratante, nueva.getId(), rootId, "contratante@correo.com");
     }
 
     @Test
@@ -173,7 +175,7 @@ class RequestServiceTest {
         Request nueva = solicitud(RequestState.PENDING, LocalDateTime.now());
         Request enConflicto = solicitud(RequestState.CONFLICT, LocalDateTime.now());
         when(requestRepository.findById(nueva.getId())).thenReturn(Optional.of(nueva));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(nueva, enConflicto));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(nueva, enConflicto));
 
         RequestModel resultado = service.acceptRequest(nueva.getId(), trabajador);
 
@@ -188,7 +190,7 @@ class RequestServiceTest {
         Request nueva = solicitud(RequestState.PENDING, LocalDateTime.now());
         Request otra = solicitud(otroEstado, LocalDateTime.now());
         when(requestRepository.findById(nueva.getId())).thenReturn(Optional.of(nueva));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(nueva, otra));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(nueva, otra));
 
         RequestModel resultado = service.acceptRequest(nueva.getId(), trabajador);
 
@@ -201,7 +203,7 @@ class RequestServiceTest {
     void aceptarDentroDeLaVentana() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now().minusMinutes(29));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(r));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(r));
 
         assertEquals(RequestState.ACCEPTED, service.acceptRequest(r.getId(), trabajador).getState());
     }
@@ -211,7 +213,7 @@ class RequestServiceTest {
     void aceptarSinFechaDeCreacion() {
         Request r = solicitud(RequestState.PENDING, null);
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(r));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(r));
 
         assertEquals(RequestState.ACCEPTED, service.acceptRequest(r.getId(), trabajador).getState());
     }
@@ -223,7 +225,7 @@ class RequestServiceTest {
         Request rechazada = solicitud(RequestState.PENDING, LocalDateTime.now());
         when(requestRepository.findById(aceptada.getId())).thenReturn(Optional.of(aceptada));
         when(requestRepository.findById(rechazada.getId())).thenReturn(Optional.of(rechazada));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(aceptada));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(aceptada));
         when(userClient.getUser(contratante)).thenReturn(usuario(contratante, "contratante@correo.com"));
 
         service.acceptRequest(aceptada.getId(), trabajador);
@@ -238,6 +240,7 @@ class RequestServiceTest {
     void aceptarFueraDeVentana() {
         Request r = solicitud(RequestState.PENDING, LocalDateTime.now().minusMinutes(31));
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
+        when(requestRepository.findByRootIdForUpdate(r.getRootId())).thenReturn(List.of(r));
 
         try{
             service.acceptRequest(r.getId(), trabajador);
@@ -256,6 +259,7 @@ class RequestServiceTest {
     void aceptarSiNoEstaPendiente(RequestState estado) {
         Request r = solicitud(estado, LocalDateTime.now());
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
+        when(requestRepository.findByRootIdForUpdate(r.getRootId())).thenReturn(List.of(r));
 
         assertThrows(TransicionInvalidaException.class, () -> service.acceptRequest(r.getId(), trabajador));
 
@@ -351,7 +355,7 @@ class RequestServiceTest {
         Request pendiente = solicitud(RequestState.PENDING, LocalDateTime.now());
         Request aceptada = solicitud(RequestState.ACCEPTED, LocalDateTime.now());
         when(requestRepository.findById(elegida.getId())).thenReturn(Optional.of(elegida));
-        when(requestRepository.findByRootId(rootId))
+        when(requestRepository.findByRootIdForUpdate(rootId))
                 .thenReturn(List.of(elegida, enConflicto, pendiente, aceptada));
         when(userClient.getUser(trabajador)).thenReturn(usuario(trabajador, "trabajador@correo.com"));
 
@@ -382,7 +386,7 @@ class RequestServiceTest {
         Request elegida = solicitud(RequestState.CONFLICT, LocalDateTime.now());
         Request otra = solicitud(cerrado, LocalDateTime.now());
         when(requestRepository.findById(elegida.getId())).thenReturn(Optional.of(elegida));
-        when(requestRepository.findByRootId(rootId)).thenReturn(List.of(elegida, otra));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(elegida, otra));
 
         service.acceptConflict(elegida.getId(), contratante);
 
@@ -396,6 +400,7 @@ class RequestServiceTest {
     void resolverConflictoSinConflicto(RequestState estado) {
         Request r = solicitud(estado, LocalDateTime.now());
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
+        when(requestRepository.findByRootIdForUpdate(r.getRootId())).thenReturn(List.of(r));
 
         assertThrows(TransicionInvalidaException.class, () -> service.acceptConflict(r.getId(), contratante));
 
