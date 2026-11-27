@@ -272,7 +272,10 @@ class RequestServiceTest {
                 eq("contratante@correo.com"),
                 argThat(d -> d != null && "Usaquén".equals(d.neighborhood())
                         && "Arreglo de una fuga".equals(d.description())));
-        verify(notificationService).notifyRejected(contratante, rechazada.getId(), "contratante@correo.com");
+        verify(notificationService).notifyRejected(eq(contratante), eq(rechazada.getId()),
+                eq("contratante@correo.com"),
+                argThat(d -> d != null && "Usaquén".equals(d.neighborhood())
+                        && "Arreglo de una fuga".equals(d.description())));
     }
 
     @Test

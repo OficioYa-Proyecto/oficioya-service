@@ -378,7 +378,7 @@ public class RequestService {
         boolean wasConflict = request.getState() == RequestState.CONFLICT;
         request.setState(RequestState.REJECTED);
         notificationService.notifyRejected(request.getContractorId(), requestId,
-                emailOf(request.getContractorId()));
+                emailOf(request.getContractorId()), detailsOf(request));
         //TODO: ELIMINAR FRANJA HORARIA DEL WORKER
         RequestModel result = requestMapper.toModel(requestRepository.save(request));
         if (wasConflict && request.getRootId() != null) {

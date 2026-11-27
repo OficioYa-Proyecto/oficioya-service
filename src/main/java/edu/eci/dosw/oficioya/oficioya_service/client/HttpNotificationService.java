@@ -161,6 +161,13 @@ public class HttpNotificationService implements NotificationService {
     }
 
     @Override
+    public void notifyRejected(UUID receiverId, UUID requestId, String receiverEmail,
+                               RequestNotificationDetails details) {
+        send(receiverId, "REJECTED_REQUEST", requestId,
+                "El trabajo fue rechazado por el trabajador", receiverEmail, details);
+    }
+
+    @Override
     public void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail,
                                 String type, RequestNotificationDetails details) {
         String cancellationType = "CANCELLED_BY_WORKER".equals(type)

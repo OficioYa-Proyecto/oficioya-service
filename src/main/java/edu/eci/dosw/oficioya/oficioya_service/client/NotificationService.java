@@ -64,6 +64,11 @@ public interface NotificationService {
         notifyAccepted(receiverId, requestId, receiverEmail);
     }
 
+    default void notifyRejected(UUID receiverId, UUID requestId, String receiverEmail,
+                                RequestNotificationDetails details) {
+        notifyRejected(receiverId, requestId, receiverEmail);
+    }
+
     default void notifyCancelled(UUID receiverId, UUID requestId, String receiverEmail,
                                  String type, RequestNotificationDetails details) {
         notifyCancelled(receiverId, requestId, receiverEmail, type);
