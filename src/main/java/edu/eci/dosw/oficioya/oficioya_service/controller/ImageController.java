@@ -16,6 +16,7 @@ import edu.eci.dosw.oficioya.oficioya_service.dto.ImageResponse;
 import edu.eci.dosw.oficioya.oficioya_service.security.CurrentUser;
 import edu.eci.dosw.oficioya.oficioya_service.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -31,7 +32,9 @@ public class ImageController {
     @GetMapping("/{requestId}")
     @PreAuthorize("hasRole('CONTRATANTE')")
     @Operation(summary="Get images of a request", description = "Get all the images of a request")
-    public ResponseEntity<List<ImageResponse>> getRequestImages(@PathVariable UUID requestId, Authentication autentication){
+    public ResponseEntity<List<ImageResponse>> getRequestImages(
+            @Parameter(description = "Id of the request whose images are requested") @PathVariable UUID requestId,
+            Authentication autentication){
         return ResponseEntity.status(HttpStatus.OK).body(imageService.findRequestImages(requestId, CurrentUser.id(autentication)));
     }
 }

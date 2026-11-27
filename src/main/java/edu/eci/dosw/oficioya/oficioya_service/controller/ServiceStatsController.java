@@ -15,11 +15,12 @@ import edu.eci.dosw.oficioya.oficioya_service.dto.ServiceReportResponse;
 import edu.eci.dosw.oficioya.oficioya_service.dto.WorkerStatsResponse;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/services")
-@Tag(name="Services", description = "API to control the get the reports")
+@Tag(name="Services", description = "API to get service reports and worker stats")
 public class ServiceStatsController {
 
     private final RequestService requestService;
@@ -39,8 +40,8 @@ public class ServiceStatsController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary="Get requests organized made in a defined time", description = "Gets the number of requests made in that slot of time and the requests separated by status, neighborhood and hour")
     public ServiceReportResponse getReport(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
+            @Parameter(description = "Start of the report period in ISO date-time format") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @Parameter(description = "End of the report period in ISO date-time format") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
         return requestService.getReport(from, to);
     }
 }
