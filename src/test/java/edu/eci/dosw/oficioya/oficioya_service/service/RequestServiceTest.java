@@ -186,6 +186,21 @@ class RequestServiceTest {
         assertEquals(RequestState.CONFLICT, enConflicto.getState());
     }
 
+    @Test
+    @DisplayName("aceptar estando ya en CONFLICT no repite la notificación de disputa")
+    void aceptarEnConflictoEsIdempotente() {
+        Request enConflicto = solicitud(RequestState.CONFLICT, LocalDateTime.now());
+        when(requestRepository.findById(enConflicto.getId())).thenReturn(Optional.of(enConflicto));
+        when(requestRepository.findByRootIdForUpdate(rootId)).thenReturn(List.of(enConflicto));
+
+        RequestModel resultado = service.acceptRequest(enConflicto.getId(), enConflicto.getWorkerId());
+
+        assertEquals(RequestState.CONFLICT, resultado.getState());
+        verify(requestRepository, never()).save(any(Request.class));
+        verify(requestRepository, never()).saveAll(any());
+        verify(notificationService, never()).notifyConflict(any(), any(), any(), any(), any(RequestNotificationDetails.class));
+    }
+
     @ParameterizedTest
     @EnumSource(value = RequestState.class, names = { "REJECTED", "CANCELED", "EXPIRED", "COMPLETED", "DELETED" })
     @DisplayName("aceptar ignora las del mismo rootId que no están ACCEPTED, CONFLICT ni PENDING")
@@ -202,8 +217,8 @@ class RequestServiceTest {
     }
 
     @Test
-    @DisplayName("primera aceptación con otro PENDING predispone CONFLICT y deja al otro PENDING")
-    void primeraAceptacionConPendientePredisponeConflicto() {
+    @DisplayName("primera aceptación con otro PENDING pone a ambos en CONFLICT")
+    void primeraAceptacionConPendientePoneAmbosEnConflicto() {
         Request aceptada = solicitud(RequestState.PENDING, LocalDateTime.now());
         Request pendiente = solicitud(RequestState.PENDING, LocalDateTime.now());
         pendiente.setWorkerId(UUID.randomUUID());
@@ -215,8 +230,8 @@ class RequestServiceTest {
 
         assertEquals(RequestState.CONFLICT, resultado.getState());
         assertEquals(RequestState.CONFLICT, aceptada.getState());
-        assertEquals(RequestState.PENDING, pendiente.getState(), "el otro candidato debe poder seguir respondiendo");
-        verify(requestRepository, never()).saveAll(any());
+        assertEquals(RequestState.CONFLICT, pendiente.getState(), "el otro candidato debe aparecer en la disputa");
+        verify(requestRepository).saveAll(List.of(pendiente));
         verify(notificationService).notifyConflict(eq(contratante), eq(aceptada.getId()), eq(rootId),
                 eq("contratante@correo.com"), any(RequestNotificationDetails.class));
     }
@@ -297,8 +312,8 @@ class RequestServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = RequestState.class, mode = EnumSource.Mode.EXCLUDE, names = { "PENDING" })
-    @DisplayName("aceptar una solicitud que no está PENDING lanza TransicionInvalidaException")
+    @EnumSource(value = RequestState.class, mode = EnumSource.Mode.EXCLUDE, names = { "PENDING", "CONFLICT" })
+    @DisplayName("aceptar una solicitud que no está PENDING ni CONFLICT lanza TransicionInvalidaException")
     void aceptarSiNoEstaPendiente(RequestState estado) {
         Request r = solicitud(estado, LocalDateTime.now());
         when(requestRepository.findById(r.getId())).thenReturn(Optional.of(r));
