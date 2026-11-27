@@ -51,6 +51,7 @@ import edu.eci.dosw.oficioya.oficioya_service.service.RequestCancellationService
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestCompletionService;
 import edu.eci.dosw.oficioya.oficioya_service.service.RequestService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -242,15 +243,19 @@ public class RequestController {
 
     @GetMapping("/email/accept")
     @Operation(summary = "Accept a request from the email button",
-            description = "Valida el enlace firmado, acepta la solicitud y redirige al front")
-    public ResponseEntity<Void> acceptFromEmail(@RequestParam UUID requestId, @RequestParam String token) {
+            description = "Validates the signed link, accepts the request and redirects to the front end")
+    public ResponseEntity<Void> acceptFromEmail(
+            @Parameter(description = "Id of the request to accept") @RequestParam UUID requestId,
+            @Parameter(description = "Signed token from the email link") @RequestParam String token) {
         return applyEmailAction(requestId, token, "ACCEPT", "accepted");
     }
 
     @GetMapping("/email/reject")
     @Operation(summary = "Reject a request from the email button",
-            description = "Valida el enlace firmado, rechaza la solicitud y redirige al front")
-    public ResponseEntity<Void> rejectFromEmail(@RequestParam UUID requestId, @RequestParam String token) {
+            description = "Validates the signed link, rejects the request and redirects to the front end")
+    public ResponseEntity<Void> rejectFromEmail(
+            @Parameter(description = "Id of the request to reject") @RequestParam UUID requestId,
+            @Parameter(description = "Signed token from the email link") @RequestParam String token) {
         return applyEmailAction(requestId, token, "REJECT", "rejected");
     }
 
@@ -283,8 +288,8 @@ public class RequestController {
     @PreAuthorize("hasRole('SERVICE')")
     @Operation(summary="Get active requests of a user", description = "Returns the number of active requests for the user in the given role")
     public ActiveResponse active(
-            @RequestParam(required = true) UUID userId,
-            @RequestParam(required = true) String role) {
+            @Parameter(description = "Id of the user to query") @RequestParam(required = true) UUID userId,
+            @Parameter(description = "Role used to count the requests, CONTRATANTE or TRABAJADOR") @RequestParam(required = true) String role) {
 
         return requestService.active(userId, role);
     }
